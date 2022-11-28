@@ -1,5 +1,9 @@
 # This .gitignore file should be placed at the root of your Unity project directory
-#
+# node packages
+
+server/node_modules
+server/.idea
+
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
 ecran1/[Ll]ibrary/
