@@ -19,6 +19,7 @@ wss.on('connection', (ws) => {
         ws.send(messageAsString.toString());
     });
 
+
     ws.on("close", () => {
         clients.delete(ws);
         console.log("Client removed");
