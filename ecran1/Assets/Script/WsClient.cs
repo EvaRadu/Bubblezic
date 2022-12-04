@@ -6,7 +6,7 @@ public class WsClient : MonoBehaviour
     private void Start()
     {
         
-        ws = new WebSocket("ws://ece3-134-59-215-253.eu.ngrok.io/ws");
+        ws = new WebSocket("ws://4.tcp.eu.ngrok.io:17323/ws");
        
         Debug.Log("Connected");
         ws.OnMessage += (sender, e) =>
