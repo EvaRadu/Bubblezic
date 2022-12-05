@@ -1,4 +1,3 @@
-const Type = require("../models/type.model");
 module.exports = listBalles = [{
     id:1,
     posX:20,
@@ -16,7 +15,7 @@ module.exports = listBalles = [{
     couleur: 'EC2CB4' ,
     rayon: 4,
     temps: 0.2,
-    type: 0
+    type: 2
 },{
     id:1,
     posX:5,
@@ -24,5 +23,5 @@ module.exports = listBalles = [{
     couleur: '2BDFEC' ,
     rayon: 4,
     temps: 0.2,
-    type: 0
+    type: 1
 }];
