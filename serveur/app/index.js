@@ -1,8 +1,15 @@
 const WebSocket = require('ws');
+const uuidv4 = require('./fonctions/generateId.js');
+
+const myport = 8080;
 const clients = new Map();
 
-const wss = new WebSocket.Server({ port: 8080 },()=>{
+const wss = new WebSocket.Server({ port: myport },()=>{
     console.log("Server started");
+});
+
+wss.on('listening',()=>{
+    console.log('server listening on port', myport);
 });
 
 wss.on('connection', (ws) => {
@@ -17,8 +24,12 @@ wss.on('connection', (ws) => {
         console.log("message received : \n");
         console.log(messageAsString.toString());
         ws.send(messageAsString.toString());
-    });
 
+
+
+
+
+    });
 
     ws.on("close", () => {
         clients.delete(ws);
@@ -26,13 +37,3 @@ wss.on('connection', (ws) => {
     });
 });
 
-wss.on('listening',()=>{
-    console.log('server listening on 8080')
-});
-
-function uuidv4() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
-};
