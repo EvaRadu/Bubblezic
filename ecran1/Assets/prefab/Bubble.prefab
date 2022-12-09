@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2572338613394678856}
   - component: {fileID: 2572338613394678857}
   - component: {fileID: 8129448099910963033}
+  - component: {fileID: 6730444996217557226}
   m_Layer: 0
   m_Name: Bubble
   m_TagString: Untagged
@@ -99,3 +100,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: {r: 0, g: 0, b: 0, a: 0}
   _srenderer: {fileID: 2572338613394678857}
+--- !u!58 &6730444996217557226
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2572338613394678862}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
