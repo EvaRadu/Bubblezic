@@ -10,5 +10,4 @@ module.exports = Type = {
     SimpleTouchee: 5,
     SimpleToucheee: 6,
     SimpleToucheeee: 7,
-
 }

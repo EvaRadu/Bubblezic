@@ -6,8 +6,6 @@ module.exports = listBalles = [{
     rayon: 4,
     temps: 0.2,
     type: 0
-
-
 },{
     id:1,
     posX:-14,
