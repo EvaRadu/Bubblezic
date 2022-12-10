@@ -6,7 +6,8 @@ public class Bubble : MonoBehaviour
 {
     [SerializeField] private Color color;
     [SerializeField] private SpriteRenderer _srenderer;
-    float duration;
+    
+    float duration; // duration of the apparition of the circle
 
     public void Start()
     {
@@ -30,13 +31,10 @@ public class Bubble : MonoBehaviour
 
         if (duration <= 0)
         {
-            if (gameObject.activeSelf)   {  gameObject.SetActive(false);}            
+            if (gameObject.activeSelf)   {  gameObject.SetActive(false);}      
         
         }
-            else { gameObject.SetActive(true);}
-        
-
-            
+            else { gameObject.SetActive(true);}         
 
             if(Input.GetMouseButtonDown(0)){ // from le R
                 Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
