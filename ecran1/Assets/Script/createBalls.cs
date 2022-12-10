@@ -5,16 +5,15 @@ using UnityEngine;
 public class createBalls : MonoBehaviour
 {
     [SerializeField] private Bubble _circlePrefab;
+    float startTime; // time to wait before creating the circle
    
 
    
     // Start is called before the first frame update
     void Start() {
 
-
-        var spawnedCircle = Instantiate(_circlePrefab, new Vector3(-8.09f, -5.91f, 0), Quaternion.identity) ;
-        spawnedCircle.name = "TestCircle";
-        spawnedCircle.setColor(Color.red);
+        startTime = 2;
+        StartCoroutine(waitAndCreate(startTime));
 
         //GameObject sphere1 = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 
@@ -31,6 +30,16 @@ public class createBalls : MonoBehaviour
         sphere3.GetComponent<SpriteRenderer>().color=(new Color(200, 200, 200));
         */
     }
+
+    IEnumerator waitAndCreate(float delay) {
+
+        yield return new WaitForSeconds(delay);  // wait 
+
+        var spawnedCircle = Instantiate(_circlePrefab, new Vector3(-8.09f, -5.91f, 0), Quaternion.identity) ; // create a new circle
+        spawnedCircle.name = "TestCircle";
+        spawnedCircle.setColor(Color.red);
+    }
+
 
 }
 
