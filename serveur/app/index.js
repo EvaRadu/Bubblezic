@@ -4,6 +4,8 @@ const uuidv4 = require('./fonctions/generateId.js');
 const myport = 8080;
 const clients = new Map();
 
+let nbClients = 0;
+
 const wss = new WebSocket.Server({ port: myport },()=>{
     console.log("Server started");
 });
@@ -14,8 +16,10 @@ wss.on('listening',()=>{
 
 wss.on('connection', (ws) => {
     const id = uuidv4();
-    const color = Math.floor(Math.random() * 360);
-    const metadata = {id, color};
+    const score = 0;
+    const metadata = {id, score};
+
+    nbClients++;
 
     clients.set(ws, metadata);
     console.log("New client connected\n");
@@ -33,6 +37,7 @@ wss.on('connection', (ws) => {
 
     ws.on("close", () => {
         clients.delete(ws);
+        nbClients--;
         console.log("Client removed");
     });
 });
