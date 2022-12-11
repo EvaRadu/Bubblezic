@@ -11,21 +11,22 @@ public class Boundaries : MonoBehaviour
     void Start()
     {
         screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
-        objectWidth = transform.GetComponent<SpriteRenderer>().bounds.size.x/2;
-        objectHeight = transform.GetComponent<SpriteRenderer>().bounds.size.y/2;
+        //objectWidth = transform.GetComponent<SpriteRenderer>().bounds.size.x/2;
+        //objectHeight = transform.GetComponent<SpriteRenderer>().bounds.size.y/2;
 
     }
 
-    private void LateUpdate()
+    /*private void LateUpdate()
     {
         Vector3 viewPos = transform.position;
         viewPos.x = Mathf.Clamp(viewPos.x, screenBounds.x + objectWidth, screenBounds.x * -1 - objectWidth);
         viewPos.y = Mathf.Clamp(viewPos.y, screenBounds.y + objectHeight, screenBounds.y * -1 - objectHeight);
         transform.position = viewPos;
-    }
+    }*/
     // Update is called once per frame
     void Update()
     {
-        
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, -screenBounds.x, screenBounds.x),
+            Mathf.Clamp(transform.position.y, -14f,-4f), transform.position.z);
     }
 }
