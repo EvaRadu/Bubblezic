@@ -12,6 +12,12 @@ public class Bubble : MonoBehaviour
     
     float duration; // duration of the apparition of the circle
 
+    private void Start()
+    {
+        duration = 25;
+        gameObject.AddComponent<CircleCollider2D>();
+        gameObject.AddComponent<Boundaries>();
+
     private void Awake()
     {
         _cam = Camera.main;
@@ -20,13 +26,7 @@ public class Bubble : MonoBehaviour
     {
         return _cam.ScreenToWorldPoint(Input.mousePosition);
     }
-
-    public void Start()
-    {
-        duration = 25;
-    }
-
-
+ 
     public void setColor(Color color)
     {
         this.color = color;
@@ -39,10 +39,22 @@ public class Bubble : MonoBehaviour
     {
         _dragOffset = transform.position - GetMousePos();
     }
+    
     private void OnMouseDrag()
     {
+        Color tmp = _srenderer.color;
+        tmp.a = 0.5f;
+        _srenderer.color = tmp;
         transform.position = Vector3.MoveTowards(transform.position, GetMousePos() + _dragOffset, _speed * Time.deltaTime);
     }
+
+    private void OnMouseUp()
+    {
+        Color tmp = _srenderer.color;
+        tmp.a = 1f;
+        _srenderer.color = tmp;
+    }
+
 
     private Vector3 GetMousePos()
     {
