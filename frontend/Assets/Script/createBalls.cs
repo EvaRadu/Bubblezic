@@ -10,23 +10,28 @@ public class createBalls : MonoBehaviour
    
 
     void Start() {
-
         startTime = 2f;
         StartCoroutine(waitAndCreate(startTime));
-
     }
 
     IEnumerator waitAndCreate(float delay) {
+        foreach(var ball in WsClient.Instance.ballsList)
+        {
+            yield return new WaitForSeconds(ball.temps);
+            var spawnedCircle = Instantiate(_circlePrefab, new Vector3(ball.posX, ball.posY, 0), Quaternion.identity); // create a new circle
+            spawnedCircle.name = ball.id+"";
+            spawnedCircle.transform.localScale = new Vector3(ball.rayon, ball.rayon, 1);
+            spawnedCircle.setColor(ball.couleur);
+            bubbles.Add(spawnedCircle);
+        }
 
-        yield return new WaitForSeconds(delay);  // wait 
-
+        /*
+         * yield return new WaitForSeconds(delay);  // wait 
         var spawnedCircle = Instantiate(_circlePrefab, new Vector3(-8.09f, -5.91f, 0), Quaternion.identity) ; // create a new circle
         spawnedCircle.name = "TestCircle";
         spawnedCircle.setColor(Color.red);
-        bubbles.Add(spawnedCircle);
+        bubbles.Add(spawnedCircle);*/
     }
-
-
 }
 
 

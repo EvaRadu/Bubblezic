@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bubble : MonoBehaviour
@@ -10,6 +8,8 @@ public class Bubble : MonoBehaviour
     private Vector3 _dragOffset;
     private Camera _cam;
     
+     // Variable pour stocker le cercle
+    private GameObject _circle;
     float duration; // duration of the apparition of the circle
 
     private void Start()
@@ -17,8 +17,17 @@ public class Bubble : MonoBehaviour
         duration = 25;
         gameObject.AddComponent<CircleCollider2D>();
         gameObject.AddComponent<Boundaries>();
-    }
+       
+        // Creation d'un new GameObject pour le circle, c'est un "enfant" de la balle
+        _circle = new GameObject("Circle");
+        _circle.transform.SetParent(transform);
+        // def des propriétés intitiale du cercle
 
+        _circle.AddComponent<SpriteRenderer>().color = Color.black;
+        _circle.transform.localScale = Vector3.one * 0.1f;
+
+   
+   }
     private void Awake()
     {
         _cam = Camera.main;
@@ -33,6 +42,12 @@ public class Bubble : MonoBehaviour
         this.color = color;
         _srenderer.material.color = color;
 
+    }
+
+    public void setColor(string color)
+    {
+        this.color = (Color)typeof(Color).GetProperty(color.ToLowerInvariant()).GetValue(null, null);
+        _srenderer.material.color = this.color;
     }
 
 
@@ -68,13 +83,19 @@ public class Bubble : MonoBehaviour
 
         duration -= Time.deltaTime;   
         gameObject.SetActive(true);
+         // Mise a jour de la taille du cercle avec Mathf.PingPong() (stack)
+        float scale = Mathf.PingPong(Time.time, 0.5f) + 0.1f;
+        _circle.transform.localScale = Vector3.one * scale;
+
+
+
 
         if (duration <= 0)
         {
             if (gameObject.activeSelf)   {  gameObject.SetActive(false);}      
         
         }
-            else { gameObject.SetActive(true);}
+        else { gameObject.SetActive(true);}
 
 
 

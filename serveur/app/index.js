@@ -26,9 +26,9 @@ wss.on('connection', (ws) => {
 
     ws.on('message', (messageAsString) => {
         if(messageAsString.toString() == 'Ready'){
-            console.log(listBalles);
+            //console.log(listBalles);
             listBalles.forEach(ball => {
-                console.log(ball);
+                //console.log(ball);
                 ws.send(JSON.stringify(ball));
             })
         }
