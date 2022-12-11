@@ -1,6 +1,6 @@
 const WebSocket = require('ws');
 const uuidv4 = require('./fonctions/generateId.js');
-
+const listBalles = require('./objects/balls');
 const myport = 8080;
 const clients = new Map();
 
@@ -26,13 +26,24 @@ wss.on('connection', (ws) => {
 
     ws.on('message', (messageAsString) => {
         console.log("message received : \n");
-        console.log(messageAsString.toString());
-        ws.send(messageAsString.toString());
-
-
-
-
-
+        if(messageAsString.toString() == 'Ready'){
+            console.log(listBalles);
+            ws.send(listBalles);
+        }
+        else if (messageAsString.toString().includes('score')) {
+            // calcul score
+            let newScore = calculScore(messageAsString)
+            // send new score
+            ws.send(newScore);
+        }
+        else if (messageAsString.toString().includes('malus')) {
+            // get the second client
+            // send malus data to the second client
+            ws.send('malus');
+        }
+        else{
+            ws.send('Message not clear');
+        }
     });
 
     ws.on("close", () => {
