@@ -17,6 +17,7 @@ public class Bubble : MonoBehaviour
         duration = 25;
         gameObject.AddComponent<CircleCollider2D>();
         gameObject.AddComponent<Boundaries>();
+    }
 
     private void Awake()
     {

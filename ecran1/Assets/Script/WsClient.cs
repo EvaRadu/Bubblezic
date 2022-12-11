@@ -1,18 +1,31 @@
 using UnityEngine;
 using WebSocketSharp;
+using System;
+using System.Collections.Generic;
+using Assets.Script;
+
 public class WsClient : MonoBehaviour
 {
     WebSocket ws;
+    public static WsClient Instance { get; private set; }
+    public List<Bulle> ballsList;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void Start()
     {
-        
-        ws = new WebSocket("ws://4.tcp.eu.ngrok.io:17323/ws");
-       
-        Debug.Log("Connected");
-        ws.OnMessage += (sender, e) =>
-        {
-            Debug.Log("Message Received from "+((WebSocket)sender).Url+", Data : "+e.Data);
-        };
+        ws = new WebSocket("ws://localhost:8080/ws");
 
         ws.OnError += (sender, e) =>
         {
@@ -21,42 +34,34 @@ public class WsClient : MonoBehaviour
 
         ws.OnOpen += (sender, e) =>
         {
-            Debug.Log("open : " + e);
+            Debug.Log("Connexion is on");
         };
 
         ws.Connect();
-
-        /*
-
-        ws = new WebSocket("ws://ece3-134-59-215-253.eu.ngrok.io/ws");
-
-        using (var ws = new WebSocket ("ws://dragonsnest.far/Laputa")) {
-        ws.OnMessage += (sender, e) =>
-            Debug.Log("Message Received from "+((WebSocket)sender).Url+", Data : "+e.Data);
-        ws.Connect ();
-        ws.Send ("HELLO");
-        //Console.ReadKey (true);
-      }
-      */
     }
-private void Update()
+
+    public void getBalls()
     {
         try
         {
-            if(ws == null)
-        {
-            return;
+            if (ws == null)
+            {
+                Debug.Log("getBalls returned null");
+                return;
+            }
+            else
+            {
+                ws.Send("Ready");
+                ws.OnMessage += (sender, e) =>
+                {
+                    var bulle = Bulle.CreateFromJSON(e.Data);
+                    ballsList.Add(bulle);
+                };
+            }
         }
-if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ws.Send("Hello");
-            Debug.Log("Message Sent");
-        }
-        }
-        catch (System.Exception e)
+        catch (Exception e)
         {
             Debug.Log(e.Message);
         }
-          
     }
 }

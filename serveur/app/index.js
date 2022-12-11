@@ -25,10 +25,12 @@ wss.on('connection', (ws) => {
     console.log("New client connected\n");
 
     ws.on('message', (messageAsString) => {
-        console.log("message received : \n");
         if(messageAsString.toString() == 'Ready'){
             console.log(listBalles);
-            ws.send(listBalles);
+            listBalles.forEach(ball => {
+                console.log(ball);
+                ws.send(JSON.stringify(ball));
+            })
         }
         else if (messageAsString.toString().includes('score')) {
             // calcul score
