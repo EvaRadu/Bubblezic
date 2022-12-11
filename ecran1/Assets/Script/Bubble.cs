@@ -17,7 +17,7 @@ public class Bubble : MonoBehaviour
         duration = 25;
         gameObject.AddComponent<CircleCollider2D>();
         gameObject.AddComponent<Boundaries>();
-    }
+
     private void Awake()
     {
         _cam = Camera.main;
@@ -26,9 +26,7 @@ public class Bubble : MonoBehaviour
     {
         return _cam.ScreenToWorldPoint(Input.mousePosition);
     }
-
-
-
+ 
     public void setColor(Color color)
     {
         this.color = color;
@@ -41,6 +39,7 @@ public class Bubble : MonoBehaviour
     {
         _dragOffset = transform.position - GetMousePos();
     }
+    
     private void OnMouseDrag()
     {
         Color tmp = _srenderer.color;
@@ -55,6 +54,7 @@ public class Bubble : MonoBehaviour
         tmp.a = 1f;
         _srenderer.color = tmp;
     }
+
 
     private Vector3 GetMousePos()
     {

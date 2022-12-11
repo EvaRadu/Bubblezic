@@ -6,8 +6,8 @@ module.exports = Type = {
     ProlongedTouch: 1,
     Zoom: 2,
     DeZoom: 3,
-    SimpleTouche: 4,
-    SimpleTouchee: 5,
-    SimpleToucheee: 6,
-    SimpleToucheeee: 7,
+    MalusSimple: 4,
+    MalusMultiple: 5,
+    Puzzle: 6,
+    Collaboration: 7,
 }
