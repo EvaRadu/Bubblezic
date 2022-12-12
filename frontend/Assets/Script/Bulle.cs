@@ -12,6 +12,7 @@ namespace Assets.Script
         public int rayon;
         public float temps;
         public int type;
+        public float duration;
 
         public static Bulle CreateFromJSON(string jsonString)
         {
