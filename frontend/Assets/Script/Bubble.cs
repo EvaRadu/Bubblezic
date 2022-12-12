@@ -16,7 +16,7 @@ public class Bubble : MonoBehaviour
     {
         duration = 25;
         gameObject.AddComponent<CircleCollider2D>();
-        gameObject.AddComponent<Boundaries>();
+        //gameObject.AddComponent<Boundaries>();
        
         // Creation d'un new GameObject pour le circle, c'est un "enfant" de la balle
         _circle = new GameObject("Circle");

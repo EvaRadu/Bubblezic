@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+//Classe contenant nos Objets Bubble deserialized.
 namespace Assets.Script
 {
     [System.Serializable]
