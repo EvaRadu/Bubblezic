@@ -7,6 +7,7 @@ public class Bubble : MonoBehaviour
     [SerializeField] private float _speed=1000;
     private Vector3 _dragOffset;
     private Camera _cam;
+
     
      // Variable pour stocker le cercle
     private GameObject _circle;
@@ -14,6 +15,7 @@ public class Bubble : MonoBehaviour
 
     private void Start()
     {
+
         gameObject.AddComponent<CircleCollider2D>();
         //gameObject.AddComponent<Boundaries>();
        
@@ -105,12 +107,13 @@ public class Bubble : MonoBehaviour
         //Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //transform.position = Vector2.MoveTowards(transform.position, mousePosition, moveSpeed * Time.deltaTime);
 
-        if (Input.GetMouseButtonDown(0)){ // from le R
+        if (Input.GetMouseButtonDown(0)){
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Debug.Log(mousePos);
             RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(mousePos.x,mousePos.y), Vector2.zero);       
             if (hitinfo.collider != null){
                 Debug.Log("Clicked on the bubble");
+               // ScoreManager.instance.addPoints(10);
                 //Destroy(hitinfo.collider.gameObject);
                     
             }
