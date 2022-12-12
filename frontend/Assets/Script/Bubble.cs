@@ -14,9 +14,8 @@ public class Bubble : MonoBehaviour
 
     private void Start()
     {
-        duration = 25;
         gameObject.AddComponent<CircleCollider2D>();
-        gameObject.AddComponent<Boundaries>();
+        //gameObject.AddComponent<Boundaries>();
        
         // Creation d'un new GameObject pour le circle, c'est un "enfant" de la balle
         _circle = new GameObject("Circle");
@@ -42,6 +41,11 @@ public class Bubble : MonoBehaviour
         this.color = color;
         _srenderer.material.color = color;
 
+    }
+
+    public void setDuration(float dur)
+    {
+        this.duration = dur;
     }
 
     public void setColor(string color)
@@ -81,7 +85,7 @@ public class Bubble : MonoBehaviour
 
     public void Update(){
 
-        duration -= Time.deltaTime;   
+        duration -= Time.deltaTime;
         gameObject.SetActive(true);
          // Mise a jour de la taille du cercle avec Mathf.PingPong() (stack)
         float scale = Mathf.PingPong(Time.time, 0.5f) + 0.1f;
@@ -89,33 +93,28 @@ public class Bubble : MonoBehaviour
 
 
 
-
+        // Rendre invisible une balle 
         if (duration <= 0)
         {
-            if (gameObject.activeSelf)   {  gameObject.SetActive(false);}      
+            if (gameObject.activeSelf)   {  gameObject.SetActive(false); }      
         
         }
         else { gameObject.SetActive(true);}
-
-
-
-
-
 
         //pour qu'une bulle suive la souris
         //Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //transform.position = Vector2.MoveTowards(transform.position, mousePosition, moveSpeed * Time.deltaTime);
 
         if (Input.GetMouseButtonDown(0)){ // from le R
-                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Debug.Log(mousePos);
-                RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(mousePos.x,mousePos.y), Vector2.zero);       
-                if (hitinfo.collider != null){
-                    Debug.Log("Clicked on the bubble");
-                    //Destroy(hitinfo.collider.gameObject);
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Debug.Log(mousePos);
+            RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(mousePos.x,mousePos.y), Vector2.zero);       
+            if (hitinfo.collider != null){
+                Debug.Log("Clicked on the bubble");
+                //Destroy(hitinfo.collider.gameObject);
                     
             }
-                }
+        }
     }
 }
         

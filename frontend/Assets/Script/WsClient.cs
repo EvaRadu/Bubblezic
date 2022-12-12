@@ -8,7 +8,7 @@ public class WsClient : MonoBehaviour
 {
     WebSocket ws;
     public static WsClient Instance { get; private set; }
-    public List<Bulle> ballsList;
+    public List<Bulle> ballsList = new List<Bulle>();
 
     private void Awake()
     {

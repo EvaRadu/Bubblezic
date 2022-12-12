@@ -10,5 +10,6 @@ module.exports = Joi.object().keys({
     couleur: Joi.string(),
     rayon: Joi.number(),
     temps: Joi.number(), // a quel moment la balle apparait
-    type: Joi.number()          // différent type de balles, voir, l'objet type
+    type: Joi.number(),          // différent type de balles, voir, l'objet type
+    duration: Joi.number()
 })
