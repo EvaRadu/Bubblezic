@@ -11,6 +11,7 @@ public class Bubble : MonoBehaviour
      // Variable pour stocker le cercle
     private GameObject _circle;
     float duration; // duration of the apparition of the circle
+    int type; // type of the circle
 
     private void Start()
     {
@@ -35,6 +36,12 @@ public class Bubble : MonoBehaviour
     {
         return _cam.ScreenToWorldPoint(Input.mousePosition);
     }
+
+    public void setType(int type)
+    {
+        this.type = type;
+    }
+
  
     public void setColor(Color color)
     {
@@ -105,13 +112,13 @@ public class Bubble : MonoBehaviour
         //Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //transform.position = Vector2.MoveTowards(transform.position, mousePosition, moveSpeed * Time.deltaTime);
 
-        if (Input.GetMouseButtonDown(0)){ // from le R
+        if ((Input.GetMouseButtonDown(0)) && (type == 0)){ // from le R
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Debug.Log(mousePos);
             RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(mousePos.x,mousePos.y), Vector2.zero);       
             if (hitinfo.collider != null){
                 Debug.Log("Clicked on the bubble");
-                //Destroy(hitinfo.collider.gameObject);
+                Destroy(hitinfo.collider.gameObject);
                     
             }
         }
