@@ -1,10 +1,12 @@
 const WebSocket = require('ws');
 const uuidv4 = require('./fonctions/generateId.js');
+const wait = require('./fonctions/wait.js');
 const listBalles = require('./objects/balls');
 const myport = 8080;
 const clients = new Map();
 
 let nbClients = 0;
+let log = [];
 
 const wss = new WebSocket.Server({ port: myport },()=>{
     console.log("Server started");
@@ -19,18 +21,24 @@ wss.on('connection', (ws) => {
     const score = 0;
     const metadata = {id, score};
 
-    nbClients++;
-
     clients.set(ws, metadata);
     console.log("New client connected\n");
 
-    ws.on('message', (messageAsString) => {
+    ws.on('message', async (messageAsString) => {
         if(messageAsString.toString() == 'Ready'){
-            console.log("client is ready, sending balls list");
-            listBalles.forEach(ball => {
-                //console.log(ball);
-                ws.send(JSON.stringify(ball));
-            })
+            nbClients++;
+            while(nbClients < 2){
+                console.log("waiting for second client");
+                await wait(1000);
+            }
+            console.log("Both clients are ready");
+            clients.forEach(client => {
+                listBalles.forEach(ball => {
+                    //console.log(ball);
+                    ws.send(JSON.stringify(ball));
+                })
+            });
+
         }
         else if (messageAsString.toString().includes('score')) {
             // calcul score

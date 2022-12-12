@@ -9,6 +9,7 @@ public class WsClient : MonoBehaviour
     WebSocket ws;
     public static WsClient Instance { get; private set; }
     public List<Bulle> ballsList = new List<Bulle>();
+    public bool ready = false;
 
     private void Awake()
     {
@@ -56,6 +57,7 @@ public class WsClient : MonoBehaviour
                 {
                     var bulle = Bulle.CreateFromJSON(e.Data);
                     ballsList.Add(bulle);
+                    ready = true;
                 };
             }
         }
