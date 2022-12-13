@@ -9,11 +9,16 @@ public class WsClient : MonoBehaviour
 {
     public Button startButton;
     public Button readyButton;
+    public Button connectButton;
+    public InputField inputURL;
 
     WebSocket ws;
     public static WsClient Instance { get; private set; }
     public List<Bulle> ballsList = new List<Bulle>();
     public bool ready = false;
+    public bool connected = false;
+
+    public string serverUrl;
 
     private void Awake()
     {
@@ -30,7 +35,19 @@ public class WsClient : MonoBehaviour
 
     private void Start()
     {
-        ws = new WebSocket("ws://localhost:8080/ws");
+        serverUrl = "ws://localhost:8080";
+        inputURL.text = serverUrl;
+    }
+
+    public void changeUrl()
+    {
+        serverUrl = inputURL.text;
+        Debug.Log(serverUrl);
+    }
+
+    public void connectToServer()
+    {
+        ws = new WebSocket(serverUrl);
 
         ws.OnError += (sender, e) =>
         {
@@ -40,6 +57,7 @@ public class WsClient : MonoBehaviour
         ws.OnOpen += (sender, e) =>
         {
             Debug.Log("Connexion is on");
+            connected = true;
         };
 
         ws.Connect();
@@ -47,7 +65,12 @@ public class WsClient : MonoBehaviour
 
     private void Update()
     {
-        if(ready)
+        if(connected && !ready)
+        {
+            readyButton.interactable = true;
+            connectButton.interactable = false;
+        }
+        if(ready && connected)
         {
             startButton.interactable = true;
             readyButton.interactable = false;
@@ -71,6 +94,31 @@ public class WsClient : MonoBehaviour
                     var bulle = Bulle.CreateFromJSON(e.Data);
                     ballsList.Add(bulle);
                     ready = true;
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+    }
+
+    public void updateScore(Bulle b)
+    {
+        try
+        {
+            if (ws == null)
+            {
+                Debug.Log("updateScore returned null");
+                return;
+            }
+            else
+            {
+                ws.Send("Update Score. ballId ="+b.id+", time= ");
+                ws.OnMessage += (sender, e) =>
+                {
+                    Debug.Log(e.Data);
+                    PersistentManagerScript.Instance.score++;
                 };
             }
         }

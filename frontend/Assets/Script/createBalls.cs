@@ -1,3 +1,4 @@
+using Assets.Script;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,15 +24,9 @@ public class createBalls : MonoBehaviour
             spawnedCircle.transform.localScale = new Vector3(ball.rayon, ball.rayon, 1);
             spawnedCircle.setColor(ball.couleur);
             spawnedCircle.setType(ball.type);
+            spawnedCircle.setBubble(ball);
             bubbles.Add(spawnedCircle);
         }
-
-        /*
-         * yield return new WaitForSeconds(delay);  // wait 
-        var spawnedCircle = Instantiate(_circlePrefab, new Vector3(-8.09f, -5.91f, 0), Quaternion.identity) ; // create a new circle
-        spawnedCircle.name = "TestCircle";
-        spawnedCircle.setColor(Color.red);
-        bubbles.Add(spawnedCircle);*/
     }
 }
 

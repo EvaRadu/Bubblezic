@@ -3,7 +3,7 @@ using UnityEngine;
 public class PersistentManagerScript : MonoBehaviour
 {
     public static PersistentManagerScript Instance { get; private set; }
-    public bool mode = false;
+    public int score = 0;
 
     private void Awake()
     {

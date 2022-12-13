@@ -36,11 +36,18 @@ wss.on('connection', (ws) => {
                 ws.send(JSON.stringify(ball));
             });
         }
-        else if (messageAsString.toString().includes('score')) {
+        else if (messageAsString.toString().includes('Update Score.')) {
+            console.log(messageAsString.toString());
+            let pos1 = messageAsString.toString().indexOf('=');
+            let pos2 = messageAsString.toString().indexOf(',');
+            let msg = messageAsString.toString().substring(pos1+1, pos2);
+            let ballId = parseInt(msg);
+            console.log(ballId);
             // calcul score
-            let newScore = calculScore(messageAsString)
+            let newScore = 10;
+            //let newScore = calculScore(messageAsString)
             // send new score
-            ws.send(newScore);
+            ws.send("New score = "+newScore);
         }
         else if (messageAsString.toString().includes('malus')) {
             // get the second client
