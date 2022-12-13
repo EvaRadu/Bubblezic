@@ -27,18 +27,14 @@ wss.on('connection', (ws) => {
     ws.on('message', async (messageAsString) => {
         if(messageAsString.toString() == 'Ready'){
             nbClients++;
-            while(nbClients < 2){
+            while(nbClients < 2 && nbClients >= 0){
                 console.log("waiting for second client");
                 await wait(1000);
             }
-            console.log("Both clients are ready");
-            clients.forEach(client => {
-                listBalles.forEach(ball => {
-                    //console.log(ball);
-                    ws.send(JSON.stringify(ball));
-                })
+            console.log("Both clients are ready, sending balls");
+            listBalles.forEach(ball => {
+                ws.send(JSON.stringify(ball));
             });
-
         }
         else if (messageAsString.toString().includes('score')) {
             // calcul score

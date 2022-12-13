@@ -3,9 +3,13 @@ using WebSocketSharp;
 using System;
 using System.Collections.Generic;
 using Assets.Script;
+using UnityEngine.UI;
 
 public class WsClient : MonoBehaviour
 {
+    public Button startButton;
+    public Button readyButton;
+
     WebSocket ws;
     public static WsClient Instance { get; private set; }
     public List<Bulle> ballsList = new List<Bulle>();
@@ -39,6 +43,15 @@ public class WsClient : MonoBehaviour
         };
 
         ws.Connect();
+    }
+
+    private void Update()
+    {
+        if(ready)
+        {
+            startButton.interactable = true;
+            readyButton.interactable = false;
+        }
     }
 
     public void getBalls()

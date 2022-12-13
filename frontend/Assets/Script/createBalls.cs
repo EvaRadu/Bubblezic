@@ -7,7 +7,6 @@ public class createBalls : MonoBehaviour
     [SerializeField] private Bubble _circlePrefab;
     float startTime; // time to wait before creating the circle
     List<Bubble> bubbles = new List<Bubble>();
-   
 
     void Start() {
         startTime = 2f;
