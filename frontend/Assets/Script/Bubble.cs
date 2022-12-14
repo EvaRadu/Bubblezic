@@ -12,15 +12,15 @@ public class Bubble : MonoBehaviour
     [SerializeField] private Ring _ringPrefab;
     [SerializeField] private float _radius;
     private Vector3 _dragOffset;
-    private Camera _cam;
+    private Camera _cam; 
     
-     // Variable pour stocker le cercle
+     // Variable pour stocker le cercle 
     private GameObject _circle;
     float duration; // duration of the apparition of the circle
     int type; // type of the circle
 
     public void SetRadius(float radius) => _radius = radius;
-    private void Start()
+    private void Start() 
     {
         gameObject.AddComponent<CircleCollider2D>();
         //gameObject.AddComponent<Boundaries>();
