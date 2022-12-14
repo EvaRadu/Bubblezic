@@ -1,10 +1,16 @@
+using System.Collections;
+using Assets.Script;
+using ProudLlama.CircleGenerator;
 using UnityEngine;
+
 
 public class Bubble : MonoBehaviour
 {
     [SerializeField] private Color color;
     [SerializeField] private SpriteRenderer _srenderer;
     [SerializeField] private float _speed=1000;
+    [SerializeField] private Ring _ringPrefab;
+    [SerializeField] private float _radius;
     private Vector3 _dragOffset;
     private Camera _cam;
     
@@ -13,21 +19,15 @@ public class Bubble : MonoBehaviour
     float duration; // duration of the apparition of the circle
     int type; // type of the circle
 
+    public void SetRadius(float radius) => _radius = radius;
     private void Start()
     {
         gameObject.AddComponent<CircleCollider2D>();
         //gameObject.AddComponent<Boundaries>();
        
         // Creation d'un new GameObject pour le circle, c'est un "enfant" de la balle
-        _circle = new GameObject("Circle");
-        _circle.transform.SetParent(transform);
-        // def des propriétés intitiale du cercle
-
-        _circle.AddComponent<SpriteRenderer>().color = Color.black;
-        _circle.transform.localScale = Vector3.one * 0.1f;
-
-   
-   }
+        CreateBubble();
+    }
     private void Awake()
     {
         _cam = Camera.main;
@@ -90,13 +90,23 @@ public class Bubble : MonoBehaviour
         return mousePos;
     }
 
+    private void CreateBubble()
+    {
+        var bubble = Instantiate(_ringPrefab, transform);
+        var localScale = transform.localScale;
+        bubble.transform.localScale = new Vector3(1 / localScale.x, 1 / localScale.y, 1);
+        bubble.SetSpeed(_speed);
+        bubble.SetRadius(_radius);
+        bubble.SetDuration(duration);
+    }
+
     public void Update(){
 
         duration -= Time.deltaTime;
         gameObject.SetActive(true);
          // Mise a jour de la taille du cercle avec Mathf.PingPong() (stack)
-        float scale = Mathf.PingPong(Time.time, 0.5f) + 0.1f;
-        _circle.transform.localScale = Vector3.one * scale;
+        //float scale = Mathf.PingPong(Time.time, 0.5f) + 0.1f;
+        //_circle.transform.localScale = Vector3.one * scale;
 
 
 

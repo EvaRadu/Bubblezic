@@ -100,6 +100,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: {r: 0, g: 0, b: 0, a: 0}
   _srenderer: {fileID: 2572338613394678857}
+  _speed: 0.5
+  _ringPrefab: {fileID: 7181590090262231472, guid: e6c34d345571845ff82df05f678ce7e2, type: 3}
 --- !u!58 &6730444996217557226
 CircleCollider2D:
   m_ObjectHideFlags: 0

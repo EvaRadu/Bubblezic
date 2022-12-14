@@ -24,6 +24,7 @@ public class createBalls : MonoBehaviour
             spawnedCircle.transform.localScale = new Vector3(ball.rayon, ball.rayon, 1);
             spawnedCircle.setColor(ball.couleur);
             spawnedCircle.setType(ball.type);
+            spawnedCircle.SetRadius(ball.rayon);
             bubbles.Add(spawnedCircle);
         }
 
