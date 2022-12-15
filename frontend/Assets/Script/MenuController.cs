@@ -3,14 +3,14 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class MenuController : MonoBehaviour {
-   public void LoadScene(string SceneName){
+    public void getReady()
+    {
         WsClient.Instance.getBalls();
-
-       /* while (WsClient.Instance.ready == false)
+    }
+    public void LoadScene(string SceneName){
+        if (WsClient.Instance.ready)
         {
-            Debug.Log("waiting for opponent");
-        }*/
-
-        SceneManager.LoadScene(SceneName);
-   }
+            SceneManager.LoadScene(SceneName);
+        }
+    }
 }

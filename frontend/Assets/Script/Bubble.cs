@@ -1,3 +1,4 @@
+using Assets.Script;
 using System.Collections;
 using Assets.Script;
 using ProudLlama.CircleGenerator;
@@ -6,6 +7,7 @@ using UnityEngine;
 
 public class Bubble : MonoBehaviour
 {
+    private Bulle thisBubble; 
     [SerializeField] private Color color;
     [SerializeField] private SpriteRenderer _srenderer;
     [SerializeField] private float _speed=1000;
@@ -26,9 +28,18 @@ public class Bubble : MonoBehaviour
         //gameObject.AddComponent<Boundaries>();
        
         // Creation d'un new GameObject pour le circle, c'est un "enfant" de la balle
+        _circle = new GameObject("Circle");
+        _circle.transform.SetParent(transform);
+        // def des propriétés intitiale du cercle
+
+        _circle.AddComponent<SpriteRenderer>().color = Color.black;
+        _circle.transform.localScale = Vector3.one * 0.1f;
+    }
+
         CreateBubble();
     }
-    private void Awake()
+
+private void Awake()
     {
         _cam = Camera.main;
     }
@@ -42,7 +53,11 @@ public class Bubble : MonoBehaviour
         this.type = type;
     }
 
- 
+    public void setBubble(Bulle b)
+    {
+        this.thisBubble = b;
+    }
+
     public void setColor(Color color)
     {
         this.color = color;
@@ -82,7 +97,6 @@ public class Bubble : MonoBehaviour
         _srenderer.color = tmp;
     }
 
-
     private Vector3 GetMousePos()
     {
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -101,20 +115,19 @@ public class Bubble : MonoBehaviour
     }
 
     public void Update(){
-
         duration -= Time.deltaTime;
         gameObject.SetActive(true);
          // Mise a jour de la taille du cercle avec Mathf.PingPong() (stack)
         //float scale = Mathf.PingPong(Time.time, 0.5f) + 0.1f;
         //_circle.transform.localScale = Vector3.one * scale;
 
-
-
         // Rendre invisible une balle 
         if (duration <= 0)
         {
-            if (gameObject.activeSelf)   {  gameObject.SetActive(false); }      
-        
+            if (gameObject.activeSelf)   
+            {  
+                gameObject.SetActive(false); 
+            }      
         }
         else { gameObject.SetActive(true);}
 
@@ -124,12 +137,12 @@ public class Bubble : MonoBehaviour
 
         if ((Input.GetMouseButtonDown(0)) && (type == 0)){ // from le R
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Debug.Log(mousePos);
+            //Debug.Log(mousePos);
             RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(mousePos.x,mousePos.y), Vector2.zero);       
             if (hitinfo.collider != null){
-                Debug.Log("Clicked on the bubble");
+                //Debug.Log(this.thisBubble.ToString());
+                WsClient.Instance.updateScore(this.thisBubble);
                 Destroy(hitinfo.collider.gameObject);
-                    
             }
         }
     }
