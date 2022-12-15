@@ -1,18 +1,17 @@
 using Assets.Script;
 using System.Collections;
-using Assets.Script;
 using ProudLlama.CircleGenerator;
 using UnityEngine;
 
 
 public class Bubble : MonoBehaviour
 {
-    private Bulle thisBubble; 
     [SerializeField] private Color color;
     [SerializeField] private SpriteRenderer _srenderer;
     [SerializeField] private float _speed=1000;
     [SerializeField] private Ring _ringPrefab;
     [SerializeField] private float _radius;
+    [SerializeField] private int id;
     private Vector3 _dragOffset;
     private Camera _cam; 
     
@@ -34,7 +33,7 @@ public class Bubble : MonoBehaviour
 
         _circle.AddComponent<SpriteRenderer>().color = Color.black;
         _circle.transform.localScale = Vector3.one * 0.1f;
-    }
+    
 
         CreateBubble();
     }
@@ -53,10 +52,12 @@ private void Awake()
         this.type = type;
     }
 
-    public void setBubble(Bulle b)
+    public void setId(int id)
     {
-        this.thisBubble = b;
+        this.id = id;
     }
+
+   
 
     public void setColor(Color color)
     {
@@ -140,8 +141,7 @@ private void Awake()
             //Debug.Log(mousePos);
             RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(mousePos.x,mousePos.y), Vector2.zero);       
             if (hitinfo.collider != null){
-                //Debug.Log(this.thisBubble.ToString());
-                WsClient.Instance.updateScore(this.thisBubble);
+                WsClient.Instance.updateScore(this.id, this.duration);
                 Destroy(hitinfo.collider.gameObject);
             }
         }

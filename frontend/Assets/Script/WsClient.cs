@@ -61,6 +61,14 @@ public class WsClient : MonoBehaviour
         };
 
         ws.Connect();
+
+        ws.OnMessage += (sender, e) =>
+        {
+            if(e.Data.Contains("New score =")){
+                Debug.Log(e.Data);
+            }
+            //PersistentManagerScript.Instance.score++;
+        };
     }
 
     private void Update()
@@ -75,6 +83,7 @@ public class WsClient : MonoBehaviour
             startButton.interactable = true;
             readyButton.interactable = false;
         }
+
     }
 
     public void getBalls()
@@ -103,8 +112,9 @@ public class WsClient : MonoBehaviour
         }
     }
 
-    public void updateScore(Bulle b)
+    public void updateScore(int id, float time)
     {
+        //Debug.Log("updateScore");
         try
         {
             if (ws == null)
@@ -114,12 +124,9 @@ public class WsClient : MonoBehaviour
             }
             else
             {
-                ws.Send("Update Score. ballId ="+b.id+", time= ");
-                ws.OnMessage += (sender, e) =>
-                {
-                    Debug.Log(e.Data);
-                    PersistentManagerScript.Instance.score++;
-                };
+                ws.Send("Update Score. ballId ="+id+", time= "+time);
+                return;
+                //ws.Send("Update Score.");
             }
         }
         catch (Exception e)
