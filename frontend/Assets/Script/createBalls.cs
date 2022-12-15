@@ -25,6 +25,7 @@ public class createBalls : MonoBehaviour
             spawnedCircle.setColor(ball.couleur);
             spawnedCircle.setType(ball.type);
             spawnedCircle.setBubble(ball);
+            spawnedCircle.SetRadius(ball.rayon);
             bubbles.Add(spawnedCircle);
         }
     }
