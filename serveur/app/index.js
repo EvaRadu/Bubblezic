@@ -42,12 +42,15 @@ wss.on('connection', (ws) => {
             let pos2 = messageAsString.toString().indexOf(',');
             let msg = messageAsString.toString().substring(pos1+1, pos2);
             let ballId = parseInt(msg);
+
+
             console.log(ballId);
             // calcul score
             let newScore = 10;
             //let newScore = calculScore(messageAsString)
             // send new score
-            ws.send("New score = "+newScore);
+            //ws.send("New score = "+newScore);
+            ws.send(JSON.stringify(newScore));
         }
         else if (messageAsString.toString().includes('malus')) {
             // get the second client
