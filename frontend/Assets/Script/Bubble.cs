@@ -137,6 +137,7 @@ private void Awake()
         //transform.position = Vector2.MoveTowards(transform.position, mousePosition, moveSpeed * Time.deltaTime);
 
         if ((Input.GetMouseButtonDown(0)) && (type == 0)){ // from le R
+            //Debug.Log("BLEU");
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             //Debug.Log(mousePos);
             RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(mousePos.x,mousePos.y), Vector2.zero);       
@@ -147,10 +148,3 @@ private void Awake()
         }
     }
 }
-        
-        
-       
-        
-    
-
-   

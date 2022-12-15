@@ -8,6 +8,7 @@ module.exports = Type = {
     DeZoom: 3,
     MalusSimple: 4,
     MalusMultiple: 5,
-    Puzzle: 6,
-    Collaboration: 7,
+    PuzzleCenter: 6,
+    PuzzleSide: 7,
+    Collaboration: 8,
 }
