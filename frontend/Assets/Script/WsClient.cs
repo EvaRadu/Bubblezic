@@ -60,6 +60,11 @@ public class WsClient : MonoBehaviour
             connected = true;
         };
 
+        ws.OnMessage += (sender, e) =>
+        {
+            Debug.Log(e.Data);
+        };
+
         ws.Connect();
     }
 

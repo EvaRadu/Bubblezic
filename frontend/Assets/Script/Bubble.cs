@@ -21,6 +21,7 @@ public class Bubble : MonoBehaviour
     int type; // type of the circle
 
     public void SetRadius(float radius) => _radius = radius;
+
     private void Start() 
     {
         gameObject.AddComponent<CircleCollider2D>();
@@ -33,14 +34,15 @@ public class Bubble : MonoBehaviour
 
         _circle.AddComponent<SpriteRenderer>().color = Color.black;
         _circle.transform.localScale = Vector3.one * 0.1f;
-    }
 
         CreateBubble();
     }
+
     private void Awake()
     {
         _cam = Camera.main;
     }
+
     private Vector3 GetMouseWorldPosition()
     {
         return _cam.ScreenToWorldPoint(Input.mousePosition);
@@ -73,7 +75,6 @@ public class Bubble : MonoBehaviour
         this.color = (Color)typeof(Color).GetProperty(color.ToLowerInvariant()).GetValue(null, null);
         _srenderer.material.color = this.color;
     }
-
 
     private void OnMouseDown()
     {
