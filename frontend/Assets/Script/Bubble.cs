@@ -21,12 +21,23 @@ public class Bubble : MonoBehaviour
     float duration; // duration of the apparition of the circle
     int type; // type of the circle
 
+
+
+    //Si la bulle est de type toucher prolonge 
+    public GameObject _trajectory;
+
     public void SetRadius(float radius) => _radius = radius;
 
     private void Start() 
     {
         gameObject.AddComponent<CircleCollider2D>();
         //gameObject.AddComponent<Boundaries>();
+
+
+        //PARENT
+        _trajectory = new GameObject("Trajectory");
+        transform.SetParent(_trajectory.transform);
+
        
         // Creation d'un new GameObject pour le circle, c'est un "enfant" de la balle
         _circle = new GameObject("Circle");

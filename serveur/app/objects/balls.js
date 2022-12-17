@@ -68,6 +68,7 @@ module.exports = listBalles = [{
 */
 
 module.exports = listBalles = [
+
     { 
         id:1,
         posX: 6,
@@ -77,25 +78,29 @@ module.exports = listBalles = [
         temps: 0,
         type: 7,
         duration: 15
-        },
-        { 
-        id:1,
-        posX: -6,
+    },
+
+    { 
+        id:2,
+        posX: 0,
         posY: 0,
-        couleur: 'yellow',
+        couleur: 'blue',
         rayon: 3,
         temps: 0,
-        type: 7,
+        type: 6,
         duration: 15
     },
+
     { 
-    id:1,
-    posX: 0,
-    posY: 0,
-    couleur: 'blue',
-    rayon: 3,
-    temps: 0,
-    type: 6,
-    duration: 15
-    }
+        id:3,
+        posX: -6,
+        posY: 0,
+        couleur: 'white',
+        rayon: 3,
+        temps: 0,
+        type: 1,
+        duration: 15
+    },
+
+
 ];
