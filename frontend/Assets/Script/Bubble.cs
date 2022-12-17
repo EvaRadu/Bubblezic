@@ -80,12 +80,12 @@ public class Bubble : MonoBehaviour
         _srenderer.material.color = this.color;
     }
 
-    private void OnMouseDown()
+    private void OnTouchDown()
     {
         _dragOffset = transform.position - GetMousePos();
     }
     
-    private void OnMouseDrag()
+    private void OnTouchDrag()
     {
         Color tmp = _srenderer.color;
         tmp.a = 0.5f;
@@ -93,7 +93,7 @@ public class Bubble : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, GetMousePos() + _dragOffset, _speed * Time.deltaTime * 1000);
     }
 
-    private void OnMouseUp()
+    private void OnTouchUp()
     {
         Color tmp = _srenderer.color;
         tmp.a = 1f;
@@ -121,6 +121,8 @@ public class Bubble : MonoBehaviour
         duration -= Time.deltaTime;
         gameObject.SetActive(true);
 
+        //Debug.Log("TOUCH  :"  + Input.touchCount);
+
          // Mise a jour de la taille du cercle avec Mathf.PingPong() (stack)
         //float scale = Mathf.PingPong(Time.time, 0.5f) + 0.1f;
         //_circle.transform.localScale = Vector3.one * scale;
@@ -135,10 +137,25 @@ public class Bubble : MonoBehaviour
         }
         else { gameObject.SetActive(true);}
 
-        //pour qu'une bulle suive la souris
-        //Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //transform.position = Vector2.MoveTowards(transform.position, mousePosition, moveSpeed * Time.deltaTime);
 
+        // Si on touche la balle, on la detruit et on envoie le score au serveur
+        for(int i = 0; i < Input.touchCount; i++)
+        {   
+            if(type == 0){
+            Touch touch = Input.GetTouch(i);
+            Vector3 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+            RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(touchPos.x,touchPos.y), Vector2.zero);       
+            if (hitinfo.collider != null){
+                float time = TimerScript.Instance.time;
+                WsClient.Instance.updateScore(this.thisBubble, time);
+                Destroy(hitinfo.collider.gameObject);
+            }
+            }
+
+        }
+
+
+        /*
         if ((Input.GetMouseButtonDown(0)) && (type == 0)){ // from le R
             //Debug.Log("BLEU");
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -149,7 +166,7 @@ public class Bubble : MonoBehaviour
                 WsClient.Instance.updateScore(this.thisBubble, time);
                 Destroy(hitinfo.collider.gameObject);
             }
-        }
+        }*/
     }
 
 }
