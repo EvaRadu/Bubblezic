@@ -82,20 +82,6 @@ public class WsClient : MonoBehaviour
         };
     }
 
-    private void Update()
-    {
-        if(connected && !ready)
-        {
-            readyButton.interactable = true;
-            connectButton.interactable = false;
-        }
-        if(ready && connected)
-        {
-            startButton.interactable = true;
-            readyButton.interactable = false;
-        }
-
-    }
 
     private void Update()
     {
