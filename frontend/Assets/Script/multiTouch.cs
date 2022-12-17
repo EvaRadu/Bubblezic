@@ -1,6 +1,6 @@
 using UnityEngine;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
-using  UnityEngine.InputSystem.EnhancedTouch;
+using UnityEngine.InputSystem.EnhancedTouch;
 
 public class multiTouch : MonoBehaviour
 {

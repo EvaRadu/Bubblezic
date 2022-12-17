@@ -17,4 +17,9 @@ public class PersistentManagerScript : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void Update()
+    {
+     
+    }
 }

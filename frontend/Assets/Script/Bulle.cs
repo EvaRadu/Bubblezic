@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 //Classe contenant nos Objets Bubble deserialized.
 namespace Assets.Script
 {
@@ -13,6 +14,7 @@ namespace Assets.Script
         public float temps;
         public int type;
         public float duration;
+        public Boolean created = false;
 
         public static Bulle CreateFromJSON(string jsonString)
         {

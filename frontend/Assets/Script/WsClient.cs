@@ -58,6 +58,17 @@ public class WsClient : MonoBehaviour
         {
             Debug.Log("Connexion is on");
             connected = true;
+
+        };
+
+        ws.OnMessage += (sender, e) =>
+        {
+            if(e.Data.Contains("New score"))
+            {
+                int pos1 = e.Data.IndexOf("=");
+                Score.Instance.score = Int16.Parse(e.Data.Substring(pos1+2));
+                PersistentManagerScript.Instance.score = Int16.Parse(e.Data.Substring(pos1+2));
+            }
         };
 
         ws.Connect();
@@ -86,6 +97,20 @@ public class WsClient : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        if(connected && !ready)
+        {
+            readyButton.interactable = true;
+            connectButton.interactable = false;
+        }
+        if(ready && connected)
+        {
+            startButton.interactable = true;
+            readyButton.interactable = false;
+        }
+    }
+
     public void getBalls()
     {
         try
@@ -112,9 +137,9 @@ public class WsClient : MonoBehaviour
         }
     }
 
-    public void updateScore(int id, float time)
+
+    public void updateScore(Bulle b, float time)
     {
-        //Debug.Log("updateScore");
         try
         {
             if (ws == null)
@@ -124,9 +149,12 @@ public class WsClient : MonoBehaviour
             }
             else
             {
-                ws.Send("Update Score. ballId ="+id+", time= "+time);
-                return;
-                //ws.Send("Update Score.");
+
+                ws.Send("Update Score. ballId ="+b.id+", time= "+time);
+                ws.OnMessage += (sender, e) =>
+                {
+                    Debug.Log(e.Data);
+                };
             }
         }
         catch (Exception e)

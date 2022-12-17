@@ -14,7 +14,7 @@ module.exports = listBalles = [{
         posY: -3,
         couleur: 'blue' ,
         rayon: 2,
-        temps: 1,
+        temps: 3,
         type: 1,
         duration: 10
     },{
@@ -32,7 +32,7 @@ module.exports = listBalles = [{
         posY: 2,
         couleur: 'red' ,
         rayon: 3,
-        temps: 1,
+        temps: 5,
         type: 0,
         duration: 10
     },{
@@ -41,7 +41,7 @@ module.exports = listBalles = [{
         posY: 4,
         couleur: 'red' ,
         rayon: 2,
-        temps: 1,
+        temps: 7,
         type: 0,
         duration: 10
     },

@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class Bubble : MonoBehaviour
 {
+    private Bulle thisBubble; 
     [SerializeField] private Color color;
     [SerializeField] private SpriteRenderer _srenderer;
     [SerializeField] private float _speed=1000;
@@ -21,6 +22,7 @@ public class Bubble : MonoBehaviour
     int type; // type of the circle
 
     public void SetRadius(float radius) => _radius = radius;
+
     private void Start() 
     {
         gameObject.AddComponent<CircleCollider2D>();
@@ -29,19 +31,21 @@ public class Bubble : MonoBehaviour
         // Creation d'un new GameObject pour le circle, c'est un "enfant" de la balle
         _circle = new GameObject("Circle");
         _circle.transform.SetParent(transform);
+
         // def des propriétés intitiale du cercle
 
         _circle.AddComponent<SpriteRenderer>().color = Color.black;
         _circle.transform.localScale = Vector3.one * 0.1f;
-    
 
         CreateBubble();
     }
 
-private void Awake()
+
+    private void Awake()
     {
         _cam = Camera.main;
     }
+
     private Vector3 GetMouseWorldPosition()
     {
         return _cam.ScreenToWorldPoint(Input.mousePosition);
@@ -52,12 +56,11 @@ private void Awake()
         this.type = type;
     }
 
-    public void setId(int id)
-    {
-        this.id = id;
-    }
 
-   
+    public void setBubble(Bulle b)
+    {
+        this.thisBubble = b;
+    }
 
     public void setColor(Color color)
     {
@@ -76,7 +79,6 @@ private void Awake()
         this.color = (Color)typeof(Color).GetProperty(color.ToLowerInvariant()).GetValue(null, null);
         _srenderer.material.color = this.color;
     }
-
 
     private void OnMouseDown()
     {
@@ -143,7 +145,8 @@ private void Awake()
             //Debug.Log(mousePos);
             RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(mousePos.x,mousePos.y), Vector2.zero);       
             if (hitinfo.collider != null){
-                WsClient.Instance.updateScore(this.id, this.duration);
+                float time = TimerScript.Instance.time;
+                WsClient.Instance.updateScore(this.thisBubble, time);
                 Destroy(hitinfo.collider.gameObject);
             }
         }

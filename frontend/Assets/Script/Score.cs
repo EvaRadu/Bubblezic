@@ -4,18 +4,31 @@ using UnityEngine.UI;
 public class Score : MonoBehaviour
 {
     public Text myTextScore;
-    private int scoreNum;
 
-    // Start is called before the first frame update
-    void Start()
+    public int score = 0;
+    public static Score Instance { get; private set; }
+
+    private void Awake()
     {
-        scoreNum = PersistentManagerScript.Instance.score;
-        myTextScore.text = "Score = " + scoreNum;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+        myTextScore.GetComponent<Text>().text = "Score = " + score;
+    }
+
     void Update()
     {
-        scoreNum = PersistentManagerScript.Instance.score;
+        myTextScore.GetComponent<Text>().text = "Score = " + score;
     }
 }
