@@ -62,7 +62,12 @@ public class WsClient : MonoBehaviour
 
         ws.OnMessage += (sender, e) =>
         {
-            Debug.Log(e.Data);
+            if(e.Data.Contains("New score"))
+            {
+                int pos1 = e.Data.IndexOf("=");
+                Score.Instance.score = Int16.Parse(e.Data.Substring(pos1+2));
+                PersistentManagerScript.Instance.score = Int16.Parse(e.Data.Substring(pos1+2));
+            }
         };
 
         ws.Connect();
@@ -108,7 +113,7 @@ public class WsClient : MonoBehaviour
         }
     }
 
-    public void updateScore(Bulle b)
+    public void updateScore(Bulle b, float time)
     {
         try
         {
@@ -119,11 +124,10 @@ public class WsClient : MonoBehaviour
             }
             else
             {
-                ws.Send("Update Score. ballId ="+b.id+", time= ");
+                ws.Send("Update Score. ballId ="+b.id+", time= "+time);
                 ws.OnMessage += (sender, e) =>
                 {
                     Debug.Log(e.Data);
-                    PersistentManagerScript.Instance.score++;
                 };
             }
         }

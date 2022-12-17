@@ -139,8 +139,8 @@ public class Bubble : MonoBehaviour
             //Debug.Log(mousePos);
             RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(mousePos.x,mousePos.y), Vector2.zero);       
             if (hitinfo.collider != null){
-                //Debug.Log(this.thisBubble.ToString());
-                WsClient.Instance.updateScore(this.thisBubble);
+                float time = TimerScript.Instance.time;
+                WsClient.Instance.updateScore(this.thisBubble, time);
                 Destroy(hitinfo.collider.gameObject);
             }
         }
