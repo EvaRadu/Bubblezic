@@ -72,30 +72,33 @@ module.exports = listBalles = [
         id:1,
         posX: 6,
         posY: 0,
-        couleur: 'yellow',
+        couleur: 'white',
         rayon: 3,
         temps: 0,
         type: 7,
-        duration: 15
+        duration: 15,
+        rotation: -90
         },
         { 
-        id:1,
+        id:2,
         posX: -6,
         posY: 0,
-        couleur: 'yellow',
+        couleur: 'white',
         rayon: 3,
         temps: 0,
         type: 7,
-        duration: 15
+        duration: 15,
+        rotation: 90
     },
     { 
-    id:1,
+    id:3,
     posX: 0,
     posY: 0,
     couleur: 'blue',
     rayon: 3,
     temps: 0,
     type: 6,
-    duration: 15
+    duration: 15,
+    rotation: 0
     }
 ];

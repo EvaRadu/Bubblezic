@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5483323674888817616}
   - component: {fileID: 375548144970053465}
+  - component: {fileID: -7632255337833307851}
   m_Layer: 0
-  m_Name: SemiCircleLeft
+  m_Name: SemiCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,3 +85,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-7632255337833307851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225768686810555503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36ff37f3c4dc3f54f83a1326b80c2da6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0, g: 0, b: 0, a: 0}
+  _srenderer: {fileID: 375548144970053465}
+  _speed: 1000
+  _radius: 0
+  id: 0

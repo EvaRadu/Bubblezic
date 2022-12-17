@@ -532,6 +532,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _circlePrefab: {fileID: 8129448099910963033, guid: 7449d7920e146564ca950877f84f87d4, type: 3}
+  _semiCirclePrefab: {fileID: -7632255337833307851, guid: 300f11d2bb987314bb614938e25834ae, type: 3}
 --- !u!4 &1795856076
 Transform:
   m_ObjectHideFlags: 0
@@ -683,7 +684,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-
 --- !u!1 &2094908893
 GameObject:
   m_ObjectHideFlags: 0
@@ -778,7 +778,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03811efada7df964fa32c4974ac310b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
 --- !u!114 &2094908898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -822,6 +821,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myTextScore: {fileID: 1205326818}
+  score: 0
 --- !u!4 &2105431247
 Transform:
   m_ObjectHideFlags: 0

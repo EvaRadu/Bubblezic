@@ -14,6 +14,7 @@ namespace Assets.Script
         public float temps;
         public int type;
         public float duration;
+        public float rotation;
         public Boolean created = false;
 
         public static Bulle CreateFromJSON(string jsonString)

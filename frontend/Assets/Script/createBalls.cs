@@ -6,9 +6,11 @@ using UnityEngine;
 public class createBalls : MonoBehaviour
 {
     [SerializeField] private Bubble _circlePrefab;
+    [SerializeField] private SemiCircle _semiCirclePrefab;
     //[SerializeField] private Bubble _semiCirclePrefab;
     float startTime; // time to wait before creating the circle
     List<Bubble> bubbles = new List<Bubble>();
+    List<SemiCircle> semiCircles = new List<SemiCircle>();
 
     void Start() {
         //startTime = 2f;
@@ -26,6 +28,18 @@ public class createBalls : MonoBehaviour
         {
             if (time>= ball.temps - 0.2 && time <= ball.temps + 0.2 && ball.created == false)
             {
+                if(ball.type == 7) { // Type 7 = Semi Circle
+                    var spawnedSemiCircle = Instantiate(_semiCirclePrefab, new Vector3(ball.posX, ball.posY, 0), Quaternion.identity); // create a new semi circle
+                    spawnedSemiCircle.name = ball.id+"";
+                    spawnedSemiCircle.setDuration(ball.duration);
+                    spawnedSemiCircle.setColor(ball.couleur);
+                    spawnedSemiCircle.setType(ball.type);
+                    spawnedSemiCircle.setRotation(ball.rotation);
+                    semiCircles.Add(spawnedSemiCircle);
+                    ball.created = true;
+                    //spawnedSemiCircle.setBubble(ball);
+                }
+                else{
                 var spawnedCircle = Instantiate(_circlePrefab, new Vector3(ball.posX, ball.posY, 0), Quaternion.identity); // create a new circle
                 spawnedCircle.name = ball.id+"";
                 spawnedCircle.setDuration(ball.duration);
@@ -38,6 +52,7 @@ public class createBalls : MonoBehaviour
                 spawnedCircle.setBubble(ball);
             }
         }
+    }
     }
 
     /*IEnumerator waitAndCreate(float delay) {
