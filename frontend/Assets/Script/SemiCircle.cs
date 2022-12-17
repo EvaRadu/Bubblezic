@@ -3,10 +3,10 @@ using System.Collections;
 using ProudLlama.CircleGenerator;
 using UnityEngine;
 
-
+/* --- Demi cercle pour l'interaction puzzle --- */
 public class SemiCircle : MonoBehaviour
 {
-    private SemiCircle thisBubble; 
+    private Bulle thisBubble; 
     [SerializeField] private Color color;
     [SerializeField] private SpriteRenderer _srenderer;
     [SerializeField] private float _speed=1000;
@@ -29,7 +29,7 @@ public class SemiCircle : MonoBehaviour
         //gameObject.AddComponent<Boundaries>();
        
         // Creation d'un new GameObject pour le circle, c'est un "enfant" de la balle
-        _circle = new GameObject("SemiCircleLeft");
+        _circle = new GameObject("SemiCircle");
         _circle.transform.SetParent(transform);
 
         // def des propriétés intitiale du cercle
@@ -45,10 +45,6 @@ public class SemiCircle : MonoBehaviour
         _cam = Camera.main;
     }
 
-    private Vector3 GetMouseWorldPosition()
-    {
-        return _cam.ScreenToWorldPoint(Input.mousePosition);
-    }
 
     public void setType(int type)
     {
@@ -56,7 +52,7 @@ public class SemiCircle : MonoBehaviour
     }
 
 
-    public void setBubble(SemiCircle b)
+    public void setBubble(Bulle b)
     {
         this.thisBubble = b;
     }
@@ -84,35 +80,55 @@ public class SemiCircle : MonoBehaviour
         this._rotation = rotation;
         this.transform.Rotate(0, 0, rotation);
     }
-    
 
-    private void OnMouseDown()
-    {
-        _dragOffset = transform.position - GetMousePos();
+    private void multiTouch(){
+           for(int i = 0; i < Input.touchCount; i++)  // Pour chaque toucher sur l'écran
+        {   
+                if(Input.GetTouch(i).phase == TouchPhase.Moved){
+                    //Debug.Log("Down");
+                    Touch touch = Input.GetTouch(i);
+                    Vector3 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+                    touchPos.z = 0;
+                    RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(touchPos.x,touchPos.y), Vector2.zero);       
+                    if (hitinfo.collider != null){
+                        //Color tmp = _srenderer.color;
+                        //tmp.a = 0.5f;
+                        //_srenderer.color = tmp;
+                        hitinfo.collider.gameObject.transform.position = touchPos;
+                    }
+                }
+
+                else if(Input.GetTouch(i).phase == TouchPhase.Ended){
+                    //Debug.Log("Up");
+                    //Color tmp = _srenderer.color;
+                    //tmp.a = 1f;
+                    //_srenderer.color = tmp;
+                }
+
+        }
+    }
+
+    public void Update(){
+        
+        /* --- GESTION DE LA DISPARITION DU CERCLE --- */
+
+        duration -= Time.deltaTime;
+        gameObject.SetActive(true);
+
+        if (duration <= 0)
+        {
+            if (gameObject.activeSelf)   
+            {  
+                gameObject.SetActive(false); 
+            }      
+        }
+        else { gameObject.SetActive(true);}
+
+        /* --- GESTION DU MULTI-TOUCH --- */
+
+        multiTouch();
+       
     }
     
-    private void OnMouseDrag()
-    {
-        Color tmp = _srenderer.color;
-        tmp.a = 0.5f;
-        _srenderer.color = tmp;
-        transform.position = Vector3.MoveTowards(transform.position, GetMousePos() + _dragOffset, _speed * Time.deltaTime * 1000);
-    }
-
-    private void OnMouseUp()
-    {
-        Color tmp = _srenderer.color;
-        tmp.a = 1f;
-        _srenderer.color = tmp;
-    }
-
-    private Vector3 GetMousePos()
-    {
-        var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0;
-        return mousePos;
-    }
-
-
 
 }

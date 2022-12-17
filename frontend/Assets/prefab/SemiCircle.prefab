@@ -102,3 +102,4 @@ MonoBehaviour:
   _speed: 1000
   _radius: 0
   id: 0
+  _rotation: 0

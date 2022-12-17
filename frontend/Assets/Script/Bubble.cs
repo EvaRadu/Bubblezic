@@ -80,32 +80,6 @@ public class Bubble : MonoBehaviour
         _srenderer.material.color = this.color;
     }
 
-    private void OnTouchDown()
-    {
-        _dragOffset = transform.position - GetMousePos();
-    }
-    
-    private void OnTouchDrag()
-    {
-        Color tmp = _srenderer.color;
-        tmp.a = 0.5f;
-        _srenderer.color = tmp;
-        transform.position = Vector3.MoveTowards(transform.position, GetMousePos() + _dragOffset, _speed * Time.deltaTime * 1000);
-    }
-
-    private void OnTouchUp()
-    {
-        Color tmp = _srenderer.color;
-        tmp.a = 1f;
-        _srenderer.color = tmp;
-    }
-
-    private Vector3 GetMousePos()
-    {
-        var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0;
-        return mousePos;
-    }
 
     private void CreateBubble()
     {
@@ -117,17 +91,58 @@ public class Bubble : MonoBehaviour
         bubble.SetDuration(duration);
     }
 
+    private void multiTouch(){
+         for(int i = 0; i < Input.touchCount; i++)  // Pour chaque toucher sur l'écran
+        {   
+            if(type == 0){  // Si on touche une balle de type 0 : on la détruit
+                Touch touch = Input.GetTouch(i);
+                Vector3 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+                RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(touchPos.x,touchPos.y), Vector2.zero);       
+                if (hitinfo.collider != null){
+                    float time = TimerScript.Instance.time;
+                    WsClient.Instance.updateScore(this.thisBubble, time);
+                    Destroy(hitinfo.collider.gameObject);
+                }
+            }
+
+            else 
+            {
+                if(type == 1) { // Si on touche une balle de type 1 : on la déplace
+                    if(Input.GetTouch(i).phase == TouchPhase.Moved){
+                        //Debug.Log("Down");
+                        Touch touch = Input.GetTouch(i);
+                        Vector3 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+                        touchPos.z = 0;
+                        RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(touchPos.x,touchPos.y), Vector2.zero);       
+                        if (hitinfo.collider != null){
+                            hitinfo.collider.gameObject.transform.position = touchPos;
+                            //Color tmp = _srenderer.color;
+                            //tmp.a = 0.5f;
+                            //_srenderer.color = tmp;
+                        }
+                    }
+
+                    else if(Input.GetTouch(i).phase == TouchPhase.Ended){
+                        //Debug.Log("Up");                 
+                        //Color tmp = _srenderer.color;
+                        //tmp.a = 1f;
+                        //_srenderer.color = tmp;
+                    }
+                }
+            }
+
+          
+
+        }
+    }
+
     public void Update(){
+
+        /* --- GESTION DE LA DISPARITION DU CERCLE --- */
+
         duration -= Time.deltaTime;
         gameObject.SetActive(true);
 
-        //Debug.Log("TOUCH  :"  + Input.touchCount);
-
-         // Mise a jour de la taille du cercle avec Mathf.PingPong() (stack)
-        //float scale = Mathf.PingPong(Time.time, 0.5f) + 0.1f;
-        //_circle.transform.localScale = Vector3.one * scale;
-
-        // Rendre invisible une balle 
         if (duration <= 0)
         {
             if (gameObject.activeSelf)   
@@ -137,36 +152,10 @@ public class Bubble : MonoBehaviour
         }
         else { gameObject.SetActive(true);}
 
+        /* --- GESTION DU MULTI-TOUCH --- */
+        
+        multiTouch();
 
-        // Si on touche la balle, on la detruit et on envoie le score au serveur
-        for(int i = 0; i < Input.touchCount; i++)
-        {   
-            if(type == 0){
-            Touch touch = Input.GetTouch(i);
-            Vector3 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
-            RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(touchPos.x,touchPos.y), Vector2.zero);       
-            if (hitinfo.collider != null){
-                float time = TimerScript.Instance.time;
-                WsClient.Instance.updateScore(this.thisBubble, time);
-                Destroy(hitinfo.collider.gameObject);
-            }
-            }
-
-        }
-
-
-        /*
-        if ((Input.GetMouseButtonDown(0)) && (type == 0)){ // from le R
-            //Debug.Log("BLEU");
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            //Debug.Log(mousePos);
-            RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(mousePos.x,mousePos.y), Vector2.zero);       
-            if (hitinfo.collider != null){
-                float time = TimerScript.Instance.time;
-                WsClient.Instance.updateScore(this.thisBubble, time);
-                Destroy(hitinfo.collider.gameObject);
-            }
-        }*/
     }
 
 }
