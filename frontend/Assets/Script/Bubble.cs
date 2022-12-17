@@ -88,7 +88,7 @@ private void Awake()
         Color tmp = _srenderer.color;
         tmp.a = 0.5f;
         _srenderer.color = tmp;
-        transform.position = Vector3.MoveTowards(transform.position, GetMousePos() + _dragOffset, _speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, GetMousePos() + _dragOffset, _speed * Time.deltaTime * 1000);
     }
 
     private void OnMouseUp()
@@ -118,6 +118,7 @@ private void Awake()
     public void Update(){
         duration -= Time.deltaTime;
         gameObject.SetActive(true);
+
          // Mise a jour de la taille du cercle avec Mathf.PingPong() (stack)
         //float scale = Mathf.PingPong(Time.time, 0.5f) + 0.1f;
         //_circle.transform.localScale = Vector3.one * scale;
@@ -147,4 +148,5 @@ private void Awake()
             }
         }
     }
+
 }
