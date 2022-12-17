@@ -52,5 +52,7 @@ using UnityEngine;
                 .ToArray();
             _lineRenderer.SetPositions(vertices);
         }
+
+
         
     }

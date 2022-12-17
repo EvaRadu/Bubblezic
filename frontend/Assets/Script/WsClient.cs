@@ -58,6 +58,7 @@ public class WsClient : MonoBehaviour
         {
             Debug.Log("Connexion is on");
             connected = true;
+
         };
 
         ws.OnMessage += (sender, e) =>
@@ -71,6 +72,29 @@ public class WsClient : MonoBehaviour
         };
 
         ws.Connect();
+
+        ws.OnMessage += (sender, e) =>
+        {
+            if(e.Data.Contains("New score =")){
+                Debug.Log(e.Data);
+            }
+            //PersistentManagerScript.Instance.score++;
+        };
+    }
+
+    private void Update()
+    {
+        if(connected && !ready)
+        {
+            readyButton.interactable = true;
+            connectButton.interactable = false;
+        }
+        if(ready && connected)
+        {
+            startButton.interactable = true;
+            readyButton.interactable = false;
+        }
+
     }
 
     private void Update()
@@ -113,6 +137,7 @@ public class WsClient : MonoBehaviour
         }
     }
 
+
     public void updateScore(Bulle b, float time)
     {
         try
@@ -124,6 +149,7 @@ public class WsClient : MonoBehaviour
             }
             else
             {
+
                 ws.Send("Update Score. ballId ="+b.id+", time= "+time);
                 ws.OnMessage += (sender, e) =>
                 {

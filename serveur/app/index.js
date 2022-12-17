@@ -27,11 +27,11 @@ wss.on('connection', (ws) => {
 
     ws.on('message', async (messageAsString) => {
         if(messageAsString.toString() == 'Ready'){
-            nbClients++;
+            /*nbClients++;
             while(nbClients < 2 && nbClients >= 0){
                 console.log("waiting for second client");
                 await wait(1000);
-            }
+            }*/
             console.log("Both clients are ready, sending balls");
             listBalles.forEach(ball => {
                 ws.send(JSON.stringify(ball));
@@ -42,6 +42,7 @@ wss.on('connection', (ws) => {
             let pos2 = messageAsString.toString().indexOf(',');
             let msg = messageAsString.toString().substring(pos1+1, pos2);
             let ballId = parseInt(msg);
+
 
             msg = messageAsString.toString().substring(pos1 + 1);
 
@@ -68,10 +69,10 @@ wss.on('connection', (ws) => {
         }
     });
 
+ 
     ws.on("close", () => {
         clients.delete(ws);
         nbClients--;
         console.log("Client removed");
     });
 });
-

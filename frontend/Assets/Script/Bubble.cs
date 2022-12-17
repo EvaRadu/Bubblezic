@@ -1,5 +1,5 @@
-using System.Collections;
 using Assets.Script;
+using System.Collections;
 using ProudLlama.CircleGenerator;
 using UnityEngine;
 
@@ -12,6 +12,7 @@ public class Bubble : MonoBehaviour
     [SerializeField] private float _speed=1000;
     [SerializeField] private Ring _ringPrefab;
     [SerializeField] private float _radius;
+    [SerializeField] private int id;
     private Vector3 _dragOffset;
     private Camera _cam; 
     
@@ -30,13 +31,15 @@ public class Bubble : MonoBehaviour
         // Creation d'un new GameObject pour le circle, c'est un "enfant" de la balle
         _circle = new GameObject("Circle");
         _circle.transform.SetParent(transform);
-        // def des propriétés intitiale du cercle
+
+        // def des propriÃ©tÃ©s intitiale du cercle
 
         _circle.AddComponent<SpriteRenderer>().color = Color.black;
         _circle.transform.localScale = Vector3.one * 0.1f;
 
         CreateBubble();
     }
+
 
     private void Awake()
     {
@@ -52,6 +55,7 @@ public class Bubble : MonoBehaviour
     {
         this.type = type;
     }
+
 
     public void setBubble(Bulle b)
     {
@@ -86,7 +90,7 @@ public class Bubble : MonoBehaviour
         Color tmp = _srenderer.color;
         tmp.a = 0.5f;
         _srenderer.color = tmp;
-        transform.position = Vector3.MoveTowards(transform.position, GetMousePos() + _dragOffset, _speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, GetMousePos() + _dragOffset, _speed * Time.deltaTime * 1000);
     }
 
     private void OnMouseUp()
@@ -116,6 +120,7 @@ public class Bubble : MonoBehaviour
     public void Update(){
         duration -= Time.deltaTime;
         gameObject.SetActive(true);
+
          // Mise a jour de la taille du cercle avec Mathf.PingPong() (stack)
         //float scale = Mathf.PingPong(Time.time, 0.5f) + 0.1f;
         //_circle.transform.localScale = Vector3.one * scale;
@@ -135,6 +140,7 @@ public class Bubble : MonoBehaviour
         //transform.position = Vector2.MoveTowards(transform.position, mousePosition, moveSpeed * Time.deltaTime);
 
         if ((Input.GetMouseButtonDown(0)) && (type == 0)){ // from le R
+            //Debug.Log("BLEU");
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             //Debug.Log(mousePos);
             RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(mousePos.x,mousePos.y), Vector2.zero);       
@@ -145,11 +151,5 @@ public class Bubble : MonoBehaviour
             }
         }
     }
-}
-        
-        
-       
-        
-    
 
-   
+}
