@@ -13,8 +13,10 @@ public class SemiCircle : MonoBehaviour
     [SerializeField] private float _radius;
     [SerializeField] private int id;
     [SerializeField] private float _rotation;
+    [SerializeField] private int side;
     private Vector3 _dragOffset;
     private Camera _cam; 
+    private int canMove = 1;  // 1 = on peut déplacer le demi cercle, 0 = on ne peut pas le déplacer
     
      // Variable pour stocker le cercle 
     private GameObject _circle;
@@ -81,28 +83,44 @@ public class SemiCircle : MonoBehaviour
         this.transform.Rotate(0, 0, rotation);
     }
 
+    public void setSide(int side)
+    {
+        this.side = side;
+    }
+
+    public void setCanMove(int canMove)
+    {
+        this.canMove = canMove;
+        if(canMove == 0){
+            GetComponent<AudioSource>().Play(); // On joue le son
+        }
+    }
+
+    public int GetSide()
+    {
+        return this.side;
+    }
+
+    public int getCanMove()
+    {
+        return this.canMove;
+    }
+    
     private void multiTouch(){
            for(int i = 0; i < Input.touchCount; i++)  // Pour chaque toucher sur l'écran
         {   
                 if(Input.GetTouch(i).phase == TouchPhase.Moved){
-                    //Debug.Log("Down");
                     Touch touch = Input.GetTouch(i);
                     Vector3 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
                     touchPos.z = 0;
                     RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(touchPos.x,touchPos.y), Vector2.zero);       
                     if (hitinfo.collider != null){
-                        //Color tmp = _srenderer.color;
-                        //tmp.a = 0.5f;
-                        //_srenderer.color = tmp;
-                        hitinfo.collider.gameObject.transform.position = touchPos;
+                        if(hitinfo.collider.gameObject == gameObject){  // Si le toucher est sur le demi cercle
+                        if(canMove == 1){
+                        gameObject.transform.position = touchPos;
+                        }
+                        }
                     }
-                }
-
-                else if(Input.GetTouch(i).phase == TouchPhase.Ended){
-                    //Debug.Log("Up");
-                    //Color tmp = _srenderer.color;
-                    //tmp.a = 1f;
-                    //_srenderer.color = tmp;
                 }
 
         }

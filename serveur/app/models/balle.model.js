@@ -12,5 +12,7 @@ module.exports = Joi.object().keys({
     temps: Joi.number(),          // a quel moment la balle apparait
     type: Joi.number(),           // différent type de balles, voir, l'objet type
     duration: Joi.number(),       // durée de vie de la balle
-    rotation: Joi.number()        // rotation de la balle --> pour les demi cercles
+    rotation: Joi.number(),       // rotation de la balle --> pour les demi cercles
+    side: Joi.number(),           // côté de la balle --> pour les demi cercles
+    texture: Joi.string(),        // texture de la balle --> si on veut mettre une image à la balle
 })

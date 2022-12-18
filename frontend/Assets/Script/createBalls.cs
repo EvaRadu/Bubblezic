@@ -35,6 +35,7 @@ public class createBalls : MonoBehaviour
                     spawnedSemiCircle.setColor(ball.couleur);
                     spawnedSemiCircle.setType(ball.type);
                     spawnedSemiCircle.setRotation(ball.rotation);
+                    spawnedSemiCircle.setSide(ball.side);
                     semiCircles.Add(spawnedSemiCircle);
                     ball.created = true;
                     spawnedSemiCircle.setBubble(ball);
@@ -47,6 +48,10 @@ public class createBalls : MonoBehaviour
                 spawnedCircle.setColor(ball.couleur);
                 spawnedCircle.setType(ball.type);
                 spawnedCircle.SetRadius(ball.rayon);
+
+                if(ball.type==6){
+                    spawnedCircle.setTexture(ball.texture);
+                }
                 bubbles.Add(spawnedCircle);
                 ball.created = true;
                 spawnedCircle.setBubble(ball);

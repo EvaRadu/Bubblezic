@@ -80,6 +80,13 @@ public class Bubble : MonoBehaviour
         _srenderer.material.color = this.color;
     }
 
+    public void setTexture(string texture)
+    {
+        Sprite sp = Resources.Load<Sprite>(texture);
+        _srenderer.sprite = sp;
+    }
+
+
 
     private void CreateBubble()
     {
@@ -91,9 +98,30 @@ public class Bubble : MonoBehaviour
         bubble.SetDuration(duration);
     }
 
+
+    /* --- DETECTION DES COLLISIONS --- */
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+
+        /* --- Détection des collisions entre la cible du puzzle et chacune des pièces --- */
+        if((type == 6) && (other.gameObject.GetComponent<SemiCircle>() != null)){ // Si on a un côté du puzzle qui rentre en collision avec la cible
+
+            if(other.gameObject.GetComponent<SemiCircle>().GetSide() == 1){  // Si c'est le côté gauche
+                other.gameObject.GetComponent<SemiCircle>().setCanMove(0);  // On bloque le déplacement 
+                other.transform.position = new Vector3(gameObject.transform.position.x-0.7f, gameObject.transform.position.y, 0);  // On place le morceau au bon endroit
+            }
+
+            else if(other.gameObject.GetComponent<SemiCircle>().GetSide() == 2){ // Si c'est le côté droit
+                other.gameObject.GetComponent<SemiCircle>().setCanMove(0);  // On bloque le déplacement
+                other.transform.position = new Vector3(gameObject.transform.position.x+0.7f, gameObject.transform.position.y, 0); // On place le morceau au bon endroit
+            }
+        }
+    }
+    
     private void multiTouch(){
          for(int i = 0; i < Input.touchCount; i++)  // Pour chaque toucher sur l'écran
         {   
+            /*  --- TYPE 0 : Balle qui disparait  --- */
             if(type == 0){  // Si on touche une balle de type 0 : on la détruit
                 Touch touch = Input.GetTouch(i);
                 Vector3 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
@@ -107,26 +135,19 @@ public class Bubble : MonoBehaviour
 
             else 
             {
-                if(type == 1) { // Si on touche une balle de type 1 : on la déplace
+                /*  --- TYPE 1 : Balle qu'on déplace  --- */
+                if(type == 1) { 
                     if(Input.GetTouch(i).phase == TouchPhase.Moved){
-                        //Debug.Log("Down");
                         Touch touch = Input.GetTouch(i);
                         Vector3 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
                         touchPos.z = 0;
                         RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(touchPos.x,touchPos.y), Vector2.zero);       
                         if (hitinfo.collider != null){
                             hitinfo.collider.gameObject.transform.position = touchPos;
-                            //Color tmp = _srenderer.color;
-                            //tmp.a = 0.5f;
-                            //_srenderer.color = tmp;
                         }
                     }
 
                     else if(Input.GetTouch(i).phase == TouchPhase.Ended){
-                        //Debug.Log("Up");                 
-                        //Color tmp = _srenderer.color;
-                        //tmp.a = 1f;
-                        //_srenderer.color = tmp;
                     }
                 }
             }
@@ -155,6 +176,7 @@ public class Bubble : MonoBehaviour
         /* --- GESTION DU MULTI-TOUCH --- */
         
         multiTouch();
+
 
     }
 
