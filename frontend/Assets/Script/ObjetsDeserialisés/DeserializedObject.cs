@@ -20,9 +20,8 @@ namespace Assets.Script
         public float temps;
         public Boolean created = false;
         public float duration;
-
-
     }
+
     [System.Serializable]
     public class Trajectoire : myObjects
     { 
@@ -34,6 +33,7 @@ namespace Assets.Script
     {
         public int rayon;
         public int type;
+        public int idTrajectoire;
 
     }
 

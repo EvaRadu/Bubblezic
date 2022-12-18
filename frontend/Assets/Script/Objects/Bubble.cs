@@ -12,7 +12,9 @@ public class Bubble : MonoBehaviour
     [SerializeField] private float _speed=1000;
     [SerializeField] private Ring _ringPrefab;
     [SerializeField] private float _radius;
-    [SerializeField] private int id;
+    [SerializeField] public int _id;
+    [SerializeField] public int _idTrajectory;
+
     private Vector3 _dragOffset;
     private Camera _cam; 
     
@@ -27,16 +29,28 @@ public class Bubble : MonoBehaviour
     [SerializeField] private Trajectory _trajectory;
 
     public void SetRadius(float radius) => _radius = radius;
+    public void SetId(int id) => _id = id;
+    public void SetIdTrajectory(int id) => _idTrajectory = id;
+
 
     private void Start() 
     {
         gameObject.AddComponent<CircleCollider2D>();
         //gameObject.AddComponent<Boundaries>();
 
-        //PARENT
-        _trajectory = Instantiate(_trajectory, transform);
-        //_trajectory.transform.position = transform.position;
-        transform.parent = _trajectory.transform;
+
+        if (type == 1)
+        {
+            GameObject traj = GameObject.Find("Trajectory " + _idTrajectory + "");
+            if (traj != null)
+            {
+                _trajectory = traj.GetComponent<Trajectory>();
+            }
+            //PARENT
+            _trajectory = Instantiate(_trajectory, transform);
+            //_trajectory.transform.position = transform.position;
+            transform.parent = _trajectory.transform;
+        }
 
         // Creation d'un new GameObject pour le circle, c'est un "enfant" de la balle
         _circle = new GameObject("Circle");

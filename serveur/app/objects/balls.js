@@ -74,10 +74,11 @@ module.exports = listBalles = [
         typeName : "bubble",
         posX: 6,
         posY: 0,
+        idTrajectoire: 1,
         couleur: 'yellow',
         rayon: 3,
         temps: 0,
-        type: 7,
+        type: 1,
         duration: 15 
     },
     { 

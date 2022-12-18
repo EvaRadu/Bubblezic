@@ -7,6 +7,7 @@ const { Trajectory } = require('.');
 module.exports = Joi.object().keys({
     typeName : Joi.string().required,
     Id: Joi.number().required,
+    idTrajectoire: Joi.number(),
     posX: Joi.number().required,
     posY: Joi.number().required,
     couleur: Joi.string(),
