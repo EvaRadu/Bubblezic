@@ -7,10 +7,13 @@ public class createBalls : MonoBehaviour
 {
     [SerializeField] private Bubble _circlePrefab;
     [SerializeField] private SemiCircle _semiCirclePrefab;
+    [SerializeField] private Trajectory _trajectoryPrefab;
     //[SerializeField] private Bubble _semiCirclePrefab;
     float startTime; // time to wait before creating the circle
     List<Bubble> bubbles = new List<Bubble>();
     List<SemiCircle> semiCircles = new List<SemiCircle>();
+    List<Trajectory> trajectories = new List<Trajectory>();
+
 
     void Start() {
         //startTime = 2f;
@@ -24,8 +27,10 @@ public class createBalls : MonoBehaviour
 
     void waitAndCreate(float time)
     {
-        foreach (var ball in WsClient.Instance.ballsList)
+        foreach (var obj in WsClient.Instance.ObjectsList)
         {
+            if(obj.GetType() == typeof(Bulle)){
+            Bulle ball = (Bulle)obj;
             if (time>= ball.temps - 0.2 && time <= ball.temps + 0.2 && ball.created == false)
             {
                 if(ball.type == 7) { // Type 7 = Semi Circle
@@ -57,6 +62,18 @@ public class createBalls : MonoBehaviour
                 spawnedCircle.setBubble(ball);
             }
         }
+        }
+
+        if (obj.GetType() == typeof(Trajectoire))
+            {
+                Trajectoire traj = (Trajectoire) obj;
+                if (time >= traj.temps - 0.2 && time <= traj.temps + 0.2 && traj.created == false)
+                {
+                    var spawnedTrajectory = Instantiate(_trajectoryPrefab, new Vector3(traj.posX, traj.posY, 0), Quaternion.identity);
+                    trajectories.Add(spawnedTrajectory);
+                    traj.created = true;
+                }
+            }
     }
     }
 

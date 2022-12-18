@@ -67,9 +67,11 @@ module.exports = listBalles = [{
 ];
 */
 
+
 module.exports = listBalles = [
     { 
         id:1,
+        typeName : "bubble",
         posX: -6,
         posY: 0,
         couleur: 'white',
@@ -83,6 +85,7 @@ module.exports = listBalles = [
         },
         { 
         id:2,
+        typeName : "bubble",
         posX: 6,
         posY: 0,
         couleur: 'white',
@@ -96,6 +99,7 @@ module.exports = listBalles = [
     },
     { 
         id:3,
+        typeName : "bubble",
         posX: 0,
         posY: 0,
         couleur: 'magenta',
@@ -110,6 +114,7 @@ module.exports = listBalles = [
 
     { 
         id:4,
+        typeName : "bubble",
         posX: 0,
         posY: 2,
         couleur: 'white',
@@ -123,6 +128,7 @@ module.exports = listBalles = [
     },
     { 
         id:5,
+        typeName : "bubble",
         posX: 0,
         posY: 0,
         couleur: 'yellow',

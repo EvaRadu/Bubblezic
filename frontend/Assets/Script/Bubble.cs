@@ -37,7 +37,7 @@ public class Bubble : MonoBehaviour
         _circle.AddComponent<SpriteRenderer>().color = Color.black;
         _circle.transform.localScale = Vector3.one * 0.1f;
 
-        CreateBubble();
+        CreateRing();
     }
 
 
@@ -88,7 +88,7 @@ public class Bubble : MonoBehaviour
 
 
 
-    private void CreateBubble()
+    private void CreateRing()
     {
         var bubble = Instantiate(_ringPrefab, transform);
         var localScale = transform.localScale;

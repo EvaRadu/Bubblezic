@@ -14,7 +14,7 @@ public class WsClient : MonoBehaviour
 
     WebSocket ws;
     public static WsClient Instance { get; private set; }
-    public List<Bulle> ballsList = new List<Bulle>();
+    public List<myObjects> ObjectsList = new List<myObjects>();
     public bool ready = false;
     public bool connected = false;
 
@@ -111,9 +111,22 @@ public class WsClient : MonoBehaviour
                 ws.Send("Ready");
                 ws.OnMessage += (sender, e) =>
                 {
-                    var bulle = Bulle.CreateFromJSON(e.Data);
-                    ballsList.Add(bulle);
+                    String typeName = DesarializedObject.typeForTheList(e.Data);
+                    var objet = DesarializedObject.CreateFromJSON(e.Data);
+
+                    switch (typeName)
+                    {
+                        case "bubble":
+                            ObjectsList.Add((Bulle)objet);
+                            break;
+                        default :
+                            ObjectsList.Add((Trajectoire)objet);
+                            break;
+
+                    }
+                    Debug.Log(ObjectsList.ToString());
                     ready = true;
+
                 };
             }
         }
