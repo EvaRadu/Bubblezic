@@ -19,8 +19,6 @@ public class Bubble : MonoBehaviour
     private Vector3 _dragOffset;
     private Camera _cam; 
     
-     // Variable pour stocker le cercle 
-    private GameObject _circle;
     float duration; // duration of the apparition of the circle
     int type; // type of the circle
 
@@ -51,23 +49,61 @@ public class Bubble : MonoBehaviour
 
             }
         }
+        else { gameObject.GetComponent<CircleCollider2D>().isTrigger = false; }
 
         CreateRing();
+    }
+
+    private CollisionSide CheckIfFloorIsUnder(Collider2D otherCollider)
+    {
+        var closestPoint = otherCollider.ClosestPoint(gameObject.GetComponent<CircleCollider2D>().bounds.center);
+        var distance = closestPoint - (Vector2)otherCollider.bounds.center;
+        var angle = Vector2.Angle(Vector2.right, distance);
+        
+        /*if (angle < 135 && angle > 45)
+        {
+            return CollisionSide.Under;
+        } else if 
+        //The rest of sides by angle*/
+        return CollisionSide.None;
+    }
+
+    public enum CollisionSide
+    {
+        Under,
+        Above,
+        Sides,
+        None,
     }
 
 
     void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("Collision detected between : " + name + " and " + collision.gameObject.name);
+        gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        Debug.Log("Collision exited between : " + name + " and " + collision.gameObject.name);
+        _draggable = false;
+        gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(0, -5, 0);
+
+        /*switch (CheckIfFloorIsUnder(collision))
+        {
+            case CollisionSide.Above:
+                gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(0, -5, 0);
+            default:
+                gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(0, -5, 0);
+                ;
+
+        }*/
     }
 
     void OnTriggerStay2D(Collider2D collision)
     {
-        Debug.Log(transform.position.x >= collision.transform.position.x);
-        if (transform.position.x >= collision.transform.position.x)
-        {
-            _draggable = true;
-        } else { _draggable = false; }
+        _draggable = true;
         Debug.Log("Collision stayed between : " + name + " and " + collision.gameObject.name);
     }
 
