@@ -76,7 +76,7 @@ module.exports = listBalles = [
         posY: 0,
         idTrajectoire: 1,
         couleur: 'yellow',
-        rayon: 3,
+        rayon: 1,
         temps: 0,
         type: 1,
         duration: 15 
@@ -91,7 +91,7 @@ module.exports = listBalles = [
         temps: 0,
         duration: 15, 
         width : 4,
-        height : 1,
+        height : 2,
     },
 
     { 

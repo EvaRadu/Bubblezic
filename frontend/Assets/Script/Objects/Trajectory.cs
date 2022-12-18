@@ -12,6 +12,7 @@ public class Trajectory : MonoBehaviour
     public float _height;
     public float _posX;
     public float _posY;
+    public Collider2D[] overlaps = new Collider2D[2];
 
 
     public void SetId(int id) => _id = id;
@@ -43,6 +44,8 @@ public class Trajectory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+        var test = this.GetComponent<Collider2D>().OverlapCollider(new ContactFilter2D().NoFilter(), overlaps);
+        //Debug.Log( overlaps[0].gameObject.name);
     }
 }

@@ -14,6 +14,7 @@ public class Bubble : MonoBehaviour
     [SerializeField] private float _radius;
     [SerializeField] public int _id;
     [SerializeField] public int _idTrajectory;
+    private bool _draggable = true;
 
     private Vector3 _dragOffset;
     private Camera _cam; 
@@ -35,36 +36,40 @@ public class Bubble : MonoBehaviour
 
     private void Start() 
     {
-        gameObject.AddComponent<CircleCollider2D>();
+        
         //gameObject.AddComponent<Boundaries>();
 
 
-        if (type == 1)
+        if (type == 1) //si la bulle est de type toucher prolongé
         {
             GameObject traj = GameObject.Find("Trajectory " + _idTrajectory + "");
             if (traj != null)
             {
-                //PARENT
+                //la trajectoire devient le parent de la bulle
                 _trajectory = traj.GetComponent<Trajectory>();
                 transform.parent = _trajectory.transform;
 
             }
         }
 
-        // Creation d'un new GameObject pour le circle, c'est un "enfant" de la balle
-        _circle = new GameObject("Circle");
-        _circle.transform.SetParent(transform);
-
-        // def des propriétés intitiale du cercle
-
-        _circle.AddComponent<SpriteRenderer>().color = Color.black;
-        _circle.transform.localScale = Vector3.one * 0.1f;
-
-       
-
         CreateRing();
     }
 
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("Collision detected between : " + name + " and " + collision.gameObject.name);
+    }
+
+    void OnTriggerStay2D(Collider2D collision)
+    {
+        Debug.Log(transform.position.x >= collision.transform.position.x);
+        if (transform.position.x >= collision.transform.position.x)
+        {
+            _draggable = true;
+        } else { _draggable = false; }
+        Debug.Log("Collision stayed between : " + name + " and " + collision.gameObject.name);
+    }
 
     private void Awake()
     {
@@ -107,19 +112,27 @@ public class Bubble : MonoBehaviour
 
     private void OnMouseDown()
     {
+        Debug.Log("onMouseDown " + name);
+
         _dragOffset = transform.position - GetMousePos();
     }
     
     private void OnMouseDrag()
     {
-        Color tmp = _srenderer.color;
-        tmp.a = 0.5f;
-        _srenderer.color = tmp;
-        transform.position = Vector3.MoveTowards(transform.position, GetMousePos() + _dragOffset, _speed * Time.deltaTime * 1000);
+        if (_draggable)
+        {
+            Debug.Log("onMouseDrag " + name);
+            Color tmp = _srenderer.color;
+            tmp.a = 0.5f;
+            _srenderer.color = tmp;
+            transform.position = Vector3.MoveTowards(transform.position, GetMousePos() + _dragOffset, _speed * Time.deltaTime * 1000);
+        }
     }
 
     private void OnMouseUp()
     {
+        Debug.Log("onMouseUp " + name);
+
         Color tmp = _srenderer.color;
         tmp.a = 1f;
         _srenderer.color = tmp;
@@ -134,12 +147,13 @@ public class Bubble : MonoBehaviour
 
     private void CreateRing()
     {
-        var bubble = Instantiate(_ringPrefab, transform);
+        var ring = Instantiate(_ringPrefab, transform);
         var localScale = transform.localScale;
-        bubble.transform.localScale = new Vector3(1 / localScale.x, 1 / localScale.y, 1);
-        bubble.SetSpeed(_speed);
-        bubble.SetRadius(_radius);
-        bubble.SetDuration(duration);
+        ring.transform.localScale = new Vector3(1 / localScale.x, 1 / localScale.y, 1);
+        ring.SetSpeed(_speed);
+        ring.SetRadius(_radius);
+        ring.SetDuration(duration);
+        ring.transform.parent = transform;
     }
 
     public void Update(){

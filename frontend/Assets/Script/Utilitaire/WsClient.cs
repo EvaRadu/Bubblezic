@@ -125,7 +125,6 @@ public class WsClient : MonoBehaviour
                             break;
 
                     }
-                    Debug.Log(ObjectsList.ToString());
                     ready = true;
 
                 };
