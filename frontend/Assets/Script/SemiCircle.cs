@@ -106,7 +106,8 @@ public class SemiCircle : MonoBehaviour
         return this.canMove;
     }
 
-        private void OnMouseDown()
+    /*
+    private void OnMouseDown()
     {
         _dragOffset = transform.position - GetMousePos();
     }
@@ -131,7 +132,7 @@ public class SemiCircle : MonoBehaviour
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
         return mousePos;
-    }
+    }*/
     
     private void multiTouch(){
            for(int i = 0; i < Input.touchCount; i++)  // Pour chaque toucher sur l'écran

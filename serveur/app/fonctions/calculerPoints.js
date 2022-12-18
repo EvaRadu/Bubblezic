@@ -1,6 +1,6 @@
 const listBalles = require('../objects/balls');
 
-module.exports = function calculePoints(time, id) {
+module.exports = function calculePoints(time, id, type) {
     let ballTime = 0;
 
     listBalles.forEach(ball => {
@@ -11,6 +11,8 @@ module.exports = function calculePoints(time, id) {
 
     console.log("time = " +time);
 
+    if(type == 0){   // TYPE 0 = BALLES NORMALES
+    
     if (time >= ballTime - 1 && time <= ballTime + 1) {
         return 5;
     } else if (time >= ballTime - 0.4 && time <= ballTime + 0.4) {
@@ -25,5 +27,10 @@ module.exports = function calculePoints(time, id) {
         return 10;
     } else {
         return 0;
+    }
+    }
+
+    else if(type == 7){  // TYPE 7 = PUZZLE 
+        return 5;
     }
 }

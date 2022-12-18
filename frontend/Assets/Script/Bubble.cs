@@ -15,6 +15,13 @@ public class Bubble : MonoBehaviour
     [SerializeField] private int id;
     private Vector3 _dragOffset;
     private Camera _cam; 
+
+    //  --- CHAMPS POUR LE PUZZLE --- 
+    private int leftSide = 0;      // Variable pour savoir si on a la pièce de puzzle de gauche
+    private int rightSide = 0;     // Variable pour savoir si on a la pièce de puzzle de droite
+    private GameObject leftPiece;  // Variable pour stocker la pièce de puzzle de gauche
+    private GameObject rightPiece; // Variable pour stocker la pièce de puzzle de droite
+    // --------------------------------
     
      // Variable pour stocker le cercle 
     private GameObject _circle;
@@ -69,6 +76,7 @@ public class Bubble : MonoBehaviour
 
     }
 
+    /*
     private void OnMouseDown()
     {
         _dragOffset = transform.position - GetMousePos();
@@ -94,7 +102,7 @@ public class Bubble : MonoBehaviour
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
         return mousePos;
-    }
+    }*/
 
     public void setDuration(float dur)
     {
@@ -133,14 +141,29 @@ public class Bubble : MonoBehaviour
         /* --- Détection des collisions entre la cible du puzzle et chacune des pièces --- */
         if((type == 6) && (other.gameObject.GetComponent<SemiCircle>() != null)){ // Si on a un côté du puzzle qui rentre en collision avec la cible
 
-            if(other.gameObject.GetComponent<SemiCircle>().GetSide() == 1){  // Si c'est le côté gauche
+            // COTE GAUGHE
+            if(other.gameObject.GetComponent<SemiCircle>().GetSide() == 1){ 
                 other.gameObject.GetComponent<SemiCircle>().setCanMove(0);  // On bloque le déplacement 
                 other.transform.position = new Vector3(gameObject.transform.position.x-0.7f, gameObject.transform.position.y, 0);  // On place le morceau au bon endroit
+                leftSide = 1;  // On indique qu'on a la pièce de gauche
+                leftPiece = other.gameObject;  // On stocke la pièce de gauche
             }
 
-            else if(other.gameObject.GetComponent<SemiCircle>().GetSide() == 2){ // Si c'est le côté droit
+            // COTE DROIT
+            else if(other.gameObject.GetComponent<SemiCircle>().GetSide() == 2){ 
                 other.gameObject.GetComponent<SemiCircle>().setCanMove(0);  // On bloque le déplacement
                 other.transform.position = new Vector3(gameObject.transform.position.x+0.7f, gameObject.transform.position.y, 0); // On place le morceau au bon endroit
+                rightSide = 1;  // On indique qu'on a la pièce de droite  
+                rightPiece = other.gameObject;  // On stocke la pièce de droite          
+            }
+
+            // SI ON A LES DEUX MORCEAUX --> ON DETRUIT LE PUZZLE ET ON ENVOIE LE SCORE
+            if((leftSide == 1) && (rightSide == 1)){  
+                float time = TimerScript.Instance.time;
+                WsClient.Instance.updateScore(this.thisBubble, time, 7);
+                Destroy(gameObject);  // On détruit la cible
+                Destroy(leftPiece);  // On détruit la pièce de gauche
+                Destroy(rightPiece);  // On détruit la pièce de droite
             }
         }
     }
@@ -155,7 +178,7 @@ public class Bubble : MonoBehaviour
                 RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(touchPos.x,touchPos.y), Vector2.zero);       
                 if (hitinfo.collider != null){
                     float time = TimerScript.Instance.time;
-                    WsClient.Instance.updateScore(this.thisBubble, time);
+                    WsClient.Instance.updateScore(this.thisBubble, time, 0);
                     Destroy(hitinfo.collider.gameObject);
                 }
             }
