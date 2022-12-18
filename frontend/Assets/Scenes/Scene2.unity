@@ -532,6 +532,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _circlePrefab: {fileID: 8129448099910963033, guid: 7449d7920e146564ca950877f84f87d4, type: 3}
+  _trajectoryPrefab: {fileID: 7426378504148958592, guid: da8929ddf8db01b4dbbe050d992f5f63, type: 3}
 --- !u!4 &1795856076
 Transform:
   m_ObjectHideFlags: 0
@@ -683,7 +684,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-
 --- !u!1 &2094908893
 GameObject:
   m_ObjectHideFlags: 0
@@ -822,6 +822,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myTextScore: {fileID: 1205326818}
+  score: 0
 --- !u!4 &2105431247
 Transform:
   m_ObjectHideFlags: 0

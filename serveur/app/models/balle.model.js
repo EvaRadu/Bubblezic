@@ -1,9 +1,11 @@
 const Joi  = require('joi');
+const { Trajectory } = require('.');
 
 /**
  * The Balle model
  */
 module.exports = Joi.object().keys({
+    typeName : Joi.string().required,
     Id: Joi.number().required,
     posX: Joi.number().required,
     posY: Joi.number().required,
@@ -11,5 +13,5 @@ module.exports = Joi.object().keys({
     rayon: Joi.number(),
     temps: Joi.number(), // a quel moment la balle apparait
     type: Joi.number(),          // différent type de balles, voir, l'objet type
-    duration: Joi.number()
+    duration: Joi.number(),
 })

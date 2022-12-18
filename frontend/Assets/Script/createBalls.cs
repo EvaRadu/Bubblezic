@@ -6,9 +6,13 @@ using UnityEngine;
 public class createBalls : MonoBehaviour
 {
     [SerializeField] private Bubble _circlePrefab;
+    [SerializeField] private Trajectory _trajectoryPrefab;
+
     //[SerializeField] private Bubble _semiCirclePrefab;
     float startTime; // time to wait before creating the circle
     List<Bubble> bubbles = new List<Bubble>();
+    List<Trajectory> trajectories = new List<Trajectory>();
+
 
     void Start() {
         //startTime = 2f;
@@ -22,22 +26,41 @@ public class createBalls : MonoBehaviour
 
     void waitAndCreate(float time)
     {
-        foreach (var ball in WsClient.Instance.ballsList)
+        foreach (var obj in WsClient.Instance.ObjectsList)
         {
-            if (time>= ball.temps - 0.2 && time <= ball.temps + 0.2 && ball.created == false)
+
+            if (obj.GetType() == typeof(Bulle))
             {
-                var spawnedCircle = Instantiate(_circlePrefab, new Vector3(ball.posX, ball.posY, 0), Quaternion.identity); // create a new circle
-                spawnedCircle.name = ball.id+"";
-                spawnedCircle.setDuration(ball.duration);
-                spawnedCircle.transform.localScale = new Vector3(ball.rayon, ball.rayon, 1);
-                spawnedCircle.setColor(ball.couleur);
-                spawnedCircle.setType(ball.type);
-                spawnedCircle.SetRadius(ball.rayon);
-                bubbles.Add(spawnedCircle);
-                ball.created = true;
-                spawnedCircle.setBubble(ball);
+                Bulle ball = (Bulle) obj;
+                if (time >= ball.temps - 0.2 && time <= ball.temps + 0.2 && ball.created == false)
+                {
+                    var spawnedCircle = Instantiate(_circlePrefab, new Vector3(ball.posX, ball.posY, 0), Quaternion.identity); // create a new circle
+                    spawnedCircle.name = "Bubble " + ball.id + "";
+                    spawnedCircle.setDuration(ball.duration);
+                    spawnedCircle.transform.localScale = new Vector3(ball.rayon, ball.rayon, 1);
+                    spawnedCircle.setColor(ball.couleur);
+                    spawnedCircle.setType(ball.type);
+                    spawnedCircle.SetRadius(ball.rayon);
+                    bubbles.Add(spawnedCircle);
+                    ball.created = true;
+                    spawnedCircle.setBubble(ball);
+                }
             }
+
+            if (obj.GetType() == typeof(Trajectoire))
+            {
+                Trajectoire traj = (Trajectoire) obj;
+                if (time >= traj.temps - 0.2 && time <= traj.temps + 0.2 && traj.created == false)
+                {
+                    var spawnedTrajectory = Instantiate(_trajectoryPrefab, new Vector3(traj.posX, traj.posY, 0), Quaternion.identity);
+                    trajectories.Add(spawnedTrajectory);
+                    traj.created = true;
+                }
+            }
+
+
         }
+
     }
 
     /*IEnumerator waitAndCreate(float delay) {

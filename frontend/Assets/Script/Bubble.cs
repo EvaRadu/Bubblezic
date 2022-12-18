@@ -24,7 +24,7 @@ public class Bubble : MonoBehaviour
 
 
     //Si la bulle est de type toucher prolonge 
-    public GameObject _trajectory;
+    [SerializeField] private Trajectory _trajectory;
 
     public void SetRadius(float radius) => _radius = radius;
 
@@ -33,12 +33,11 @@ public class Bubble : MonoBehaviour
         gameObject.AddComponent<CircleCollider2D>();
         //gameObject.AddComponent<Boundaries>();
 
-
         //PARENT
-        _trajectory = new GameObject("Trajectory");
-        transform.SetParent(_trajectory.transform);
+        _trajectory = Instantiate(_trajectory, transform);
+        //_trajectory.transform.position = transform.position;
+        transform.parent = _trajectory.transform;
 
-       
         // Creation d'un new GameObject pour le circle, c'est un "enfant" de la balle
         _circle = new GameObject("Circle");
         _circle.transform.SetParent(transform);
@@ -48,7 +47,9 @@ public class Bubble : MonoBehaviour
         _circle.AddComponent<SpriteRenderer>().color = Color.black;
         _circle.transform.localScale = Vector3.one * 0.1f;
 
-        CreateBubble();
+       
+
+        CreateRing();
     }
 
 
@@ -118,7 +119,7 @@ public class Bubble : MonoBehaviour
         return mousePos;
     }
 
-    private void CreateBubble()
+    private void CreateRing()
     {
         var bubble = Instantiate(_ringPrefab, transform);
         var localScale = transform.localScale;
