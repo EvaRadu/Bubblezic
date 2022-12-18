@@ -44,12 +44,11 @@ public class Bubble : MonoBehaviour
             GameObject traj = GameObject.Find("Trajectory " + _idTrajectory + "");
             if (traj != null)
             {
+                //PARENT
                 _trajectory = traj.GetComponent<Trajectory>();
+                transform.parent = _trajectory.transform;
+
             }
-            //PARENT
-            _trajectory = Instantiate(_trajectory, transform);
-            //_trajectory.transform.position = transform.position;
-            transform.parent = _trajectory.transform;
         }
 
         // Creation d'un new GameObject pour le circle, c'est un "enfant" de la balle

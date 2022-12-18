@@ -57,7 +57,9 @@ public class createBalls : MonoBehaviour
                     bubble.SetIdTrajectory(traj.id);
                     var spawnedTrajectory = Instantiate(_trajectoryPrefab, new Vector3(traj.posX, traj.posY, 0), Quaternion.identity);
                     spawnedTrajectory.name = "Trajectory " + traj.id + "";
+                    spawnedTrajectory.SetColor(traj.couleur);
                     spawnedTrajectory.SetBubble(bubble);
+                    spawnedTrajectory.SetSize(traj.posX, traj.posY, traj.width, traj.height);
                     trajectories.Add(spawnedTrajectory);
                     traj.created = true;
                 }

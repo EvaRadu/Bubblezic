@@ -6,15 +6,38 @@ public class Trajectory : MonoBehaviour
 {
     [SerializeField] public int _id;
     public Bubble _bubble;
-    public void SetId(int id) => _id = id;
+    [SerializeField] private Color _color;
+    [SerializeField] private SpriteRenderer _srenderer;
+    public float _width;
+    public float _height;
+    public float _posX;
+    public float _posY;
 
+
+    public void SetId(int id) => _id = id;
     public void SetBubble(Bubble bubble) => _bubble = bubble;
 
-
-    // Start is called before the first frame update
-    void Start()
+    public void SetSize(float posX, float posY, float width, float height )
     {
-        
+        _posX = posX;
+        _posY = posY;
+        _width = width;
+        _height = height;
+
+        transform.localScale = new Vector2(_width, _height);
+    }
+
+    public void SetColor(string color)
+    {
+        _color = (Color)typeof(Color).GetProperty(color.ToLowerInvariant()).GetValue(null, null);
+        _srenderer.material.color = _color;
+    }
+
+
+        // Start is called before the first frame update
+        void Start()
+    {
+
     }
 
     // Update is called once per frame

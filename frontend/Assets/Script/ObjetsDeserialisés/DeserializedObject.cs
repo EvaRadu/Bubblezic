@@ -26,6 +26,8 @@ namespace Assets.Script
     public class Trajectoire : myObjects
     { 
         public int idBubble;
+        public int width;
+        public int height;
     }
 
     [System.Serializable]

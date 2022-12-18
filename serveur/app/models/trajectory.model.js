@@ -11,5 +11,7 @@ module.exports = Joi.object().keys({
     posY: Joi.number().required,
     couleur: Joi.string(),
     temps: Joi.number(), // a quel moment le path apparait
-    duration: Joi.number()
+    duration: Joi.number(),
+    width : Joy.number().required,
+    height : Joy.number().required,
 })

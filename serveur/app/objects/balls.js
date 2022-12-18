@@ -89,7 +89,9 @@ module.exports = listBalles = [
         posY: 0,
         couleur: 'blue',
         temps: 0,
-        duration: 15 
+        duration: 15, 
+        width : 4,
+        height : 1,
     },
 
     { 
