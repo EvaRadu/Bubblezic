@@ -105,6 +105,33 @@ public class SemiCircle : MonoBehaviour
     {
         return this.canMove;
     }
+
+        private void OnMouseDown()
+    {
+        _dragOffset = transform.position - GetMousePos();
+    }
+    
+    private void OnMouseDrag()
+    {
+        Color tmp = _srenderer.color;
+        tmp.a = 0.5f;
+        _srenderer.color = tmp;
+        transform.position = Vector3.MoveTowards(transform.position, GetMousePos() + _dragOffset, _speed * Time.deltaTime * 1000);
+    }
+
+    private void OnMouseUp()
+    {
+        Color tmp = _srenderer.color;
+        tmp.a = 1f;
+        _srenderer.color = tmp;
+    }
+
+    private Vector3 GetMousePos()
+    {
+        var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0;
+        return mousePos;
+    }
     
     private void multiTouch(){
            for(int i = 0; i < Input.touchCount; i++)  // Pour chaque toucher sur l'écran

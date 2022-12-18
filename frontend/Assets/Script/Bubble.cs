@@ -69,6 +69,33 @@ public class Bubble : MonoBehaviour
 
     }
 
+    private void OnMouseDown()
+    {
+        _dragOffset = transform.position - GetMousePos();
+    }
+    
+    private void OnMouseDrag()
+    {
+        Color tmp = _srenderer.color;
+        tmp.a = 0.5f;
+        _srenderer.color = tmp;
+        transform.position = Vector3.MoveTowards(transform.position, GetMousePos() + _dragOffset, _speed * Time.deltaTime * 1000);
+    }
+
+    private void OnMouseUp()
+    {
+        Color tmp = _srenderer.color;
+        tmp.a = 1f;
+        _srenderer.color = tmp;
+    }
+
+    private Vector3 GetMousePos()
+    {
+        var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0;
+        return mousePos;
+    }
+
     public void setDuration(float dur)
     {
         this.duration = dur;
