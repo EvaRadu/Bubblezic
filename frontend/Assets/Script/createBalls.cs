@@ -33,6 +33,8 @@ public class createBalls : MonoBehaviour
             Bulle ball = (Bulle)obj;
             if (time>= ball.temps - 0.2 && time <= ball.temps + 0.2 && ball.created == false)
             {
+
+                
                 if(ball.type == 7) { // Type 7 = Semi Circle
                     var spawnedSemiCircle = Instantiate(_semiCirclePrefab, new Vector3(ball.posX, ball.posY, 0), Quaternion.identity); // create a new semi circle
                     spawnedSemiCircle.name = ball.id+"";
