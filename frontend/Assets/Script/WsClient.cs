@@ -137,7 +137,7 @@ public class WsClient : MonoBehaviour
     }
 
 
-    public void updateScore(Bulle b, float time)
+    public void updateScore(Bulle b, float time, int type)
     {
         try
         {
@@ -149,7 +149,7 @@ public class WsClient : MonoBehaviour
             else
             {
 
-                ws.Send("Update Score. ballId ="+b.id+", time= "+time);
+                ws.Send("Update Score. ballId ="+b.id+", time= "+time+", type= "+type);
                 ws.OnMessage += (sender, e) =>
                 {
                     Debug.Log(e.Data);
