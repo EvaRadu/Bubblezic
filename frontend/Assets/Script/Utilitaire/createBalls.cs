@@ -62,8 +62,8 @@ public class createBalls : MonoBehaviour
                         spawnedCircle.setColor(ball.couleur);
                         spawnedCircle.setType(ball.type);
                         spawnedCircle.SetRadius(ball.rayon);
-
-                        if (ball.type == 6)
+                        
+                        if (ball.type == 6 || ball.type == 9)
                         {
                             spawnedCircle.setTexture(ball.texture);
                         }
@@ -79,14 +79,21 @@ public class createBalls : MonoBehaviour
                 Trajectoire traj = (Trajectoire) obj;
                 if (time >= traj.temps - 0.2 && time <= traj.temps + 0.2 && traj.created == false)
                 {
-                    Bubble bubble = bubbles.Find(i => i._id == traj.idBubble);
+                    Bubble bubble = bubbles.Find(i => i._id == (traj.idBubble - 1));
                     bubble.SetIdTrajectory(traj.id);
+                    Bubble cible = bubbles.Find(i => i._id == (traj.idBubble + 1));
+                    Debug.Log(cible._id);
+                    cible.SetIdTrajectory(traj.id);
+                    
                     var spawnedTrajectory = Instantiate(_trajectoryPrefab, new Vector3(traj.posX, traj.posY, 0), Quaternion.identity);
                     spawnedTrajectory.name = "Trajectory " + traj.id + "";
+                    spawnedTrajectory.SetId(traj.id);
                     spawnedTrajectory.SetDuration(traj.duration);
                     spawnedTrajectory.SetColor(traj.couleur);
                     spawnedTrajectory.SetBubble(bubble);
+                    spawnedTrajectory.SetCible(cible);
                     spawnedTrajectory.SetSize(traj.posX, traj.posY, traj.width, traj.height);
+
                     trajectories.Add(spawnedTrajectory);
                     traj.created = true;
                 }

@@ -6,6 +6,8 @@ public class Trajectory : MonoBehaviour
 {
     [SerializeField] public int _id;
     public Bubble _bubble;
+    public Bubble _cible;
+
     [SerializeField] private Color _color;
     [SerializeField] private SpriteRenderer _srenderer;
     public float _width;
@@ -15,12 +17,12 @@ public class Trajectory : MonoBehaviour
     public Collider2D[] overlaps = new Collider2D[2];
     public float _duration;
 
-
     public void SetDuration(float duration) => _duration = duration;
-
 
     public void SetId(int id) => _id = id;
     public void SetBubble(Bubble bubble) => _bubble = bubble;
+    public void SetCible(Bubble cible) => _cible = cible;
+
 
     public void SetSize(float posX, float posY, float width, float height )
     {
@@ -60,9 +62,6 @@ public class Trajectory : MonoBehaviour
         _duration -= Time.deltaTime;
         gameObject.SetActive(true);
 
-        // Mise a jour de la taille du cercle avec Mathf.PingPong() (stack)
-        //float scale = Mathf.PingPong(Time.time, 0.5f) + 0.1f;
-        //_circle.transform.localScale = Vector3.one * scale;
 
         // Rendre invisible une balle 
         if (_duration <= 0)
@@ -74,7 +73,5 @@ public class Trajectory : MonoBehaviour
         }
         else { gameObject.SetActive(true); }
 
-        //var test = this.GetComponent<Collider2D>().OverlapCollider(new ContactFilter2D().NoFilter(), overlaps);
-        //Debug.Log( overlaps[0].gameObject.name);
     }
 }
