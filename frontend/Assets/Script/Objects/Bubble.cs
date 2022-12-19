@@ -70,8 +70,8 @@ public class Bubble : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
        // Debug.Log("Collision detected between : " + name + " and " + collision.gameObject.name);
-        gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
-        Debug.Log(other.bounds.Intersects(GetComponent<CircleCollider2D>().bounds));
+        //gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+        //Debug.Log(other.bounds.Intersects(GetComponent<CircleCollider2D>().bounds));
 
         /* --- Détection des collisions entre la cible d'une trajectoire et la bulle --- */
         if ((type == 9) && (other.gameObject.GetComponent<Bubble>() != null))
@@ -123,6 +123,7 @@ public class Bubble : MonoBehaviour
 
         if (type == 1 && !collision.Equals(gameObject.GetComponent<CircleCollider2D>())) 
         {
+            Debug.Log(type ==1);
             //Debug.Log("Collision exited between : " + name + " and " + collision.gameObject.name);
             _draggable = false;
             gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(0, -10, 0);
@@ -206,6 +207,7 @@ public class Bubble : MonoBehaviour
         _srenderer.material.color = this.color;
     }
 
+    /*
     private void OnMouseDown()
     {
         Debug.Log("onMouseDown " + name);
@@ -239,7 +241,7 @@ public class Bubble : MonoBehaviour
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
         return mousePos;
-    }
+    }*/
 
     private void CreateRing()
     {
@@ -316,16 +318,17 @@ public class Bubble : MonoBehaviour
         else { gameObject.SetActive(true);}
 
 
-
+        /*
         if ((Input.GetMouseButtonDown(0)) && (type == 0)){
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(mousePos.x,mousePos.y), Vector2.zero);       
             if (hitinfo.collider != null){
                 float time = TimerScript.Instance.time;
                 WsClient.Instance.updateScore(this.thisBubble, time, 0);
-                //Destroy(hitinfo.collider.gameObject); 
+                Destroy(hitinfo.collider.gameObject); 
             }
-        }
+        }*/
+        multiTouch();
     }
 
 }
