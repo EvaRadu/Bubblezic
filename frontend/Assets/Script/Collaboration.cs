@@ -22,8 +22,8 @@ public class Collaboration : MonoBehaviour
     {
         _rigid = GetComponent<Rigidbody2D>();
         _screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
-        _screenBounds.x -= 0.5f;
-        _screenBounds.y -= 0.5f;
+        _screenBounds.x -= 0.825f;
+        _screenBounds.y -= 0.8f;
     }
 
     // Update is called once per frame
