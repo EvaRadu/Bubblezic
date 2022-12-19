@@ -1966,7 +1966,6 @@ MonoBehaviour:
   readyButton: {fileID: 450717635}
   connectButton: {fileID: 1092520425}
   inputURL: {fileID: 1356280158}
-  ballsList: []
   ready: 0
   connected: 0
   serverUrl: 

@@ -28,6 +28,15 @@ public class Trajectory : MonoBehaviour
         transform.localScale = new Vector2(_width, _height);
     }
 
+    public Vector3[] GetSpriteCorners()
+    {
+        Vector3 topRight = _srenderer.transform.TransformPoint(_srenderer.sprite.bounds.max);
+        Vector3 topLeft = _srenderer.transform.TransformPoint(new Vector3(_srenderer.sprite.bounds.min.x, _srenderer.sprite.bounds.max.y, 0));
+        Vector3 botLeft = _srenderer.transform.TransformPoint(_srenderer.sprite.bounds.min);
+        Vector3 botRight = _srenderer.transform.TransformPoint(new Vector3(_srenderer.sprite.bounds.max.x, _srenderer.sprite.bounds.min.y, 0));
+        return new Vector3[] { topRight, topLeft, botLeft, botRight };
+    }
+
     public void SetColor(string color)
     {
         _color = (Color)typeof(Color).GetProperty(color.ToLowerInvariant()).GetValue(null, null);

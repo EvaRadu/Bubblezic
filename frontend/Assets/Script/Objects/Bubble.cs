@@ -54,42 +54,108 @@ public class Bubble : MonoBehaviour
         CreateRing();
     }
 
+
+    private CollisionSide WhatSideOfTheColliderWasHit(Collider2D collision)
+    {
+        Vector2 PointOnBoxHit = collision.ClosestPoint(transform.position);
+        Vector2 centerOfObject = collision.bounds.center;
+        float xMinPoint = Mathf.Abs((collision.bounds.size.x / 2) - centerOfObject.x);
+        float xMaxPoint = Mathf.Abs(xMinPoint + collision.bounds.size.x);
+        float yMinPoint = Mathf.Abs((collision.bounds.size.y / 2) - centerOfObject.y);
+        float yMaxPoint = Mathf.Abs(yMinPoint + collision.bounds.size.y);
+
+        if (PointOnBoxHit.x >= xMinPoint && PointOnBoxHit.x <= xMaxPoint)
+            return CollisionSide.Under;
+        else if (PointOnBoxHit.x >= xMinPoint && PointOnBoxHit.x <= xMaxPoint)
+            return CollisionSide.Above;
+        else if (PointOnBoxHit.y >= yMinPoint && PointOnBoxHit.y <= yMaxPoint)
+            return CollisionSide.Right;
+        else
+            return CollisionSide.Left;
+    }
+
     private CollisionSide CheckIfFloorIsUnder(Collider2D otherCollider)
     {
         var closestPoint = otherCollider.ClosestPoint(gameObject.GetComponent<CircleCollider2D>().bounds.center);
         var distance = closestPoint - (Vector2)otherCollider.bounds.center;
         var angle = Vector2.Angle(Vector2.right, distance);
-        
-        /*if (angle < 135 && angle > 45)
+        Debug.Log(angle);
+        if (angle < 135 && angle > 45)
         {
+            return CollisionSide.Above;
+        }
+        else if (angle < 45 && angle > 0)
+        {
+            //The rest of sides by angle*/
             return CollisionSide.Under;
-        } else if 
-        //The rest of sides by angle*/
-        return CollisionSide.None;
+        } /*else if (angle < 135 && angle > 45) 
+        { */
+            
+         else { return CollisionSide.Right; }
+    }
+
+    public float GetCollisionAngle(Transform hitobjectTransform, CircleCollider2D collider, Vector2 contactPoint)
+    {
+        Vector2 collidertWorldPosition = new Vector2(hitobjectTransform.position.x, hitobjectTransform.position.y);
+        Vector3 pointB = contactPoint - collidertWorldPosition;
+
+        float theta = Mathf.Atan2(pointB.x, pointB.y);
+        float angle = (360 - ((theta * 180) / Mathf.PI)) % 360;
+        return angle;
     }
 
     public enum CollisionSide
     {
         Under,
         Above,
-        Sides,
+        Left,
+        Right,
         None,
     }
 
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Collision detected between : " + name + " and " + collision.gameObject.name);
+       // Debug.Log("Collision detected between : " + name + " and " + collision.gameObject.name);
         gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+        Debug.Log(collision.bounds.Intersects(GetComponent<CircleCollider2D>().bounds));
 
     }
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("Collision exited between : " + name + " and " + collision.gameObject.name);
-        _draggable = false;
-        gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(0, -5, 0);
 
+        if (type == 1 && !collision.Equals(gameObject.GetComponent<CircleCollider2D>())) 
+        {
+            //Debug.Log("Collision exited between : " + name + " and " + collision.gameObject.name);
+            _draggable = false;
+            gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(0, -10, 0);
+            Debug.Log(collision.bounds.Intersects(GetComponent<CircleCollider2D>().bounds));
+
+            //on recupere les extremites de la trajectoire
+            Vector3[] positions = _trajectory.GetSpriteCorners();
+            Vector3 topRight = (Vector3)positions.GetValue(0);
+            Vector3 topLeft = (Vector3)positions.GetValue(0);
+            Vector3 botLeft = (Vector3)positions.GetValue(0);
+            Vector3 botRight = (Vector3)positions.GetValue(0);
+
+            //topRight, topLeft, botLeft, botRight
+            Debug.Log(" topRight " + _trajectory.GetSpriteCorners().GetValue(0));
+            Debug.Log(" topLeft " + _trajectory.GetSpriteCorners().GetValue(1));
+            Debug.Log(" botLeft " + _trajectory.GetSpriteCorners().GetValue(2));
+            Debug.Log(" botRight " + _trajectory.GetSpriteCorners().GetValue(3));
+
+            if (transform.position.x < topLeft.x) //on regarde si la balle depasse a gauche
+            { transform.position = collision.bounds.center; }
+            //gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(5, 0, 0); }
+            if (transform.position.x > topRight.x) //on regarde si la balle depasse a droite
+            { transform.position = collision.bounds.center; }
+            if (transform.position.y < botLeft.y) //on regarde si la balle depasse en bas
+            { transform.position = collision.bounds.center; }
+            if (transform.position.y < topLeft.y) //on regarde si la balle depasse en haut
+            { transform.position = collision.bounds.center; }
+
+        }
         /*switch (CheckIfFloorIsUnder(collision))
         {
             case CollisionSide.Above:
@@ -209,6 +275,7 @@ public class Bubble : MonoBehaviour
             }      
         }
         else { gameObject.SetActive(true);}
+
 
         //pour qu'une bulle suive la souris
         //Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
