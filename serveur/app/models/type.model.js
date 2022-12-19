@@ -9,6 +9,6 @@ module.exports = Type = {
     MalusSimple: 4,
     MalusMultiple: 5,
     PuzzleCenter: 6,
-    PuzzleSide: 7,
+    SemiCircle: 7,
     Collaboration: 8,
 }
