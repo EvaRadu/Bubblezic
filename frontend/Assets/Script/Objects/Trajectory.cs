@@ -23,6 +23,14 @@ public class Trajectory : MonoBehaviour
     public void SetBubble(Bubble bubble) => _bubble = bubble;
     public void SetCible(Bubble cible) => _cible = cible;
 
+    public Bubble getBubble(){
+        return _bubble;
+    }
+
+    public Bubble getCible(){
+        return _cible;
+    }
+
 
     public void SetSize(float posX, float posY, float width, float height )
     {

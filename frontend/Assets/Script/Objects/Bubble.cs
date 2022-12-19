@@ -207,7 +207,7 @@ public class Bubble : MonoBehaviour
         _srenderer.material.color = this.color;
     }
 
-    /*
+    
     private void OnMouseDown()
     {
         Debug.Log("onMouseDown " + name);
@@ -241,7 +241,7 @@ public class Bubble : MonoBehaviour
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
         return mousePos;
-    }*/
+    }
 
     private void CreateRing()
     {
@@ -287,7 +287,11 @@ public class Bubble : MonoBehaviour
                         RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(touchPos.x, touchPos.y), Vector2.zero);
                         if (hitinfo.collider != null)
                         {
-                            hitinfo.collider.gameObject.transform.position = touchPos;
+                            Debug.Log("TEST : " + hitinfo.collider.gameObject.name);
+                            if(hitinfo.collider.gameObject.GetComponent<Trajectory>() != null){
+                            hitinfo.collider.gameObject.GetComponent<Trajectory>().getBubble().transform.position = touchPos;
+                            }
+                            //hitinfo.collider.gameObject.transform.position = touchPos;
                         }
                     }
 

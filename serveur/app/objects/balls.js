@@ -1,6 +1,6 @@
 module.exports = listBalles = [
 
-        { 
+       { 
             id:0,
             typeName : "bubble",
             posX: 2,
@@ -44,20 +44,7 @@ module.exports = listBalles = [
             height : 3,
         },
         
-        { 
-            id:3,
-            typeName : "bubble",
-            posX: 3,
-            posY: 1,
-            couleur: 'white',
-            rayon: 3,
-            temps: 0,
-            type: 0,
-            duration: 3,
-            rotation: 90,
-            side: 0,
-            texture: ""
-        },
+        
         { 
             id:4,
             typeName : "bubble",
@@ -65,7 +52,7 @@ module.exports = listBalles = [
             posY: 0,
             couleur: 'white',
             rayon: 3,
-            temps: 3,
+            temps: 10,
             type: 7,
             duration: 3,
             rotation: 90,
@@ -79,7 +66,7 @@ module.exports = listBalles = [
             posY: 0,
             couleur: 'white',
             rayon: 3,
-            temps: 3,
+            temps: 10,
             type: 7,
             duration: 3,
             rotation: -90,
@@ -93,40 +80,26 @@ module.exports = listBalles = [
             posY: 0,
             couleur: 'magenta',
             rayon: 3,
-            temps: 3,
+            temps: 10,
             type: 6,
             duration: 3,
             rotation: 90,
             side: 0,
             texture: "ciblePuzzle"
         },
-    
         { 
-            id:7,
-            typeName : "bubble",
-            posX: 0,
-            posY: 2,
-            couleur: 'white',
-            rayon: 3,
-            temps: 6,
-            type: 0,
-            duration: 3,
-            rotation: 90,
-            side: 0,
-            texture: ""
-        },
-        { 
-            id:8,
-            typeName : "bubble",
-            posX: 0,
-            posY: 0,
-            couleur: 'yellow',
-            rayon: 3,
-            temps: 9,
-            type: 0,
-            duration: 3,
-            rotation: 90,
-            side: 0,
-            texture: ""
-        }
+                id:7,
+                typeName : "bubble",
+                posX: 0,
+                posY: 0,
+                couleur: 'yellow',
+                rayon: 3,
+                temps: 13,
+                type: 0,
+                duration: 3,
+                rotation: 90,
+                side: 0,
+                texture: "ciblePuzzle"
+            }
+
     ];
