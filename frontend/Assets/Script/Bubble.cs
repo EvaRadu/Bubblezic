@@ -45,6 +45,7 @@ public class Bubble : MonoBehaviour
         _circle.transform.localScale = Vector3.one * 0.1f;
 
         CreateRing();
+
     }
 
 
@@ -134,6 +135,8 @@ public class Bubble : MonoBehaviour
     }
 
 
+
+
     /* --- DETECTION DES COLLISIONS --- */
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -161,9 +164,11 @@ public class Bubble : MonoBehaviour
             if((leftSide == 1) && (rightSide == 1)){  
                 float time = TimerScript.Instance.time;
                 WsClient.Instance.updateScore(this.thisBubble, time, 7);
+                /*
                 Destroy(gameObject);  // On détruit la cible
                 Destroy(leftPiece);  // On détruit la pièce de gauche
                 Destroy(rightPiece);  // On détruit la pièce de droite
+                */
             }
         }
     }

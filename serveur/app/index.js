@@ -27,11 +27,11 @@ wss.on('connection', (ws) => {
 
     ws.on('message', async (messageAsString) => {
         if(messageAsString.toString() == 'Ready'){
-            nbClients++;
+            /*nbClients++;
             while(nbClients < 2 && nbClients >= 0){
                 console.log("waiting for second client");
                 await wait(1000);
-            }
+            }*/
             console.log("Both clients are ready, sending balls");
             listBalles.forEach(ball => {
                 ws.send(JSON.stringify(ball));
