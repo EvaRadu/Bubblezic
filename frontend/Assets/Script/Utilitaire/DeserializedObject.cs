@@ -35,7 +35,9 @@ namespace Assets.Script
     {
         public int rayon;
         public int type;
-        public int idTrajectoire;
+        public int rotation;
+        public int side;
+        public string texture;
 
     }
 

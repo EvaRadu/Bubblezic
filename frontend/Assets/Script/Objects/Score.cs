@@ -3,8 +3,6 @@ using UnityEngine.UI;
 
 public class Score : MonoBehaviour
 {
-    public Text myTextScore;
-
     public int score = 0;
     public static Score Instance { get; private set; }
 
@@ -24,11 +22,12 @@ public class Score : MonoBehaviour
 
     void Start()
     {
-        myTextScore.GetComponent<Text>().text = "Score = " + score;
+        gameObject.GetComponent<Text>().text = "Score = " + score;
     }
 
     void Update()
     {
-        myTextScore.GetComponent<Text>().text = "Score = " + score;
+        //Debug.Log("Update score");
+        gameObject.GetComponent<Text>().text = "Score = " + score;
     }
 }

@@ -47,12 +47,19 @@ wss.on('connection', (ws) => {
             msg = messageAsString.toString().substring(pos1 + 1);
 
             pos1 = msg.toString().indexOf('=');
+            pos2 = msg.toString().indexOf(',');
             msg = msg.toString().substring(pos1 + 1);
         
             let temps = parseFloat(msg);
             console.log("temps = " + temps);
 
-            let point = calculePoints(temps, ballId);
+            pos1 = msg.toString().indexOf('=');
+            msg = msg.toString().substring(pos1 + 1);
+            let type = parseInt(msg);
+
+            console.log("type = " + type);
+            
+            let point = calculePoints(temps, ballId, type);
         
             metadata.score += point;
             console.log(metadata.score);

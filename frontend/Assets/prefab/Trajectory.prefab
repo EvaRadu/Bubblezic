@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 0
-  _bubble: {fileID: 0}
+  _bubble: {fileID: 8129448099910963033, guid: 7449d7920e146564ca950877f84f87d4, type: 3}
   _color: {r: 0, g: 0, b: 0, a: 0}
   _srenderer: {fileID: 3930290271426221807}
   _width: 0

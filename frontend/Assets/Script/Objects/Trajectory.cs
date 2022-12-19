@@ -13,6 +13,10 @@ public class Trajectory : MonoBehaviour
     public float _posX;
     public float _posY;
     public Collider2D[] overlaps = new Collider2D[2];
+    public float _duration;
+
+
+    public void SetDuration(float duration) => _duration = duration;
 
 
     public void SetId(int id) => _id = id;
@@ -53,8 +57,24 @@ public class Trajectory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        _duration -= Time.deltaTime;
+        gameObject.SetActive(true);
 
-        var test = this.GetComponent<Collider2D>().OverlapCollider(new ContactFilter2D().NoFilter(), overlaps);
+        // Mise a jour de la taille du cercle avec Mathf.PingPong() (stack)
+        //float scale = Mathf.PingPong(Time.time, 0.5f) + 0.1f;
+        //_circle.transform.localScale = Vector3.one * scale;
+
+        // Rendre invisible une balle 
+        if (_duration <= 0)
+        {
+            if (gameObject.activeSelf)
+            {
+                gameObject.SetActive(false);
+            }
+        }
+        else { gameObject.SetActive(true); }
+
+        //var test = this.GetComponent<Collider2D>().OverlapCollider(new ContactFilter2D().NoFilter(), overlaps);
         //Debug.Log( overlaps[0].gameObject.name);
     }
 }

@@ -27,6 +27,14 @@ public class Bubble : MonoBehaviour
     //Si la bulle est de type toucher prolonge 
     [SerializeField] private Trajectory _trajectory;
 
+
+    //  --- CHAMPS POUR LE PUZZLE --- 
+    private int leftSide = 0;      // Variable pour savoir si on a la pièce de puzzle de gauche
+    private int rightSide = 0;     // Variable pour savoir si on a la pièce de puzzle de droite
+    private GameObject leftPiece;  // Variable pour stocker la pièce de puzzle de gauche
+    private GameObject rightPiece; // Variable pour stocker la pièce de puzzle de droite
+    // --------------------------------
+
     public void SetRadius(float radius) => _radius = radius;
     public void SetId(int id) => _id = id;
     public void SetIdTrajectory(int id) => _idTrajectory = id;
@@ -35,7 +43,7 @@ public class Bubble : MonoBehaviour
     private void Start() 
     {
         
-        //gameObject.AddComponent<Boundaries>();
+        
 
 
         if (type == 1) //si la bulle est de type toucher prolongé
@@ -55,71 +63,48 @@ public class Bubble : MonoBehaviour
     }
 
 
-    private CollisionSide WhatSideOfTheColliderWasHit(Collider2D collision)
-    {
-        Vector2 PointOnBoxHit = collision.ClosestPoint(transform.position);
-        Vector2 centerOfObject = collision.bounds.center;
-        float xMinPoint = Mathf.Abs((collision.bounds.size.x / 2) - centerOfObject.x);
-        float xMaxPoint = Mathf.Abs(xMinPoint + collision.bounds.size.x);
-        float yMinPoint = Mathf.Abs((collision.bounds.size.y / 2) - centerOfObject.y);
-        float yMaxPoint = Mathf.Abs(yMinPoint + collision.bounds.size.y);
 
-        if (PointOnBoxHit.x >= xMinPoint && PointOnBoxHit.x <= xMaxPoint)
-            return CollisionSide.Under;
-        else if (PointOnBoxHit.x >= xMinPoint && PointOnBoxHit.x <= xMaxPoint)
-            return CollisionSide.Above;
-        else if (PointOnBoxHit.y >= yMinPoint && PointOnBoxHit.y <= yMaxPoint)
-            return CollisionSide.Right;
-        else
-            return CollisionSide.Left;
-    }
-
-    private CollisionSide CheckIfFloorIsUnder(Collider2D otherCollider)
-    {
-        var closestPoint = otherCollider.ClosestPoint(gameObject.GetComponent<CircleCollider2D>().bounds.center);
-        var distance = closestPoint - (Vector2)otherCollider.bounds.center;
-        var angle = Vector2.Angle(Vector2.right, distance);
-        Debug.Log(angle);
-        if (angle < 135 && angle > 45)
-        {
-            return CollisionSide.Above;
-        }
-        else if (angle < 45 && angle > 0)
-        {
-            //The rest of sides by angle*/
-            return CollisionSide.Under;
-        } /*else if (angle < 135 && angle > 45) 
-        { */
-            
-         else { return CollisionSide.Right; }
-    }
-
-    public float GetCollisionAngle(Transform hitobjectTransform, CircleCollider2D collider, Vector2 contactPoint)
-    {
-        Vector2 collidertWorldPosition = new Vector2(hitobjectTransform.position.x, hitobjectTransform.position.y);
-        Vector3 pointB = contactPoint - collidertWorldPosition;
-
-        float theta = Mathf.Atan2(pointB.x, pointB.y);
-        float angle = (360 - ((theta * 180) / Mathf.PI)) % 360;
-        return angle;
-    }
-
-    public enum CollisionSide
-    {
-        Under,
-        Above,
-        Left,
-        Right,
-        None,
-    }
-
-
-    void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D other)
     {
        // Debug.Log("Collision detected between : " + name + " and " + collision.gameObject.name);
         gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
-        Debug.Log(collision.bounds.Intersects(GetComponent<CircleCollider2D>().bounds));
+        Debug.Log(other.bounds.Intersects(GetComponent<CircleCollider2D>().bounds));
 
+
+        /* --- Détection des collisions entre la cible du puzzle et chacune des pièces --- */
+        if ((type == 6) && (other.gameObject.GetComponent<SemiCircle>() != null))
+        { // Si on a un côté du puzzle qui rentre en collision avec la cible
+
+            // COTE GAUGHE
+            if (other.gameObject.GetComponent<SemiCircle>().GetSide() == 1)
+            {
+                other.gameObject.GetComponent<SemiCircle>().setCanMove(0);  // On bloque le déplacement 
+                other.transform.position = new Vector3(gameObject.transform.position.x - 0.7f, gameObject.transform.position.y, 0);  // On place le morceau au bon endroit
+                leftSide = 1;  // On indique qu'on a la pièce de gauche
+                leftPiece = other.gameObject;  // On stocke la pièce de gauche
+            }
+
+            // COTE DROIT
+            else if (other.gameObject.GetComponent<SemiCircle>().GetSide() == 2)
+            {
+                other.gameObject.GetComponent<SemiCircle>().setCanMove(0);  // On bloque le déplacement
+                other.transform.position = new Vector3(gameObject.transform.position.x + 0.7f, gameObject.transform.position.y, 0); // On place le morceau au bon endroit
+                rightSide = 1;  // On indique qu'on a la pièce de droite  
+                rightPiece = other.gameObject;  // On stocke la pièce de droite          
+            }
+
+            // SI ON A LES DEUX MORCEAUX --> ON DETRUIT LE PUZZLE ET ON ENVOIE LE SCORE
+            if ((leftSide == 1) && (rightSide == 1))
+            {
+                float time = TimerScript.Instance.time;
+                WsClient.Instance.updateScore(this.thisBubble, time, 7);
+                /*
+                Destroy(gameObject);  // On détruit la cible
+                Destroy(leftPiece);  // On détruit la pièce de gauche
+                Destroy(rightPiece);  // On détruit la pièce de droite
+                */
+            }
+        }
     }
 
     void OnTriggerExit2D(Collider2D collision)
@@ -156,15 +141,7 @@ public class Bubble : MonoBehaviour
             { transform.position = collision.bounds.center; }
 
         }
-        /*switch (CheckIfFloorIsUnder(collision))
-        {
-            case CollisionSide.Above:
-                gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(0, -5, 0);
-            default:
-                gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(0, -5, 0);
-                ;
-
-        }*/
+       
     }
 
     void OnTriggerStay2D(Collider2D collision)
@@ -204,6 +181,12 @@ public class Bubble : MonoBehaviour
     public void setDuration(float dur)
     {
         this.duration = dur;
+    }
+
+    public void setTexture(string texture)
+    {
+        Sprite sp = Resources.Load<Sprite>(texture);
+        _srenderer.sprite = sp;
     }
 
     public void setColor(string color)
@@ -258,13 +241,58 @@ public class Bubble : MonoBehaviour
         ring.transform.parent = transform;
     }
 
+
+
+    private void multiTouch()
+    {
+        for (int i = 0; i < Input.touchCount; i++)  // Pour chaque toucher sur l'écran
+        {
+            /*  --- TYPE 0 : Balle qui disparait  --- */
+            if (type == 0)
+            {  // Si on touche une balle de type 0 : on la détruit
+                Touch touch = Input.GetTouch(i);
+                Vector3 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+                RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(touchPos.x, touchPos.y), Vector2.zero);
+                if (hitinfo.collider != null)
+                {
+                    float time = TimerScript.Instance.time;
+                    WsClient.Instance.updateScore(this.thisBubble, time, 0);
+                    Destroy(hitinfo.collider.gameObject);
+                }
+            }
+
+            else
+            {
+                /*  --- TYPE 1 : Balle qu'on déplace  --- */
+                if (type == 1)
+                {
+                    if (Input.GetTouch(i).phase == TouchPhase.Moved)
+                    {
+                        Touch touch = Input.GetTouch(i);
+                        Vector3 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+                        touchPos.z = 0;
+                        RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(touchPos.x, touchPos.y), Vector2.zero);
+                        if (hitinfo.collider != null)
+                        {
+                            hitinfo.collider.gameObject.transform.position = touchPos;
+                        }
+                    }
+
+                    else if (Input.GetTouch(i).phase == TouchPhase.Ended)
+                    {
+                    }
+                }
+            }
+
+
+
+        }
+    }
+
+
     public void Update(){
         duration -= Time.deltaTime;
         gameObject.SetActive(true);
-
-         // Mise a jour de la taille du cercle avec Mathf.PingPong() (stack)
-        //float scale = Mathf.PingPong(Time.time, 0.5f) + 0.1f;
-        //_circle.transform.localScale = Vector3.one * scale;
 
         // Rendre invisible une balle 
         if (duration <= 0)
@@ -277,19 +305,14 @@ public class Bubble : MonoBehaviour
         else { gameObject.SetActive(true);}
 
 
-        //pour qu'une bulle suive la souris
-        //Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //transform.position = Vector2.MoveTowards(transform.position, mousePosition, moveSpeed * Time.deltaTime);
 
-        if ((Input.GetMouseButtonDown(0)) && (type == 0)){ // from le R
-            //Debug.Log("BLEU");
+        if ((Input.GetMouseButtonDown(0)) && (type == 0)){
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            //Debug.Log(mousePos);
             RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(mousePos.x,mousePos.y), Vector2.zero);       
             if (hitinfo.collider != null){
                 float time = TimerScript.Instance.time;
-                WsClient.Instance.updateScore(this.thisBubble, time);
-                Destroy(hitinfo.collider.gameObject);
+                WsClient.Instance.updateScore(this.thisBubble, time, 0);
+                //Destroy(hitinfo.collider.gameObject); 
             }
         }
     }

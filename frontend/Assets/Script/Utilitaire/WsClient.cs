@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using Assets.Script;
 using UnityEngine.UI;
-using Object = System.Object;
 
 public class WsClient : MonoBehaviour
 {
@@ -15,10 +14,10 @@ public class WsClient : MonoBehaviour
 
     WebSocket ws;
     public static WsClient Instance { get; private set; }
+    public List<myObjects> ObjectsList = new List<myObjects>();
     public bool ready = false;
     public bool connected = false;
 
-    public List<myObjects> ObjectsList = new List<myObjects>();
     public string serverUrl;
 
     private void Awake()
@@ -64,11 +63,11 @@ public class WsClient : MonoBehaviour
 
         ws.OnMessage += (sender, e) =>
         {
-            if(e.Data.Contains("New score"))
+            if (e.Data.Contains("New score"))
             {
                 int pos1 = e.Data.IndexOf("=");
-                Score.Instance.score = Int16.Parse(e.Data.Substring(pos1+2));
-                PersistentManagerScript.Instance.score = Int16.Parse(e.Data.Substring(pos1+2));
+                Score.Instance.score = Int16.Parse(e.Data.Substring(pos1 + 2));
+                PersistentManagerScript.Instance.score = Int16.Parse(e.Data.Substring(pos1 + 2));
             }
         };
 
@@ -76,7 +75,8 @@ public class WsClient : MonoBehaviour
 
         ws.OnMessage += (sender, e) =>
         {
-            if(e.Data.Contains("New score =")){
+            if (e.Data.Contains("New score ="))
+            {
                 Debug.Log(e.Data);
             }
             //PersistentManagerScript.Instance.score++;
@@ -86,12 +86,12 @@ public class WsClient : MonoBehaviour
 
     private void Update()
     {
-        if(connected && !ready)
+        if (connected && !ready)
         {
             readyButton.interactable = true;
             connectButton.interactable = false;
         }
-        if(ready && connected)
+        if (ready && connected)
         {
             startButton.interactable = true;
             readyButton.interactable = false;
@@ -120,11 +120,12 @@ public class WsClient : MonoBehaviour
                         case "bubble":
                             ObjectsList.Add((Bulle)objet);
                             break;
-                        default :
+                        default:
                             ObjectsList.Add((Trajectoire)objet);
                             break;
 
                     }
+                    Debug.Log(ObjectsList.ToString());
                     ready = true;
 
                 };
@@ -137,7 +138,7 @@ public class WsClient : MonoBehaviour
     }
 
 
-    public void updateScore(Bulle b, float time)
+    public void updateScore(Bulle b, float time, int type)
     {
         try
         {
@@ -149,7 +150,7 @@ public class WsClient : MonoBehaviour
             else
             {
 
-                ws.Send("Update Score. ballId ="+b.id+", time= "+time);
+                ws.Send("Update Score. ballId =" + b.id + ", time= " + time + ", type= " + type);
                 ws.OnMessage += (sender, e) =>
                 {
                     Debug.Log(e.Data);
