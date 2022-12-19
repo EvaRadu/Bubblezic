@@ -7,6 +7,7 @@ const { Balle } = require('.');
 module.exports = Joi.object().keys({
     Id: Joi.number().required,
     idBubble : Joi.number().required,
+    idCible: Joi.number().required,
     posX: Joi.number().required,
     posY: Joi.number().required,
     couleur: Joi.string(),

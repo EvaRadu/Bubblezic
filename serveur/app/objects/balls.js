@@ -1,81 +1,9 @@
-/*
-module.exports = listBalles = [{
-        id:1,
-        posX: 1,
-        posY: 1,
-        couleur: 'red' ,
-        rayon: 3,
-        temps: 1,
-        type: 0,
-        duration: 10
-    },{
-        id: 2,
-        posX: -3,
-        posY: -3,
-        couleur: 'blue' ,
-        rayon: 2,
-        temps: 3,
-        type: 1,
-        duration: 10
-    },{
-        id:3,
-        posX: 3,
-        posY: -4,
-        couleur: 'blue' ,
-        rayon: 1.5,
-        temps: 1,
-        type: 1,
-        duration: 10
-    },{
-        id:4,
-        posX: -4,
-        posY: 2,
-        couleur: 'red' ,
-        rayon: 3,
-        temps: 5,
-        type: 0,
-        duration: 10
-    },{
-        id:5,
-        posX: 4,
-        posY: 4,
-        couleur: 'red' ,
-        rayon: 2,
-        temps: 7,
-        type: 0,
-        duration: 10
-    },
-    {
-        id:4,
-        posX: -4,
-        posY: -2,
-        couleur: 'blue' ,
-        rayon: 3,
-        temps: 1,
-        type: 1,
-        duration: 10
-    },{
-        id:5,
-        posX: 2,
-        posY: 1,
-        couleur: 'blue' ,
-        rayon: 2,
-        temps: 1,
-        type: 1,
-        duration: 10
-    }
-];
-*/
-
-
-
-
 module.exports = listBalles = [
 
     { 
-        id:1,
+        id:0,
         typeName : "bubble",
-        posX: 6,
+        posX: 2,
         posY: 0,
         idTrajectoire: 1,
         couleur: 'magenta',
@@ -88,19 +16,36 @@ module.exports = listBalles = [
         texture: ""
     },
     { 
+        id:2,
+        typeName : "bubble",
+        idTrajectoire: 1,
+        posX: 5,
+        posY: 0,
+        couleur: 'grey',
+        rayon: 1,
+        temps: 0,
+        type: 9,
+        duration: 10,
+        rotation: 90,
+        side: 0,
+        texture: "ciblePuzzle"
+    },
+    { 
         id:1,
         idBubble : 1,
+        idCible : 2,
         typeName : "trajectory",
-        posX: 6,
+        posX: 4,
         posY: 0,
         couleur: 'blue',
         temps: 0,
         duration: 10, 
-        width : 4,
-        height : 2,
+        width : 5,
+        height : 3,
     },
+    
     { 
-        id:2,
+        id:3,
         typeName : "bubble",
         posX: 3,
         posY: 1,
@@ -114,7 +59,7 @@ module.exports = listBalles = [
         texture: ""
     },
     { 
-        id:3,
+        id:4,
         typeName : "bubble",
         posX: -6,
         posY: 0,
@@ -128,7 +73,7 @@ module.exports = listBalles = [
         texture: ""
         },
         { 
-        id:4,
+        id:5,
         typeName : "bubble",
         posX: 6,
         posY: 0,
@@ -142,7 +87,7 @@ module.exports = listBalles = [
         texture: ""
     },
     { 
-        id:5,
+        id:6,
         typeName : "bubble",
         posX: 0,
         posY: 0,
@@ -157,7 +102,7 @@ module.exports = listBalles = [
     },
 
     { 
-        id:4,
+        id:7,
         typeName : "bubble",
         posX: 0,
         posY: 2,
@@ -171,14 +116,14 @@ module.exports = listBalles = [
         texture: ""
     },
     { 
-        id:5,
+        id:8,
         typeName : "bubble",
         posX: 0,
         posY: 0,
         couleur: 'yellow',
         rayon: 3,
         temps: 9,
-        type: 1,
+        type: 0,
         duration: 3,
         rotation: 90,
         side: 0,

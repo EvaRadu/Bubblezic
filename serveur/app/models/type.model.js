@@ -11,4 +11,5 @@ module.exports = Type = {
     PuzzleCenter: 6,
     PuzzleSide: 7,
     Collaboration: 8,
+    ProlongedTouchCible : 9,
 }

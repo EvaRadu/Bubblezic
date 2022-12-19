@@ -16,6 +16,7 @@ public class Bubble : MonoBehaviour
     [SerializeField] public int _idTrajectory;
     private bool _draggable = true;
 
+
     private Vector3 _dragOffset;
     private Camera _cam; 
     
@@ -36,6 +37,8 @@ public class Bubble : MonoBehaviour
     // --------------------------------
 
     public void SetRadius(float radius) => _radius = radius;
+    public void SetDraggable(bool drag) => _draggable = drag;
+
     public void SetId(int id) => _id = id;
     public void SetIdTrajectory(int id) => _idTrajectory = id;
 
@@ -46,7 +49,7 @@ public class Bubble : MonoBehaviour
         
 
 
-        if (type == 1) //si la bulle est de type toucher prolongé
+        if (type == 1 || type == 9) //si la bulle est de type toucher prolongé
         {
             GameObject traj = GameObject.Find("Trajectory " + _idTrajectory + "");
             if (traj != null)
@@ -70,6 +73,12 @@ public class Bubble : MonoBehaviour
         gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
         Debug.Log(other.bounds.Intersects(GetComponent<CircleCollider2D>().bounds));
 
+        /* --- Détection des collisions entre la cible d'une trajectoire et la bulle --- */
+        if ((type == 9) && (other.gameObject.GetComponent<Bubble>() != null))
+        {
+            other.gameObject.GetComponent<Bubble>().SetDraggable(false);
+            other.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y , 0);  // On place le morceau au bon endroit
+        }
 
         /* --- Détection des collisions entre la cible du puzzle et chacune des pièces --- */
         if ((type == 6) && (other.gameObject.GetComponent<SemiCircle>() != null))
