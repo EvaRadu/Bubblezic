@@ -80,6 +80,10 @@ public class Bubble : MonoBehaviour
             other.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y , 0);  // On place le morceau au bon endroit
             float time = TimerScript.Instance.time;
             WsClient.Instance.updateScore(this.thisBubble, time, 0);
+            //Destroy(gameObject
+            Destroy(gameObject);
+            Destroy(other.gameObject);
+            Destroy(_trajectory.gameObject);
         }
 
         /* --- Détection des collisions entre la cible du puzzle et chacune des pièces --- */
