@@ -15,6 +15,25 @@ public class createBalls : MonoBehaviour
     List<Trajectory> trajectories = new List<Trajectory>();
     List<SemiCircle> semiCircles = new List<SemiCircle>();
 
+    /* --- OPPONENT SCREEN --- */
+    List<Bubble> opponentBubbles = new List<Bubble>();
+    List<Trajectory> opponentTrajectories = new List<Trajectory>();
+    List<SemiCircle> opponentSemiCircles = new List<SemiCircle>();
+
+    // Taille des deux écrans : 
+    // Grand écran (player)
+    float x1 = -8.88f;
+    float x2 = 8.8f;
+    float y1 = -5f;
+    float y2 = 5f;
+
+    // Petit écran (opponent)
+    float x3 = 4.8f;
+    float x4 = 8.6f;
+    float y3 = -4.7f;
+    float y4 = -2.67f;
+
+
 
     void Start() {
         //startTime = 2f;
@@ -50,7 +69,28 @@ public class createBalls : MonoBehaviour
                         spawnedSemiCircle.setSide(ball.side);
                         semiCircles.Add(spawnedSemiCircle);
                         ball.created = true;
-                        spawnedSemiCircle.setBubble(ball);
+                        spawnedSemiCircle.setBubble(ball);    
+
+                        
+                        /* --- OPPONENT SCREEN --- */
+
+                        var opponentSemiCircle = Instantiate(_semiCirclePrefab, new Vector3(
+                            ((ball.posX - x1) / (x2 - x1)) * (x4-x3) + x3,
+                            ((ball.posY - y1) / (y2 - y1)) * (y4-y3) + y3,
+                            0), 
+                              
+                                Quaternion.identity); // create a new circle
+                        opponentSemiCircle.name = "Opponent Semi Circle " + ball.id + "";
+                        opponentSemiCircle.setDuration(ball.duration);
+                        opponentSemiCircle.setColor(ball.couleur);
+                        opponentSemiCircle.setType(ball.type);
+                        opponentSemiCircle.setRotation(ball.rotation);
+                        opponentSemiCircle.setSide(ball.side);
+                        opponentSemiCircle.setScale(0.025f);
+                        opponentSemiCircle.SetIsOpponentSemiCircle(true);
+                        opponentSemiCircles.Add(opponentSemiCircle);
+                        ball.created = true;
+                        opponentSemiCircle.setBubble(ball);                  
                     }
                     else
                     {
@@ -70,6 +110,33 @@ public class createBalls : MonoBehaviour
                         bubbles.Add(spawnedCircle);
                         ball.created = true;
                         spawnedCircle.setBubble(ball);
+
+                        /* --- OPPONENT SCREEN --- */
+
+                        var opponentSpawnedCircle = Instantiate(_circlePrefab, new Vector3(
+                            ((ball.posX - x1) / (x2 - x1)) * (x4-x3) + x3,
+                            ((ball.posY - y1) / (y2 - y1)) * (y4-y3) + y3,
+                            0), 
+                              
+                              Quaternion.identity); // create a new circle
+                        opponentSpawnedCircle.name = "Opponent Bubble " + ball.id + "";
+                        opponentSpawnedCircle.SetId(ball.id);
+                        opponentSpawnedCircle.setDuration(ball.duration);
+                        opponentSpawnedCircle.transform.localScale = new Vector3(0.5f, 0.5f, 1);
+                        opponentSpawnedCircle.setColor(ball.couleur);
+                        opponentSpawnedCircle.setType(ball.type);
+                        opponentSpawnedCircle.SetRadius(0.5f);
+                        opponentSpawnedCircle.SetIsOpponentCircle(true);
+                        
+                        if (ball.type == 6 || ball.type == 9)
+                        {
+                            opponentSpawnedCircle.setTexture(ball.texture);
+                        }
+                        opponentBubbles.Add(opponentSpawnedCircle);
+                        ball.created = true;
+                        opponentSpawnedCircle.setBubble(ball);
+
+
                     }
                 }
             }

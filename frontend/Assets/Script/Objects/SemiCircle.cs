@@ -23,7 +23,11 @@ public class SemiCircle : MonoBehaviour
     float duration; // duration of the apparition of the circle
     int type; // type of the circle
 
+    private bool _isOpponentSemiCircle = false;
+
+
     public void SetRadius(float radius) => _radius = radius;
+    public void SetIsOpponentSemiCircle(bool b) => _isOpponentSemiCircle = b;
 
     private void Start() 
     {
@@ -96,6 +100,11 @@ public class SemiCircle : MonoBehaviour
         }
     }
 
+    public void setScale(float scale)
+    {
+        this.transform.localScale = new Vector3(scale, scale, 1);
+    }
+
     public int GetSide()
     {
         return this.side;
@@ -150,7 +159,7 @@ public class SemiCircle : MonoBehaviour
                         }
                     }
                 }
-
+        
         }
     }
 
@@ -171,8 +180,9 @@ public class SemiCircle : MonoBehaviour
         else { gameObject.SetActive(true);}
 
         /* --- GESTION DU MULTI-TOUCH --- */
-
+        if(!_isOpponentSemiCircle){
         multiTouch();
+        }
        
     }
     
