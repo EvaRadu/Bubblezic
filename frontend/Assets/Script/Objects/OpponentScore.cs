@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Score : MonoBehaviour
+public class OpponentScore : MonoBehaviour
 {
     public int score = 0;
-    public static Score Instance { get; private set; }
+    public static OpponentScore Instance { get; private set; }
 
     private void Awake()
     {
@@ -20,14 +20,14 @@ public class Score : MonoBehaviour
 
     }
 
-    void Start()    
+    void Start()
     {
-        gameObject.GetComponent<Text>().text = "Score = " + score;
+        gameObject.GetComponent<Text>().text = "Opponent Score = " + score;
     }
 
     void Update()
     {
         //Debug.Log("Update score");
-        gameObject.GetComponent<Text>().text = "Score = " + score;
+        gameObject.GetComponent<Text>().text = "Opponent Score = " + score;
     }
 }

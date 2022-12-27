@@ -21,11 +21,15 @@ wss.on('connection', (ws) => {
     const id = uuidv4();
     const score = 0;
     const metadata = {id, score};
+    //console.log(" id = " + metadata.id + " score = " + metadata.score + "");
 
     clients.set(ws, metadata);
     console.log("New client connected\n");
+    //console.log("SIZE : " + clients.size + " ");
+    //console.log("CLIENTS : " + clients + " ");
 
     ws.on('message', async (messageAsString) => {
+        console.log("message received : " + messageAsString.toString());
         if(messageAsString.toString() == 'Ready'){
             nbClients++;
             while(nbClients < 2 && nbClients >= 0){
@@ -38,6 +42,7 @@ wss.on('connection', (ws) => {
             });
         }
         else if (messageAsString.toString().includes('Update Score.')) {
+
             let pos1 = messageAsString.toString().indexOf('=');
             let pos2 = messageAsString.toString().indexOf(',');
             let msg = messageAsString.toString().substring(pos1+1, pos2);
@@ -50,7 +55,7 @@ wss.on('connection', (ws) => {
             pos2 = msg.toString().indexOf(',');
             msg = msg.toString().substring(pos1 + 1);
         
-            let temps = parseFloat(msg);
+            let temps = parseFloat(msg.replace(",", "."));
             console.log("temps = " + temps);
 
             pos1 = msg.toString().indexOf('=');
@@ -65,11 +70,29 @@ wss.on('connection', (ws) => {
             console.log(metadata.score);
            
             ws.send("New score = " + metadata.score);
+
+            // ON ENVOIT LE SCORE A L'AUTRE CLIENT
+            for(let [key, value] of clients){
+                if(value.id != metadata.id){
+                    key.send("Opponent score = " + metadata.score);
+                }
+            }
         }
         else if (messageAsString.toString().includes('malus')) {
             // get the second client
             // send malus data to the second client
             ws.send('malus');
+        }
+
+        else if (messageAsString.toString().includes('Delete Bubble.')) {
+            let pos1 = messageAsString.toString().indexOf('=');
+            let msg = messageAsString.toString().substring(pos1+1, messageAsString.toString().length);
+            let bubbleToDelete = "Opponent " + msg;
+            for(let [key, value] of clients){
+                if(value.id != metadata.id){
+                    key.send('Delete Bubble = ' + bubbleToDelete);
+                }
+            }
         }
         else{
             ws.send('Message not clear');

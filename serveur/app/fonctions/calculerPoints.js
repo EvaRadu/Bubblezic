@@ -11,6 +11,7 @@ module.exports = function calculePoints(time, id) {
 
     console.log("time = " +time);
 
+    /*
     if (time >= ballTime - 1 && time <= ballTime + 1) {
         return 5;
     } else if (time >= ballTime - 0.4 && time <= ballTime + 0.4) {
@@ -25,5 +26,7 @@ module.exports = function calculePoints(time, id) {
         return 10;
     } else {
         return 0;
-    }
+    }*/
+
+    return 5;
 }

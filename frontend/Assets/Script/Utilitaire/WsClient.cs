@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Assets.Script;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement; 
 
 public class WsClient : MonoBehaviour
 {
@@ -69,18 +70,29 @@ public class WsClient : MonoBehaviour
                 Score.Instance.score = Int16.Parse(e.Data.Substring(pos1 + 2));
                 PersistentManagerScript.Instance.score = Int16.Parse(e.Data.Substring(pos1 + 2));
             }
-        };
 
-        ws.Connect();
+            else if (e.Data.Contains("Opponent score"))
+            {
+                int pos1 = e.Data.IndexOf("=");
+                OpponentScore.Instance.score = Int16.Parse(e.Data.Substring(pos1 + 2));
+                PersistentManagerScript.Instance.opponentScore = Int16.Parse(e.Data.Substring(pos1 + 2));
+            }
 
-        ws.OnMessage += (sender, e) =>
-        {
-            if (e.Data.Contains("New score ="))
+            else if(e.Data.Contains("Delete Bubble"))
+            {
+                int pos1 = e.Data.IndexOf("=");
+                string name = e.Data.Substring(pos1 + 2);
+                PersistentManagerScript.Instance.bubbleToDelete = name;                                 
+            }
+
+            else if (e.Data.Contains("New score ="))
             {
                 Debug.Log(e.Data);
             }
-            //PersistentManagerScript.Instance.score++;
+
         };
+
+        ws.Connect();
     }
 
 
@@ -151,6 +163,31 @@ public class WsClient : MonoBehaviour
             {
 
                 ws.Send("Update Score. ballId =" + b.id + ", time= " + time + ", type= " + type);
+                ws.OnMessage += (sender, e) =>
+                {
+                    Debug.Log(e.Data);
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+    }
+
+    public void deleteBubble(string name)
+    {
+        try
+        {
+            if (ws == null)
+            {
+                Debug.Log("Null");
+                return;
+            }
+            else
+            {
+
+                ws.Send("Delete Bubble. bubbleName =" + name);
                 ws.OnMessage += (sender, e) =>
                 {
                     Debug.Log(e.Data);

@@ -16,6 +16,8 @@ public class Bubble : MonoBehaviour
     [SerializeField] public int _idTrajectory;
     private bool _draggable = true;
 
+    private bool _isOpponentCircle = false;
+
 
     private Vector3 _dragOffset;
     private Camera _cam; 
@@ -41,7 +43,11 @@ public class Bubble : MonoBehaviour
 
     public void SetId(int id) => _id = id;
     public void SetIdTrajectory(int id) => _idTrajectory = id;
+    public void SetIsOpponentCircle(bool b) => _isOpponentCircle = b;
 
+    public string getBubbleName(){
+        return gameObject.name;
+    }
 
     private void Start() 
     {
@@ -62,17 +68,17 @@ public class Bubble : MonoBehaviour
         }
         else { gameObject.GetComponent<CircleCollider2D>().isTrigger = false; }
 
+        if(!_isOpponentCircle){
         CreateRing();
+        }
     }
 
 
 
     void OnTriggerEnter2D(Collider2D other)
     {
-       // Debug.Log("Collision detected between : " + name + " and " + collision.gameObject.name);
-        //gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
-        //Debug.Log(other.bounds.Intersects(GetComponent<CircleCollider2D>().bounds));
 
+        if(!_isOpponentCircle){
         /* --- Détection des collisions entre la cible d'une trajectoire et la bulle --- */
         if ((type == 9) && (other.gameObject.GetComponent<Bubble>() != null))
         {
@@ -120,10 +126,12 @@ public class Bubble : MonoBehaviour
                 */
             }
         }
+        }
     }
 
     void OnTriggerExit2D(Collider2D collision)
     {
+        if(!_isOpponentCircle){
 
         if (type == 1 && !collision.Equals(gameObject.GetComponent<CircleCollider2D>())) 
         {
@@ -157,13 +165,16 @@ public class Bubble : MonoBehaviour
             { transform.position = collision.bounds.center; }
 
         }
+        }
        
     }
 
     void OnTriggerStay2D(Collider2D collision)
     {
-        _draggable = true;
-        Debug.Log("Collision stayed between : " + name + " and " + collision.gameObject.name);
+        if(!_isOpponentCircle){
+            _draggable = true;
+            Debug.Log("Collision stayed between : " + name + " and " + collision.gameObject.name);
+        }
     }
 
     private void Awake()
@@ -211,7 +222,7 @@ public class Bubble : MonoBehaviour
         _srenderer.material.color = this.color;
     }
 
-    
+    /*
     private void OnMouseDown()
     {
         Debug.Log("onMouseDown " + name);
@@ -245,7 +256,7 @@ public class Bubble : MonoBehaviour
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
         return mousePos;
-    }
+    }*/
 
     private void CreateRing()
     {
@@ -274,6 +285,7 @@ public class Bubble : MonoBehaviour
                 {
                     float time = TimerScript.Instance.time;
                     WsClient.Instance.updateScore(this.thisBubble, time, 0);
+                    WsClient.Instance.deleteBubble(gameObject.name);
                     Destroy(hitinfo.collider.gameObject);
                 }
             }
@@ -336,6 +348,7 @@ public class Bubble : MonoBehaviour
                 Destroy(hitinfo.collider.gameObject); 
             }
         }*/
+
         multiTouch();
     }
 
