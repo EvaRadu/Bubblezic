@@ -45,6 +45,10 @@ public class Bubble : MonoBehaviour
     public void SetIdTrajectory(int id) => _idTrajectory = id;
     public void SetIsOpponentCircle(bool b) => _isOpponentCircle = b;
 
+    public string getBubbleName(){
+        return gameObject.name;
+    }
+
     private void Start() 
     {
         
@@ -281,6 +285,7 @@ public class Bubble : MonoBehaviour
                 {
                     float time = TimerScript.Instance.time;
                     WsClient.Instance.updateScore(this.thisBubble, time, 0);
+                    WsClient.Instance.deleteBubble(gameObject.name);
                     Destroy(hitinfo.collider.gameObject);
                 }
             }

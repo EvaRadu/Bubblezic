@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using Assets.Script;
 using UnityEngine.UI;
+using UnityEngine;
+using UnityEngine.SceneManagement; 
 
 public class WsClient : MonoBehaviour
 {
@@ -75,6 +77,37 @@ public class WsClient : MonoBehaviour
                 int pos1 = e.Data.IndexOf("=");
                 OpponentScore.Instance.score = Int16.Parse(e.Data.Substring(pos1 + 2));
             }
+
+            if(e.Data.Contains("Delete Bubble"))
+            {
+                //Debug.Log("HERE Delete Bubble");
+                int pos1 = e.Data.IndexOf("=");
+                string name = e.Data.Substring(pos1 + 2);
+                Debug.Log("NAME=" + name);
+                Scene scene = SceneManager.GetSceneByName("Scene2");
+                GameObject[] rootObjects = scene.GetRootGameObjects();
+                foreach (GameObject rootObject in rootObjects)
+                {
+                    Debug.Log("ROOT OBJECT NAME=" + rootObject.name);
+                }                //Destroy(name.Instance);
+                /*GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+                foreach (GameObject go in allObjects)
+                {
+                    Debug.Log("GO NAME=" + go.name);
+                }*/
+                /*foreach(Bubble b in allObjects){
+                    Debug.Log("BUBBLE NAME=" + b.gameObject.name);
+                    if(b.gameObject.name == name)
+                        Debug.Log("Destroying " + b.gameObject.name);
+                        Destroy(b);
+                }*/
+                //GameObject obj = GameObject.Find(name);
+                //Debug.Log("NAME=" + name);
+                //Debug.Log("OBJ=" + obj.GetComponent<Bubble>().getBubbleName());
+                //Destroy(GameObject.Find(name).GetComponent<Bubble>());
+                //GameObject.Find(
+            }
+
         };
 
         ws.Connect();
@@ -157,6 +190,31 @@ public class WsClient : MonoBehaviour
             {
 
                 ws.Send("Update Score. ballId =" + b.id + ", time= " + time + ", type= " + type);
+                ws.OnMessage += (sender, e) =>
+                {
+                    Debug.Log(e.Data);
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+    }
+
+    public void deleteBubble(string name)
+    {
+        try
+        {
+            if (ws == null)
+            {
+                Debug.Log("Null");
+                return;
+            }
+            else
+            {
+
+                ws.Send("Delete Bubble. bubbleName =" + name);
                 ws.OnMessage += (sender, e) =>
                 {
                     Debug.Log(e.Data);

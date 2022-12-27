@@ -29,6 +29,7 @@ wss.on('connection', (ws) => {
     //console.log("CLIENTS : " + clients + " ");
 
     ws.on('message', async (messageAsString) => {
+        console.log("message received : " + messageAsString.toString());
         if(messageAsString.toString() == 'Ready'){
             nbClients++;
             while(nbClients < 2 && nbClients >= 0){
@@ -81,6 +82,17 @@ wss.on('connection', (ws) => {
             // get the second client
             // send malus data to the second client
             ws.send('malus');
+        }
+
+        else if (messageAsString.toString().includes('Delete Bubble.')) {
+            let pos1 = messageAsString.toString().indexOf('=');
+            let msg = messageAsString.toString().substring(pos1+1, messageAsString.toString().length);
+            let bubbleToDelete = "Opponent " + msg;
+            for(let [key, value] of clients){
+                if(value.id != metadata.id){
+                    key.send('Delete Bubble = ' + bubbleToDelete);
+                }
+            }
         }
         else{
             ws.send('Message not clear');
