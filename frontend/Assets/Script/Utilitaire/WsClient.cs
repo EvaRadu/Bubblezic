@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using Assets.Script;
 using UnityEngine.UI;
-using UnityEngine;
 using UnityEngine.SceneManagement; 
 
 public class WsClient : MonoBehaviour
@@ -72,54 +71,28 @@ public class WsClient : MonoBehaviour
                 PersistentManagerScript.Instance.score = Int16.Parse(e.Data.Substring(pos1 + 2));
             }
 
-            if (e.Data.Contains("Opponent score"))
+            else if (e.Data.Contains("Opponent score"))
             {
                 int pos1 = e.Data.IndexOf("=");
                 OpponentScore.Instance.score = Int16.Parse(e.Data.Substring(pos1 + 2));
+                PersistentManagerScript.Instance.opponentScore = Int16.Parse(e.Data.Substring(pos1 + 2));
             }
 
-            if(e.Data.Contains("Delete Bubble"))
+            else if(e.Data.Contains("Delete Bubble"))
             {
-                //Debug.Log("HERE Delete Bubble");
                 int pos1 = e.Data.IndexOf("=");
                 string name = e.Data.Substring(pos1 + 2);
-                Debug.Log("NAME=" + name);
-                Scene scene = SceneManager.GetSceneByName("Scene2");
-                GameObject[] rootObjects = scene.GetRootGameObjects();
-                foreach (GameObject rootObject in rootObjects)
-                {
-                    Debug.Log("ROOT OBJECT NAME=" + rootObject.name);
-                }                //Destroy(name.Instance);
-                /*GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
-                foreach (GameObject go in allObjects)
-                {
-                    Debug.Log("GO NAME=" + go.name);
-                }*/
-                /*foreach(Bubble b in allObjects){
-                    Debug.Log("BUBBLE NAME=" + b.gameObject.name);
-                    if(b.gameObject.name == name)
-                        Debug.Log("Destroying " + b.gameObject.name);
-                        Destroy(b);
-                }*/
-                //GameObject obj = GameObject.Find(name);
-                //Debug.Log("NAME=" + name);
-                //Debug.Log("OBJ=" + obj.GetComponent<Bubble>().getBubbleName());
-                //Destroy(GameObject.Find(name).GetComponent<Bubble>());
-                //GameObject.Find(
+                PersistentManagerScript.Instance.bubbleToDelete = name;                                 
+            }
+
+            else if (e.Data.Contains("New score ="))
+            {
+                Debug.Log(e.Data);
             }
 
         };
 
         ws.Connect();
-
-        ws.OnMessage += (sender, e) =>
-        {
-            if (e.Data.Contains("New score ="))
-            {
-                Debug.Log(e.Data);
-            }
-            //PersistentManagerScript.Instance.score++;
-        };
     }
 
 

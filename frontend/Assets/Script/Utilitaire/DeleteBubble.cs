@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Score : MonoBehaviour
+public class DeleteBubble : MonoBehaviour
 {
-    public int score = 0;
-    public static Score Instance { get; private set; }
+    public string bubbleToDelete = "";
+    public static DeleteBubble Instance { get; private set; }
 
     private void Awake()
     {
@@ -22,12 +22,13 @@ public class Score : MonoBehaviour
 
     void Start()    
     {
-        gameObject.GetComponent<Text>().text = "Score = " + score;
     }
 
     void Update()
     {
-        //Debug.Log("Update score");
-        gameObject.GetComponent<Text>().text = "Score = " + score;
+        if(GameObject.Find(bubbleToDelete) != null)
+        {
+            Destroy(gameObject.GetComponent<Bubble>());
+        }
     }
 }

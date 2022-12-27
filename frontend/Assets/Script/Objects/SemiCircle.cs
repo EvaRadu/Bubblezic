@@ -9,7 +9,7 @@ public class SemiCircle : MonoBehaviour
     private Bulle thisBubble; 
     [SerializeField] private Color color;
     [SerializeField] private SpriteRenderer _srenderer;
-    [SerializeField] private float _speed=1000;
+    //[SerializeField] private float _speed=1000;
     [SerializeField] private float _radius;
     [SerializeField] private int id;
     [SerializeField] private float _rotation;
