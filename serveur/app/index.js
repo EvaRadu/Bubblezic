@@ -2,6 +2,7 @@ const WebSocket = require('ws');
 const uuidv4 = require('./fonctions/generateId');
 const wait = require('./fonctions/wait');
 const calculePoints = require('./fonctions/calculerPoints');
+const calculePos = require('./fonctions/calculerPosition');
 const listBalles = require('./objects/balls');
 const myport = 8080;
 const clients = new Map();
@@ -30,6 +31,10 @@ wss.on('connection', (ws) => {
 
     ws.on('message', async (messageAsString) => {
         console.log("message received : " + messageAsString.toString());
+
+        /* -------------------------- */
+        /* --- MESSAGE = 'Ready ' --- */
+        /* -------------------------- */
         if(messageAsString.toString() == 'Ready'){
             nbClients++;
             while(nbClients < 2 && nbClients >= 0){
@@ -41,6 +46,10 @@ wss.on('connection', (ws) => {
                 ws.send(JSON.stringify(ball));
             });
         }
+
+        /* -------------------------------- */
+        /* --- MESSAGE = 'Update Score' --- */
+        /* -------------------------------- */
         else if (messageAsString.toString().includes('Update Score.')) {
 
             let pos1 = messageAsString.toString().indexOf('=');
@@ -78,12 +87,20 @@ wss.on('connection', (ws) => {
                 }
             }
         }
+
+        /* ------------------------- */
+        /* --- MESSAGE = 'Malus' --- */
+        /* ------------------------- */
         else if (messageAsString.toString().includes('malus')) {
             // get the second client
             // send malus data to the second client
             ws.send('malus');
         }
 
+
+        /* --------------------------------- */
+        /* --- MESSAGE = 'Delete Bubble' --- */
+        /* --------------------------------- */
         else if (messageAsString.toString().includes('Delete Bubble.')) {
             let pos1 = messageAsString.toString().indexOf('=');
             let msg = messageAsString.toString().substring(pos1+1, messageAsString.toString().length);
@@ -93,6 +110,38 @@ wss.on('connection', (ws) => {
                     key.send('Delete Bubble = ' + bubbleToDelete);
                 }
             }
+        }
+
+        /* ------------------------------------ */
+        /* --- MESSAGE = 'Move Semi-Circle' --- */
+        /* ------------------------------------ */
+        else if(messageAsString.toString().includes('Move Semi-Circle')){
+            let pos1 = messageAsString.toString().indexOf('=');
+            let pos2 = messageAsString.toString().indexOf(',');
+            let msg = messageAsString.toString().substring(pos1+1, pos2);
+            let bubbleToMove = "Opponent " + msg;
+
+            msg = messageAsString.toString().substring(pos1 + 1);
+
+            pos1 = msg.toString().indexOf('=');
+            pos2 = msg.toString().indexOf(',');
+            msg = msg.toString().substring(pos1 + 1);
+        
+            let posX = parseFloat(msg.replace(",", "."));
+
+            pos1 = msg.toString().indexOf('=');
+            msg = msg.toString().substring(pos1 + 1);
+            let posY = parseFloat(msg.replace(",", "."));
+
+            console.log("name = " + bubbleToMove + "posX = " + posX + " posY = " + posY);
+
+            let newPos = calculePos(posX, posY);
+            for(let [key, value] of clients){
+                if(value.id != metadata.id){
+                    key.send('Move Semi-Circle = ' + bubbleToMove + ', posX = ' + newPos[0] + ', posY = ' + newPos[1]);
+                }
+            }
+
         }
         else{
             ws.send('Message not clear');
