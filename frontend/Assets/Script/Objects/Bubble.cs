@@ -344,9 +344,7 @@ public class Bubble : MonoBehaviour
             }
         }*/
 
-        if(!_isOpponentCircle){
         multiTouch();
-        }
     }
 
 }

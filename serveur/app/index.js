@@ -21,23 +21,27 @@ wss.on('connection', (ws) => {
     const id = uuidv4();
     const score = 0;
     const metadata = {id, score};
+    //console.log(" id = " + metadata.id + " score = " + metadata.score + "");
 
     clients.set(ws, metadata);
     console.log("New client connected\n");
+    //console.log("SIZE : " + clients.size + " ");
+    //console.log("CLIENTS : " + clients + " ");
 
     ws.on('message', async (messageAsString) => {
         if(messageAsString.toString() == 'Ready'){
-            /*nbClients++;
+            nbClients++;
             while(nbClients < 2 && nbClients >= 0){
                 console.log("waiting for second client");
                 await wait(1000);
-            }*/
+            }
             console.log("Both clients are ready, sending balls");
             listBalles.forEach(ball => {
                 ws.send(JSON.stringify(ball));
             });
         }
         else if (messageAsString.toString().includes('Update Score.')) {
+
             let pos1 = messageAsString.toString().indexOf('=');
             let pos2 = messageAsString.toString().indexOf(',');
             let msg = messageAsString.toString().substring(pos1+1, pos2);
@@ -65,6 +69,13 @@ wss.on('connection', (ws) => {
             console.log(metadata.score);
            
             ws.send("New score = " + metadata.score);
+
+            // ON ENVOIT LE SCORE A L'AUTRE CLIENT
+            for(let [key, value] of clients){
+                if(value.id != metadata.id){
+                    key.send("Opponent score = " + metadata.score);
+                }
+            }
         }
         else if (messageAsString.toString().includes('malus')) {
             // get the second client

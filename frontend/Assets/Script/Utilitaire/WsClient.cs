@@ -69,6 +69,12 @@ public class WsClient : MonoBehaviour
                 Score.Instance.score = Int16.Parse(e.Data.Substring(pos1 + 2));
                 PersistentManagerScript.Instance.score = Int16.Parse(e.Data.Substring(pos1 + 2));
             }
+
+            if (e.Data.Contains("Opponent score"))
+            {
+                int pos1 = e.Data.IndexOf("=");
+                OpponentScore.Instance.score = Int16.Parse(e.Data.Substring(pos1 + 2));
+            }
         };
 
         ws.Connect();
