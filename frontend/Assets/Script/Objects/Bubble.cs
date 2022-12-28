@@ -103,6 +103,7 @@ public class Bubble : MonoBehaviour
                 other.transform.position = new Vector3(gameObject.transform.position.x - 0.7f, gameObject.transform.position.y, 0);  // On place le morceau au bon endroit
                 leftSide = 1;  // On indique qu'on a la pièce de gauche
                 leftPiece = other.gameObject;  // On stocke la pièce de gauche
+                WsClient.Instance.MoveCircle(other.gameObject.name, other.gameObject.transform.position.x, other.gameObject.transform.position.y);
             }
 
             // COTE DROIT
@@ -111,7 +112,8 @@ public class Bubble : MonoBehaviour
                 other.gameObject.GetComponent<SemiCircle>().setCanMove(0);  // On bloque le déplacement
                 other.transform.position = new Vector3(gameObject.transform.position.x + 0.7f, gameObject.transform.position.y, 0); // On place le morceau au bon endroit
                 rightSide = 1;  // On indique qu'on a la pièce de droite  
-                rightPiece = other.gameObject;  // On stocke la pièce de droite          
+                rightPiece = other.gameObject;  // On stocke la pièce de droite     
+                WsClient.Instance.MoveCircle(other.gameObject.name, other.gameObject.transform.position.x, other.gameObject.transform.position.y);     
             }
 
             // SI ON A LES DEUX MORCEAUX --> ON DETRUIT LE PUZZLE ET ON ENVOIE LE SCORE
@@ -154,6 +156,7 @@ public class Bubble : MonoBehaviour
             Debug.Log(" botLeft " + _trajectory.GetSpriteCorners().GetValue(2));
             Debug.Log(" botRight " + _trajectory.GetSpriteCorners().GetValue(3));
 
+
             if (transform.position.x < topLeft.x) //on regarde si la balle depasse a gauche
             { transform.position = collision.bounds.center; }
             //gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(5, 0, 0); }
@@ -163,8 +166,8 @@ public class Bubble : MonoBehaviour
             { transform.position = collision.bounds.center; }
             if (transform.position.y < topLeft.y) //on regarde si la balle depasse en haut
             { transform.position = collision.bounds.center; }
-
-        }
+            }
+            WsClient.Instance.MoveCircle(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y);
         }
        
     }
@@ -303,9 +306,9 @@ public class Bubble : MonoBehaviour
                         RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(touchPos.x, touchPos.y), Vector2.zero);
                         if (hitinfo.collider != null)
                         {
-                            Debug.Log("TEST : " + hitinfo.collider.gameObject.name);
                             if(hitinfo.collider.gameObject.GetComponent<Trajectory>() != null){
                             hitinfo.collider.gameObject.GetComponent<Trajectory>().getBubble().transform.position = touchPos;
+                            WsClient.Instance.MoveCircle(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y);
                             }
                             //hitinfo.collider.gameObject.transform.position = touchPos;
                         }

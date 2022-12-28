@@ -87,7 +87,7 @@ public class WsClient : MonoBehaviour
                 PersistentManagerScript.Instance.bubbleToDelete = name;                                 
             }
 
-            else if(e.Data.Contains("Move Semi-Circle")){
+            else if(e.Data.Contains("Move Circle")){
                 int pos1 = e.Data.IndexOf("=");
                 int pos2 = e.Data.IndexOf("posX");
                 string name =  e.Data.Substring(pos1 + 2, pos2 - pos1 - 4);
@@ -95,9 +95,9 @@ public class WsClient : MonoBehaviour
                 int pos4 = e.Data.IndexOf("posY =");
                 float posX = float.Parse(e.Data.Substring(pos3 + 7, pos4 - pos3 - 9), CultureInfo.InvariantCulture.NumberFormat);
                 float posY = float.Parse(e.Data.Substring(pos4 + 7), CultureInfo.InvariantCulture.NumberFormat);
-                PersistentManagerScript.Instance.semiCircleToMove = name;
-                PersistentManagerScript.Instance.semiCircleToMovePosX = posX;
-                PersistentManagerScript.Instance.semiCircleToMovePosY = posY;
+                PersistentManagerScript.Instance.circleToMove = name;
+                PersistentManagerScript.Instance.circleToMovePosX = posX;
+                PersistentManagerScript.Instance.circleToMovePosY = posY;
             }
 
         };
@@ -210,7 +210,7 @@ public class WsClient : MonoBehaviour
         }
     }
 
-    public void MoveSemiCircle(string name, float posX, float posY){
+    public void MoveCircle(string name, float posX, float posY){
         try
         {
             if (ws == null)
@@ -221,7 +221,7 @@ public class WsClient : MonoBehaviour
             else
             {
 
-                ws.Send("Move Semi-Circle. semiCircleName =" + name + ", posX= " + posX + ", poxY= " + posY);
+                ws.Send("Move Circle. circleName =" + name + ", posX= " + posX + ", poxY= " + posY);
                 ws.OnMessage += (sender, e) =>
                 {
                     Debug.Log(e.Data);

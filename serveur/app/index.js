@@ -112,10 +112,10 @@ wss.on('connection', (ws) => {
             }
         }
 
-        /* ------------------------------------ */
-        /* --- MESSAGE = 'Move Semi-Circle' --- */
-        /* ------------------------------------ */
-        else if(messageAsString.toString().includes('Move Semi-Circle')){
+        /* ------------------------------- */
+        /* --- MESSAGE = 'Move Circle' --- */
+        /* ------------------------------- */
+        else if(messageAsString.toString().includes('Move Circle')){
             let pos1 = messageAsString.toString().indexOf('=');
             let pos2 = messageAsString.toString().indexOf(',');
             let msg = messageAsString.toString().substring(pos1+1, pos2);
@@ -138,7 +138,7 @@ wss.on('connection', (ws) => {
             let newPos = calculePos(posX, posY);
             for(let [key, value] of clients){
                 if(value.id != metadata.id){
-                    key.send('Move Semi-Circle = ' + bubbleToMove + ', posX = ' + newPos[0] + ', posY = ' + newPos[1]);
+                    key.send('Move Circle = ' + bubbleToMove + ', posX = ' + newPos[0] + ', posY = ' + newPos[1]);
                 }
             }
 

@@ -28,10 +28,10 @@ public class createBalls : MonoBehaviour
     float y2 = 5f;
 
     // Petit écran (opponent)
-    float x3 = 4.8f;
+    float x3 = 5.8f;
     float x4 = 8.6f;
-    float y3 = -4.7f;
-    float y4 = -2.67f;
+    float y3 = -4.6f;
+    float y4 = -3.27f;
 
 
 
@@ -87,6 +87,7 @@ public class createBalls : MonoBehaviour
                         opponentSemiCircle.setRotation(ball.rotation);
                         opponentSemiCircle.setSide(ball.side);
                         opponentSemiCircle.setScale(0.025f);
+                        opponentSemiCircle.setCanMove(0);
                         opponentSemiCircle.SetIsOpponentSemiCircle(true);
                         opponentSemiCircles.Add(opponentSemiCircle);
                         ball.created = true;
@@ -133,7 +134,6 @@ public class createBalls : MonoBehaviour
                             opponentSpawnedCircle.setTexture(ball.texture);
                         }
                         opponentBubbles.Add(opponentSpawnedCircle);
-                        ball.created = true;
                         opponentSpawnedCircle.setBubble(ball);
 
 
@@ -163,6 +163,23 @@ public class createBalls : MonoBehaviour
 
                     trajectories.Add(spawnedTrajectory);
                     traj.created = true;
+
+                    /* --- OPPONENT SCREEN --- */
+
+                    var opponentSpawnedTrajectory = Instantiate(_trajectoryPrefab, new Vector3(
+                            ((traj.posX - x1) / (x2 - x1)) * (x4-x3) + x3,
+                            ((traj.posY - y1) / (y2 - y1)) * (y4-y3) + y3,
+                            0), 
+                              
+                              Quaternion.identity); 
+                    opponentSpawnedTrajectory.name = "Opponent Trajectory " + traj.id + "";
+                    opponentSpawnedTrajectory.SetId(traj.id);
+                    opponentSpawnedTrajectory.SetDuration(traj.duration);
+                    opponentSpawnedTrajectory.SetColor(traj.couleur);
+                    opponentSpawnedTrajectory.SetBubble(bubble);
+                    opponentSpawnedTrajectory.SetCible(cible);
+                    opponentSpawnedTrajectory.setScale(0.5f);
+                    opponentTrajectories.Add(opponentSpawnedTrajectory);
                 }
             }
 

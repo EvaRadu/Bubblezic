@@ -10,10 +10,10 @@ module.exports = function calculePos(posX, posY) {
     y2 = 5;
 
     // Petit écran (opponent)
-    x3 = 4.8;
+    x3 = 5.8;
     x4 = 8.6;
-    y3 = -4.7;
-    y4 = -2.67;
+    y3 = -4.6;
+    y4 = -3.27;
 
     // Calcul de la position de la balle sur le petit écran
     var posXOpponent = ((posX - x1) / (x2 - x1)) * (x4-x3) + x3;

@@ -155,7 +155,7 @@ public class SemiCircle : MonoBehaviour
                         if(hitinfo.collider.gameObject == gameObject){  // Si le toucher est sur le demi cercle
                         if(canMove == 1){
                             gameObject.transform.position = touchPos;
-                            WsClient.Instance.MoveSemiCircle(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y);
+                            WsClient.Instance.MoveCircle(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y);
                             }
                         }
                         }
