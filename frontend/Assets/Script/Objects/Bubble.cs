@@ -38,6 +38,21 @@ public class Bubble : MonoBehaviour
     private GameObject rightPiece; // Variable pour stocker la pièce de puzzle de droite
     // --------------------------------
 
+
+    // --- CHAMPS POUR L'ECRAN DE L'ADVERSAIRE ---
+    // Grand écran (player)
+    float x1 = -8.88f;
+    float x2 = 8.8f;
+    float y1 = -5f;
+    float y2 = 5f;
+
+    // Petit écran (opponent)
+    float x3 = 5.8f;
+    float x4 = 8.6f;
+    float y3 = -4.6f;
+    float y4 = -3.27f;
+    // ------------------------------------------
+
     public void SetRadius(float radius) => _radius = radius;
     public void SetDraggable(bool drag) => _draggable = drag;
 
@@ -286,10 +301,13 @@ public class Bubble : MonoBehaviour
                 RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(touchPos.x, touchPos.y), Vector2.zero);
                 if (hitinfo.collider != null)
                 {
+                    if((touchPos.x < x3 || touchPos.x > x4) && (touchPos.y < y3 || touchPos.y > y4)) // Si on est pas dans l'écran adverse
+                    {
                     float time = TimerScript.Instance.time;
                     WsClient.Instance.updateScore(this.thisBubble, time, 0);
                     WsClient.Instance.deleteBubble(gameObject.name);
                     Destroy(hitinfo.collider.gameObject);
+                    }
                 }
             }
 
@@ -307,8 +325,12 @@ public class Bubble : MonoBehaviour
                         if (hitinfo.collider != null)
                         {
                             if(hitinfo.collider.gameObject.GetComponent<Trajectory>() != null){
-                            hitinfo.collider.gameObject.GetComponent<Trajectory>().getBubble().transform.position = touchPos;
-                            WsClient.Instance.MoveCircle(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y);
+                                if((touchPos.x < x3 || touchPos.x > x4) && (touchPos.y < y3 || touchPos.y > y4))  // Si on est pas dans l'écran adverse
+                                    {
+                                    hitinfo.collider.gameObject.GetComponent<Trajectory>().getBubble().transform.position = touchPos;
+                                    Debug.Log("TOUCHEPOS 2 = " + touchPos);
+                                    WsClient.Instance.MoveCircle(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y);
+                                    }
                             }
                             //hitinfo.collider.gameObject.transform.position = touchPos;
                         }
