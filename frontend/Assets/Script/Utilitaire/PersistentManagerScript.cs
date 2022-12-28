@@ -6,6 +6,9 @@ public class PersistentManagerScript : MonoBehaviour
     public int score = 0;
     public int opponentScore = 0;
     public string bubbleToDelete = "";
+    public string circleToMove = "";
+    public float circleToMovePosX = 0;
+    public float circleToMovePosY = 0;
 
     private void Awake()
     {
@@ -23,6 +26,11 @@ public class PersistentManagerScript : MonoBehaviour
     private void Update()
     {
         Destroy(GameObject.Find(bubbleToDelete));
+
+        if (GameObject.Find(circleToMove) != null)
+        {
+            GameObject.Find(circleToMove).transform.position = new Vector3(circleToMovePosX, circleToMovePosY, 0);
+        }
      
     }
 }

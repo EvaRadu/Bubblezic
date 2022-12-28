@@ -38,6 +38,21 @@ public class Bubble : MonoBehaviour
     private GameObject rightPiece; // Variable pour stocker la pièce de puzzle de droite
     // --------------------------------
 
+
+    // --- CHAMPS POUR L'ECRAN DE L'ADVERSAIRE ---
+    // Grand écran (player)
+    float x1 = -8.88f;
+    float x2 = 8.8f;
+    float y1 = -5f;
+    float y2 = 5f;
+
+    // Petit écran (opponent)
+    float x3 = 5.8f;
+    float x4 = 8.6f;
+    float y3 = -4.6f;
+    float y4 = -3.27f;
+    // ------------------------------------------
+
     public void SetRadius(float radius) => _radius = radius;
     public void SetDraggable(bool drag) => _draggable = drag;
 
@@ -103,6 +118,7 @@ public class Bubble : MonoBehaviour
                 other.transform.position = new Vector3(gameObject.transform.position.x - 0.7f, gameObject.transform.position.y, 0);  // On place le morceau au bon endroit
                 leftSide = 1;  // On indique qu'on a la pièce de gauche
                 leftPiece = other.gameObject;  // On stocke la pièce de gauche
+                WsClient.Instance.MoveCircle(other.gameObject.name, other.gameObject.transform.position.x, other.gameObject.transform.position.y);
             }
 
             // COTE DROIT
@@ -111,7 +127,8 @@ public class Bubble : MonoBehaviour
                 other.gameObject.GetComponent<SemiCircle>().setCanMove(0);  // On bloque le déplacement
                 other.transform.position = new Vector3(gameObject.transform.position.x + 0.7f, gameObject.transform.position.y, 0); // On place le morceau au bon endroit
                 rightSide = 1;  // On indique qu'on a la pièce de droite  
-                rightPiece = other.gameObject;  // On stocke la pièce de droite          
+                rightPiece = other.gameObject;  // On stocke la pièce de droite     
+                WsClient.Instance.MoveCircle(other.gameObject.name, other.gameObject.transform.position.x, other.gameObject.transform.position.y);     
             }
 
             // SI ON A LES DEUX MORCEAUX --> ON DETRUIT LE PUZZLE ET ON ENVOIE LE SCORE
@@ -154,6 +171,7 @@ public class Bubble : MonoBehaviour
             Debug.Log(" botLeft " + _trajectory.GetSpriteCorners().GetValue(2));
             Debug.Log(" botRight " + _trajectory.GetSpriteCorners().GetValue(3));
 
+
             if (transform.position.x < topLeft.x) //on regarde si la balle depasse a gauche
             { transform.position = collision.bounds.center; }
             //gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(5, 0, 0); }
@@ -163,8 +181,8 @@ public class Bubble : MonoBehaviour
             { transform.position = collision.bounds.center; }
             if (transform.position.y < topLeft.y) //on regarde si la balle depasse en haut
             { transform.position = collision.bounds.center; }
-
-        }
+            }
+            WsClient.Instance.MoveCircle(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y);
         }
        
     }
@@ -283,10 +301,13 @@ public class Bubble : MonoBehaviour
                 RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(touchPos.x, touchPos.y), Vector2.zero);
                 if (hitinfo.collider != null)
                 {
+                    if((touchPos.x < x3 || touchPos.x > x4) && (touchPos.y < y3 || touchPos.y > y4)) // Si on est pas dans l'écran adverse
+                    {
                     float time = TimerScript.Instance.time;
                     WsClient.Instance.updateScore(this.thisBubble, time, 0);
                     WsClient.Instance.deleteBubble(gameObject.name);
                     Destroy(hitinfo.collider.gameObject);
+                    }
                 }
             }
 
@@ -303,9 +324,13 @@ public class Bubble : MonoBehaviour
                         RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(touchPos.x, touchPos.y), Vector2.zero);
                         if (hitinfo.collider != null)
                         {
-                            Debug.Log("TEST : " + hitinfo.collider.gameObject.name);
                             if(hitinfo.collider.gameObject.GetComponent<Trajectory>() != null){
-                            hitinfo.collider.gameObject.GetComponent<Trajectory>().getBubble().transform.position = touchPos;
+                                if((touchPos.x < x3 || touchPos.x > x4) && (touchPos.y < y3 || touchPos.y > y4))  // Si on est pas dans l'écran adverse
+                                    {
+                                    hitinfo.collider.gameObject.GetComponent<Trajectory>().getBubble().transform.position = touchPos;
+                                    Debug.Log("TOUCHEPOS 2 = " + touchPos);
+                                    WsClient.Instance.MoveCircle(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y);
+                                    }
                             }
                             //hitinfo.collider.gameObject.transform.position = touchPos;
                         }

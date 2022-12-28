@@ -1022,7 +1022,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2e0b6993eed5204786c3b91690cacd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rootObjects: []
 --- !u!4 &961080949
 Transform:
   m_ObjectHideFlags: 0
@@ -1969,8 +1968,6 @@ MonoBehaviour:
   inputURL: {fileID: 1356280158}
   ready: 0
   connected: 0
-  scene:
-    m_Handle: 0
   serverUrl: 
 --- !u!4 &2035598702
 Transform:
@@ -2018,6 +2015,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   opponentScore: 0
+  bubbleToDelete: 
+  semiCircleToMove: 
+  semiCircleToMovePosX: 0
+  semiCircleToMovePosY: 0
 --- !u!4 &2139546389
 Transform:
   m_ObjectHideFlags: 0

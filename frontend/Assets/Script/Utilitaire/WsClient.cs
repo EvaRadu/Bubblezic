@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Assets.Script;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement; 
+using System.Globalization;
 
 public class WsClient : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class WsClient : MonoBehaviour
     public static WsClient Instance { get; private set; }
     public List<myObjects> ObjectsList = new List<myObjects>();
     public bool ready = false;
-    public bool connected = false;
+    public bool connected = false;  
 
     public string serverUrl;
 
@@ -38,6 +39,7 @@ public class WsClient : MonoBehaviour
     {
         serverUrl = "ws://localhost:8080";
         inputURL.text = serverUrl;
+
     }
 
     public void changeUrl()
@@ -85,9 +87,17 @@ public class WsClient : MonoBehaviour
                 PersistentManagerScript.Instance.bubbleToDelete = name;                                 
             }
 
-            else if (e.Data.Contains("New score ="))
-            {
-                Debug.Log(e.Data);
+            else if(e.Data.Contains("Move Circle")){
+                int pos1 = e.Data.IndexOf("=");
+                int pos2 = e.Data.IndexOf("posX");
+                string name =  e.Data.Substring(pos1 + 2, pos2 - pos1 - 4);
+                int pos3 = e.Data.IndexOf("posX =");
+                int pos4 = e.Data.IndexOf("posY =");
+                float posX = float.Parse(e.Data.Substring(pos3 + 7, pos4 - pos3 - 9), CultureInfo.InvariantCulture.NumberFormat);
+                float posY = float.Parse(e.Data.Substring(pos4 + 7), CultureInfo.InvariantCulture.NumberFormat);
+                PersistentManagerScript.Instance.circleToMove = name;
+                PersistentManagerScript.Instance.circleToMovePosX = posX;
+                PersistentManagerScript.Instance.circleToMovePosY = posY;
             }
 
         };
@@ -188,6 +198,30 @@ public class WsClient : MonoBehaviour
             {
 
                 ws.Send("Delete Bubble. bubbleName =" + name);
+                ws.OnMessage += (sender, e) =>
+                {
+                    Debug.Log(e.Data);
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+    }
+
+    public void MoveCircle(string name, float posX, float posY){
+        try
+        {
+            if (ws == null)
+            {
+                Debug.Log("Null");
+                return;
+            }
+            else
+            {
+
+                ws.Send("Move Circle. circleName =" + name + ", posX= " + posX + ", poxY= " + posY);
                 ws.OnMessage += (sender, e) =>
                 {
                     Debug.Log(e.Data);

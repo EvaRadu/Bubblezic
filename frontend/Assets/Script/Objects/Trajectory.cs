@@ -57,6 +57,12 @@ public class Trajectory : MonoBehaviour
         _srenderer.material.color = _color;
     }
 
+    public void setScale(float scale){
+        transform.localScale = new Vector2(scale, scale);
+    }
+
+    
+
 
         // Start is called before the first frame update
         void Start()
