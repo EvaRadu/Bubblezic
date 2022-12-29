@@ -21,7 +21,7 @@ using UnityEngine;
         {
             _circleGenerator = GetComponent<StrokeCircleGenerator>();
             _lineRenderer = GetComponent<LineRenderer>();
-            SetCircleRadius(_radius + _duration * _speed);
+            SetCircleRadius(_radius * 2);
         }
 
         private void SetCircleRadius(float radius)
@@ -29,11 +29,16 @@ using UnityEngine;
             DrawCircle(radius);
         }
 
-        private void Update()
+        /*private void Update()
         {
             // lerp(a, b, t) <=> (b - a) * t + a
             SetCircleRadius(Mathf.Lerp(_radius + _duration * _speed, _radius, t * _speed));
             t += Time.deltaTime;
+        }*/
+
+        private void Update(){
+            SetCircleRadius(_radius + _duration * _speed);
+            _duration -= Time.deltaTime;
         }
 
         private void DrawCircle(float radius)

@@ -1,3 +1,4 @@
+/*
 module.exports = listBalles = [
 
     // TOUCHER PROLONGER
@@ -254,5 +255,74 @@ module.exports = listBalles = [
             side: 0,
             texture: ""
         },
+
+];*/
+
+
+module.exports = listBalles = [
+
+        // BULLE SIMPLE
+        { 
+            id:0,
+            typeName : "bubble",
+            posX: -2,
+            posY: -2,
+            couleur: 'blue',
+            rayon: 3,
+            temps: 0,
+            type: 0,
+            duration: 3,
+            rotation: 90,
+            side: 0,
+            texture: ""
+        },
+
+    // BULLE SIMPLE nÂ°2
+           { 
+            id:1,
+            typeName : "bubble",
+            posX: 2,
+            posY: 2,
+            couleur: 'magenta',
+            rayon: 3,
+            temps: 3,
+            type: 0,
+            duration: 3,
+            rotation: 90,
+            side: 0,
+            texture: ""
+        },
+    
+    // BULLE SIMPLE
+    { 
+            id:2,
+            typeName : "bubble",
+            posX: -2,
+            posY: -2,
+            couleur: 'yellow',
+            rayon: 3,
+            temps: 6,
+            type: 0,
+            duration: 3,
+            rotation: 90,
+            side: 0,
+            texture: ""
+        },
+
+    // BULLE SIMPLE nÂ°2
+           { 
+            id:3,
+            typeName : "bubble",
+            posX: 2,
+            posY: 2,
+            couleur: 'red',
+            rayon: 3,
+            temps: 9,
+            type: 0,
+            duration: 3,
+            rotation: 90,
+            side: 0,
+            texture: ""
+        }
 
 ];

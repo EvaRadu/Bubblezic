@@ -22,6 +22,7 @@ public class Bubble : MonoBehaviour
     private Vector3 _dragOffset;
     private Camera _cam; 
     
+    private string colorName;
     float duration; // duration of the apparition of the circle
     int type; // type of the circle
 
@@ -62,6 +63,10 @@ public class Bubble : MonoBehaviour
 
     public string getBubbleName(){
         return gameObject.name;
+    }
+
+    public Color getColor(){
+        return color;
     }
 
     private void Start() 
@@ -220,7 +225,6 @@ public class Bubble : MonoBehaviour
     {
         this.color = color;
         _srenderer.material.color = color;
-
     }
 
     public void setDuration(float dur)

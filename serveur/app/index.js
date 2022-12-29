@@ -36,11 +36,11 @@ wss.on('connection', (ws) => {
         /* --- MESSAGE = 'Ready ' --- */
         /* -------------------------- */
         if(messageAsString.toString() == 'Ready'){
-            nbClients++;
+            /*nbClients++;
             while(nbClients < 2 && nbClients >= 0){
                 console.log("waiting for second client");
                 await wait(1000);
-            }
+            }*/
             console.log("Both clients are ready, sending balls");
             listBalles.forEach(ball => {
                 ws.send(JSON.stringify(ball));
@@ -133,7 +133,7 @@ wss.on('connection', (ws) => {
             msg = msg.toString().substring(pos1 + 1);
             let posY = parseFloat(msg.replace(",", "."));
 
-            console.log("name = " + bubbleToMove + "posX = " + posX + " posY = " + posY);
+            //console.log("name = " + bubbleToMove + "posX = " + posX + " posY = " + posY);
 
             let newPos = calculePos(posX, posY);
             for(let [key, value] of clients){
