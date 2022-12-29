@@ -6,27 +6,47 @@ module.exports = function calculePoints(time, id) {
     listBalles.forEach(ball => {
         if (ball.id == id) {
             ballTime = ball.temps;
+            ballDuration = ball.duration;
         }
     });
 
-    console.log("time = " +time);
+    let timeBubble = ballTime + ballDuration;
+    
+    //console.log("time = " +time);
+    //console.log("timeBubble = " +timeBubble);
 
-    /*
-    if (time >= ballTime - 1 && time <= ballTime + 1) {
-        return 5;
-    } else if (time >= ballTime - 0.4 && time <= ballTime + 0.4) {
-        return 6;
-    } else if (time >= ballTime - 0.3 && time <= ballTime + 0.3) {
-        return 7;
-    } else if (time >= ballTime - 0.2 && time <= ballTime + 0.2) {
-        return 8;
-    } else if (time >= ballTime - 0.1 && time <= ballTime + 0.1) {
-        return 9;
-    } else if (time >= ballTime - 0.05 && time <= ballTime + 0.05) {
+    if(Math.abs(time-timeBubble) <= 0.05 ){
         return 10;
-    } else {
+    }
+    else if(Math.abs(time-timeBubble) <= 0.1 ){
+        return 9;
+    }
+    else if(Math.abs(time-timeBubble) <= 0.2 ){
+        return 8;
+    }
+    else if(Math.abs(time-timeBubble) <= 0.3 ){
+        return 7;
+    }
+    else if(Math.abs(time-timeBubble) <= 0.4 ){
+        return 6;
+    }
+    else if(Math.abs(time-timeBubble) <= 1 ){
+        return 5;
+    }
+    else if(Math.abs(time-timeBubble) <= 1.5 ){
+        return 4;
+    }
+    else if(Math.abs(time-timeBubble) <= 2 ){
+        return 3;
+    }
+    else if(Math.abs(time-timeBubble) <= 2.5 ){
+        return 2;
+    }
+    else if(Math.abs(time-timeBubble) <= 3 ){
+        return 1;
+    }
+    else{
         return 0;
-    }*/
+    }
 
-    return 5;
 }
