@@ -22,12 +22,14 @@ public class Score : MonoBehaviour
 
     void Start()    
     {
-        gameObject.GetComponent<Text>().text = "Score = " + score;
+        gameObject.GetComponent<Text>().text = score + " pts";
+        GameObject.Find("Slider").GetComponent<Slider>().value = score;
     }
 
     void Update()
     {
         //Debug.Log("Update score");
-        gameObject.GetComponent<Text>().text = "Score = " + score;
+        gameObject.GetComponent<Text>().text = score + " pts";
+        GameObject.Find("Slider").GetComponent<Slider>().value = score;
     }
 }

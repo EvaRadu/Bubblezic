@@ -2,6 +2,7 @@ const listBalles = require('../objects/balls');
 
 module.exports = function calculePoints(time, id) {
     let ballTime = 0;
+    let delay = 1.2;
 
     listBalles.forEach(ball => {
         if (ball.id == id) {
@@ -48,5 +49,6 @@ module.exports = function calculePoints(time, id) {
     else{
         return 0;
     }
+
 
 }
