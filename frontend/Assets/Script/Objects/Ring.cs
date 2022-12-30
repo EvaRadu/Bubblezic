@@ -29,12 +29,6 @@ using UnityEngine;
             DrawCircle(radius);
         }
 
-        /*private void Update()
-        {
-            // lerp(a, b, t) <=> (b - a) * t + a
-            SetCircleRadius(Mathf.Lerp(_radius + _duration * _speed, _radius, t * _speed));
-            t += Time.deltaTime;
-        }*/
 
         private void Update(){
             SetCircleRadius(_radius + _duration * _speed);
