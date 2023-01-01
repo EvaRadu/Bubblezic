@@ -91,10 +91,14 @@ wss.on('connection', (ws) => {
         /* ------------------------- */
         /* --- MESSAGE = 'Malus' --- */
         /* ------------------------- */
-        else if (messageAsString.toString().includes('malus')) {
+        else if (messageAsString.toString().includes('Send Malus.')) {
             // get the second client
             // send malus data to the second client
-            ws.send('malus');
+            for(let [key, value] of clients){
+                if(value.id != metadata.id){
+                    key.send('Malus sent by opponent.');
+                }
+            }
         }
 
 

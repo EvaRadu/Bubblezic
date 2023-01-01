@@ -100,6 +100,11 @@ public class WsClient : MonoBehaviour
                 PersistentManagerScript.Instance.circleToMovePosY = posY;
             }
 
+            else if(e.Data.Contains("Malus Sent."))
+            {
+
+            }
+
         };
 
         ws.Connect();
@@ -126,7 +131,7 @@ public class WsClient : MonoBehaviour
         {
             if (ws == null)
             {
-                Debug.Log("getBalls returned null");
+                Debug.Log("getObjects returned null");
                 return;
             }
             else
@@ -222,6 +227,31 @@ public class WsClient : MonoBehaviour
             {
 
                 ws.Send("Move Circle. circleName =" + name + ", posX= " + posX + ", poxY= " + posY);
+                ws.OnMessage += (sender, e) =>
+                {
+                    Debug.Log(e.Data);
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+    }
+
+    public void MalusSent(string name, float posX, float posY)
+    {
+        try
+        {
+            if (ws == null)
+            {
+                Debug.Log("Null");
+                return;
+            }
+            else
+            {
+
+                ws.Send("Malus Sent. circleName =" + name + ", posX= " + posX + ", poxY= " + posY);
                 ws.OnMessage += (sender, e) =>
                 {
                     Debug.Log(e.Data);

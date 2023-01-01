@@ -22,6 +22,7 @@ public class Bubble : MonoBehaviour
     private string colorName;
     float duration; // duration of the apparition of the circle
     int type; // type of the circle
+    private Rigidbody2D _rb;
     // --------------------------------
 
 
@@ -91,6 +92,8 @@ public class Bubble : MonoBehaviour
     // --------------- FUNCTIONS ----------------
     private void Start() 
     {
+        _rb = this.GetComponent<Rigidbody2D>();
+
         if (type == 1 || type == 9) //si la bulle est de type toucher prolongé
         {
             GameObject traj = GameObject.Find("Trajectory " + _idTrajectory + "");
@@ -104,11 +107,21 @@ public class Bubble : MonoBehaviour
         }
         else { gameObject.GetComponent<CircleCollider2D>().isTrigger = false; }
 
+        if (type == 4)
+        {
+            _rb.bodyType = RigidbodyType2D.Dynamic; 
+        }
         if(!_isOpponentCircle){
         CreateRing();
         }
     }
 
+    private void AddForce()
+    {
+        _rb.velocity = new Vector2(0,0);
+        _rb.mass=100;
+        _rb.AddForce(Vector2.up * 500f +250f * _rb.velocity.normalized, ForceMode2D.Impulse);
+    }
 
 
     void OnTriggerEnter2D(Collider2D other)
@@ -326,6 +339,22 @@ public class Bubble : MonoBehaviour
                     {
                     }
                 }
+                else if (type == 4) { swipe(); }
+
+                /*else if (type == 4)
+                {
+                    Touch touch = Input.GetTouch(i);
+                    Vector3 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+                    RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(touchPos.x, touchPos.y), Vector2.zero);
+                    if (hitinfo.collider != null)
+                    {
+                        if ((touchPos.x < x3 || touchPos.x > x4) && (touchPos.y < y3 || touchPos.y > y4)) // Si on est pas dans l'écran adverse
+                        {
+                            AddForce();
+                            //Destroy(hitinfo.collider.gameObject);
+                        }
+                    }
+                }*/
             }
 
 
@@ -333,6 +362,31 @@ public class Bubble : MonoBehaviour
         }
     }
 
+
+
+    Vector2 startPos, endPos, direction;
+    float touchTimeStart, touchTimeFinish, timeInterval;
+
+    [Range(0.05f, 1f)]
+    public float throwForce = 0.3f;
+
+    private void swipe()
+    {
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            touchTimeStart = Time.time;
+            startPos = Input.GetTouch(0).position;
+        }
+
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        {
+            touchTimeFinish = Time.time;
+            timeInterval = touchTimeFinish - touchTimeStart;
+            endPos = Input.GetTouch(0).position;
+            direction = startPos - endPos;
+            GetComponent<Rigidbody2D>().AddForce(-direction / timeInterval * throwForce);
+        }
+    }
 
     public void Update(){
         duration -= Time.deltaTime;
@@ -349,7 +403,38 @@ public class Bubble : MonoBehaviour
         else { gameObject.SetActive(true);}
 
 
+        //check if malus is out of screen 
+        if ((type == 4) || Input.GetMouseButtonDown(0))
+        {
+            Vector3 viewPos = _cam.WorldToViewportPoint(transform.position);
+            if (viewPos.x >= 0 && viewPos.x <= 1 && viewPos.y >= 0 && viewPos.y <= 1 && viewPos.z > 0)
+            {
+                // Your object is in the range of the camera, you can apply your behaviour
+            }
+            else
+            {
+                WsClient.Instance.MalusSent(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y);
+            }
+
+        }
+
         /*
+        //if (type==4) { Debug.Log("addForce"); AddForce(); }
+        if ((Input.GetMouseButtonDown(0)) && type == 4)
+        {
+            Debug.Log("addForce");
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(mousePos.x, mousePos.y), Vector2.zero);
+            if (hitinfo.collider != null)
+            {
+                if ((mousePos.x < x3 || mousePos.x > x4) && (mousePos.y < y3 || mousePos.y > y4)) // Si on est pas dans l'écran adverse
+                {
+                    AddForce();
+                    //Destroy(hitinfo.collider.gameObject);
+                }
+            }
+        }
+        
         if ((Input.GetMouseButtonDown(0)) && (type == 0)){
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(mousePos.x,mousePos.y), Vector2.zero);       
