@@ -15,7 +15,7 @@ module.exports = listBalles = [
         duration: 4,
         rotation: 90,
         side: 0,
-        texture: ""
+        texture: "bubble2"
     },
     { 
         id:2,
@@ -59,13 +59,13 @@ module.exports = listBalles = [
             posYOpponent : 0,
             impulsion: 0.5,
 
-            couleur: 'yellow',
+            couleur: 'white',
             rayon: 3,
             temps: 5,
             duration: 3,
             rotation: 90,
             side: 0,
-            texture: ""
+            texture: "flocon"
         },
     // BULLE SIMPLE nÂ°2
            { 
@@ -80,7 +80,7 @@ module.exports = listBalles = [
             duration: 3,
             rotation: 90,
             side: 0,
-            texture: ""
+            texture: "bubble2"
         },
     
     // PUZZLE

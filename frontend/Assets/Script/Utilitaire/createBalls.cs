@@ -104,7 +104,7 @@ public class createBalls : MonoBehaviour
                         spawnedCircle.setType(ball.type);
                         spawnedCircle.SetRadius(ball.rayon);
                         
-                        if (ball.type == 6 || ball.type == 9)
+                        if (ball.type == 6 || ball.type == 9 || ball.type == 4)
                         {
                             spawnedCircle.setTexture(ball.texture);
                         }
@@ -137,7 +137,7 @@ public class createBalls : MonoBehaviour
                         opponentSpawnedCircle.SetRadius(0.5f);
                         opponentSpawnedCircle.SetIsOpponentCircle(true);
                         
-                        if (ball.type == 6 || ball.type == 9)
+                        if (ball.type == 6 || ball.type == 9 || ball.type == 4)
                         {
                             opponentSpawnedCircle.setTexture(ball.texture);
                         }

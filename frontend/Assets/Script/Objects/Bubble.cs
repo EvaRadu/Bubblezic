@@ -91,7 +91,6 @@ public class Bubble : MonoBehaviour
     // --------------- FUNCTIONS ----------------
     private void Start() 
     {
-        
         if (type == 1 || type == 9) //si la bulle est de type toucher prolongé
         {
             GameObject traj = GameObject.Find("Trajectory " + _idTrajectory + "");
