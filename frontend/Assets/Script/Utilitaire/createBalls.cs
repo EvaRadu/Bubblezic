@@ -108,6 +108,14 @@ public class createBalls : MonoBehaviour
                         {
                             spawnedCircle.setTexture(ball.texture);
                         }
+
+                        //MALUS
+                        if (ball.type == 4)
+                        {
+                            spawnedCircle.setImpulsion(ball.impulsion);
+                            spawnedCircle.setPosOpponent(ball.posXOpponent, ball.posYOpponent);
+                        }
+
                         bubbles.Add(spawnedCircle);
                         ball.created = true;
                         spawnedCircle.setBubble(ball);
@@ -133,6 +141,14 @@ public class createBalls : MonoBehaviour
                         {
                             opponentSpawnedCircle.setTexture(ball.texture);
                         }
+
+                        //MALUS
+                        if (ball.type == 4)
+                        {
+                            opponentSpawnedCircle.setImpulsion(ball.impulsion);
+                            opponentSpawnedCircle.setPosOpponent(ball.posXOpponent, ball.posYOpponent);
+                        }
+
                         opponentBubbles.Add(opponentSpawnedCircle);
                         opponentSpawnedCircle.setBubble(ball);
 
@@ -141,7 +157,7 @@ public class createBalls : MonoBehaviour
                 }
             }
 
-            if (obj.GetType() == typeof(Trajectoire))
+                if (obj.GetType() == typeof(Trajectoire))
             {
                 Trajectoire traj = (Trajectoire) obj;
                 if (time >= traj.temps - 0.2 && time <= traj.temps + 0.2 && traj.created == false)

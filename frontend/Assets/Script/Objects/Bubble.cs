@@ -39,9 +39,9 @@ public class Bubble : MonoBehaviour
 
 
     //  --- CHAMPS POUR LE MALUS --- 
-    private float posXOpponent = 0f;
-    private float posYOpponent = 0f;
-    private float impulsion = 0f;
+    private float _posXOpponent = 0f;
+    private float _posYOpponent = 0f;
+    private float _impulsion = 0f;
     // --------------------------------
 
 
@@ -59,6 +59,7 @@ public class Bubble : MonoBehaviour
     float y4 = -3.27f;
     // ------------------------------------------
 
+
     // ---------------- SETTERS -----------------
     public void SetRadius(float radius) => _radius = radius;
     public void SetDraggable(bool drag) => _draggable = drag;
@@ -75,13 +76,19 @@ public class Bubble : MonoBehaviour
         this.color = (Color)typeof(Color).GetProperty(color.ToLowerInvariant()).GetValue(null, null);
         _srenderer.material.color = this.color;
     }
+
+    public void setImpulsion(float impulsion) => _impulsion = impulsion;
+    public void setPosOpponent(float X, float Y) { _posXOpponent = X; _posYOpponent = Y; }
     // ------------------------------------------
+
 
     // ---------------- GETTERS -----------------
     public string getBubbleName() {return gameObject.name;}
     public Color getColor() {return color;}
     // ------------------------------------------
 
+
+    // --------------- FUNCTIONS ----------------
     private void Start() 
     {
         

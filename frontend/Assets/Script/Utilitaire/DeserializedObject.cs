@@ -40,16 +40,14 @@ namespace Assets.Script
         public int side;
         public string texture;
 
-    }
-
-    [System.Serializable]
-    public class Malus : Bulle
-    {
+        //malus
         public float impulsion;
         public float posXOpponent;
         public float posYOpponent;
 
     }
+
+  
 
     public class DesarializedObject
     {
