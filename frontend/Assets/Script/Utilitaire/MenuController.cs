@@ -7,7 +7,7 @@ public class MenuController : MonoBehaviour {
 
     public void getReady()
     {
-        WsClient.Instance.getBalls();
+        WsClient.Instance.getObjects();
     }
 
 

@@ -7,5 +7,6 @@ const Type = require('./type.model.js');
 module.exports = {
     Balle,
     Type, 
-    Trajectory
+    Trajectory,
+    Malus
 }

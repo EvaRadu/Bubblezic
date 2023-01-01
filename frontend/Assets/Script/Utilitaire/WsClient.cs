@@ -120,7 +120,7 @@ public class WsClient : MonoBehaviour
         }
     }
 
-    public void getBalls()
+    public void getObjects()
     {
         try
         {
@@ -141,6 +141,9 @@ public class WsClient : MonoBehaviour
                     {
                         case "bubble":
                             ObjectsList.Add((Bulle)objet);
+                            break;
+                        case "malus":
+                            ObjectsList.Add((Malus)objet);
                             break;
                         default:
                             ObjectsList.Add((Trajectoire)objet);

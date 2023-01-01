@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class Bubble : MonoBehaviour
 {
+    //  --- CHAMPS COMMUNS --- 
     private Bulle thisBubble; 
     [SerializeField] private Color color;
     [SerializeField] private SpriteRenderer _srenderer;
@@ -15,21 +16,18 @@ public class Bubble : MonoBehaviour
     [SerializeField] public int _id;
     [SerializeField] public int _idTrajectory;
     private bool _draggable = true;
-
     private bool _isOpponentCircle = false;
-
-
     private Vector3 _dragOffset;
     private Camera _cam; 
-    
     private string colorName;
     float duration; // duration of the apparition of the circle
     int type; // type of the circle
+    // --------------------------------
 
 
-
-    //Si la bulle est de type toucher prolonge 
+    //  --- CHAMPS POUR LE TOUCHER PROLONGE --- 
     [SerializeField] private Trajectory _trajectory;
+    // --------------------------------
 
 
     //  --- CHAMPS POUR LE PUZZLE --- 
@@ -37,6 +35,13 @@ public class Bubble : MonoBehaviour
     private int rightSide = 0;     // Variable pour savoir si on a la pièce de puzzle de droite
     private GameObject leftPiece;  // Variable pour stocker la pièce de puzzle de gauche
     private GameObject rightPiece; // Variable pour stocker la pièce de puzzle de droite
+    // --------------------------------
+
+
+    //  --- CHAMPS POUR LE MALUS --- 
+    private float posXOpponent = 0f;
+    private float posYOpponent = 0f;
+    private float impulsion = 0f;
     // --------------------------------
 
 
@@ -54,27 +59,32 @@ public class Bubble : MonoBehaviour
     float y4 = -3.27f;
     // ------------------------------------------
 
+    // ---------------- SETTERS -----------------
     public void SetRadius(float radius) => _radius = radius;
     public void SetDraggable(bool drag) => _draggable = drag;
-
     public void SetId(int id) => _id = id;
     public void SetIdTrajectory(int id) => _idTrajectory = id;
     public void SetIsOpponentCircle(bool b) => _isOpponentCircle = b;
-
-    public string getBubbleName(){
-        return gameObject.name;
+    public void setType(int type) { this.type = type; }
+    public void setBubble(Bulle b) { this.thisBubble = b; }
+    public void setColor(Color color) { this.color = color; _srenderer.material.color = color;}
+    public void setDuration(float dur) { this.duration = dur; }
+    public void setTexture(string texture) { Sprite sp = Resources.Load<Sprite>(texture); _srenderer.sprite = sp;}
+    public void setColor(string color) 
+    {
+        this.color = (Color)typeof(Color).GetProperty(color.ToLowerInvariant()).GetValue(null, null);
+        _srenderer.material.color = this.color;
     }
+    // ------------------------------------------
 
-    public Color getColor(){
-        return color;
-    }
+    // ---------------- GETTERS -----------------
+    public string getBubbleName() {return gameObject.name;}
+    public Color getColor() {return color;}
+    // ------------------------------------------
 
     private void Start() 
     {
         
-        
-
-
         if (type == 1 || type == 9) //si la bulle est de type toucher prolongé
         {
             GameObject traj = GameObject.Find("Trajectory " + _idTrajectory + "");
@@ -208,40 +218,6 @@ public class Bubble : MonoBehaviour
     private Vector3 GetMouseWorldPosition()
     {
         return _cam.ScreenToWorldPoint(Input.mousePosition);
-    }
-
-    public void setType(int type)
-    {
-        this.type = type;
-    }
-
-
-    public void setBubble(Bulle b)
-    {
-        this.thisBubble = b;
-    }
-
-    public void setColor(Color color)
-    {
-        this.color = color;
-        _srenderer.material.color = color;
-    }
-
-    public void setDuration(float dur)
-    {
-        this.duration = dur;
-    }
-
-    public void setTexture(string texture)
-    {
-        Sprite sp = Resources.Load<Sprite>(texture);
-        _srenderer.sprite = sp;
-    }
-
-    public void setColor(string color)
-    {
-        this.color = (Color)typeof(Color).GetProperty(color.ToLowerInvariant()).GetValue(null, null);
-        _srenderer.material.color = this.color;
     }
 
     /*

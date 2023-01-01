@@ -42,6 +42,14 @@ namespace Assets.Script
 
     }
 
+    [System.Serializable]
+    public class Malus : Bulle
+    {
+        public float impulsion;
+        public float posXOpponent;
+        public float posYOpponent;
+
+    }
 
     public class DesarializedObject
     {
