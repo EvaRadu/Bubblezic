@@ -23,7 +23,7 @@ module.exports = Joi.object().keys({
     posXOpponent : Joi.number(),
     posYOpponent : Joi.number(),
     impulsion: Joi.number(),
-    freeze: Joi.number(),
+    freezeDuration: Joi.number(),
 })
 
     

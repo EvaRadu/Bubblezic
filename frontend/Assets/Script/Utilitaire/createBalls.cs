@@ -114,6 +114,7 @@ public class createBalls : MonoBehaviour
                         {
                             spawnedCircle.setImpulsion(ball.impulsion);
                             spawnedCircle.setPosOpponent(ball.posXOpponent, ball.posYOpponent);
+                            spawnedCircle.setFreezeDuration(ball.freezeDuration);
                         }
 
                         bubbles.Add(spawnedCircle);

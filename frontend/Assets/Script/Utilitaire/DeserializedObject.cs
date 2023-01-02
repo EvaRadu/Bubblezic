@@ -44,6 +44,7 @@ namespace Assets.Script
         public float impulsion;
         public float posXOpponent;
         public float posYOpponent;
+        public int freezeDuration;
 
     }
 

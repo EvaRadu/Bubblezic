@@ -65,6 +65,7 @@ module.exports = listBalles = [
             duration: 3,
             rotation: 90,
             side: 0,
+            freezeDuration : 5,
             texture: "flocon"
         },
     // BULLE SIMPLE nÂ°2

@@ -100,9 +100,11 @@ public class WsClient : MonoBehaviour
                 PersistentManagerScript.Instance.circleToMovePosY = posY;
             }
 
-            else if(e.Data.Contains("Malus Sent."))
+            else if(e.Data.Contains("Malus Received."))
             {
-
+                int pos1 = e.Data.IndexOf("=");
+                PersistentManagerScript.Instance.freezeDuration = Int16.Parse(e.Data.Substring(pos1 + 2));
+                PersistentManagerScript.Instance.FREEZE = true;
             }
 
         };
@@ -239,7 +241,7 @@ public class WsClient : MonoBehaviour
         }
     }
 
-    public void MalusSent(string name, float posX, float posY)
+    public void MalusSent(string name, float posX, float posY, int duration)
     {
         try
         {
@@ -251,7 +253,7 @@ public class WsClient : MonoBehaviour
             else
             {
 
-                ws.Send("Malus Sent. circleName =" + name + ", posX= " + posX + ", poxY= " + posY);
+                ws.Send("Malus Sent. circleName =" + name + ", posX= " + posX + ", poxY= " + posY + ", duration= " + duration);
                 ws.OnMessage += (sender, e) =>
                 {
                     Debug.Log(e.Data);

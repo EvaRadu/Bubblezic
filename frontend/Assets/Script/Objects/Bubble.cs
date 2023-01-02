@@ -44,7 +44,8 @@ public class Bubble : MonoBehaviour
     private float _posYOpponent = 0f;
     private float _impulsion = 0f;
 
-    private bool frozen = false;
+    private bool _freeze = false;
+    private int _freezeDuration = 0;
     // --------------------------------
 
 
@@ -82,6 +83,9 @@ public class Bubble : MonoBehaviour
 
     public void setImpulsion(float impulsion) => _impulsion = impulsion;
     public void setPosOpponent(float X, float Y) { _posXOpponent = X; _posYOpponent = Y; }
+    public void setFreezeDuration(int freezeDuration) => _freezeDuration = freezeDuration;
+    public void setFreeze(bool freeze) => _freeze = freeze;
+
     // ------------------------------------------
 
 
@@ -95,7 +99,7 @@ public class Bubble : MonoBehaviour
 
     private void freeze(int time)
     {
-        this.frozen = true;
+        _freeze = true;
 
     }
     private void Start() 
@@ -412,16 +416,19 @@ public class Bubble : MonoBehaviour
 
 
         //check if malus is out of screen 
-        if ((type == 4) || Input.GetMouseButtonDown(0))
+        if ((type == 4) && (!_isOpponentCircle))
         {
-            Vector3 viewPos = _cam.WorldToViewportPoint(transform.position);
+            //WsClient.Instance.MalusSent(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y, _freezeDuration);
+
+            Vector3 viewPos = _cam.WorldToViewportPoint(gameObject.GetComponent<CircleCollider2D>().transform.position);
             if (viewPos.x >= 0 && viewPos.x <= 1 && viewPos.y >= 0 && viewPos.y <= 1 && viewPos.z > 0)
             {
                 // Your object is in the range of the camera, you can apply your behaviour
             }
             else
             {
-                WsClient.Instance.MalusSent(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y);
+                WsClient.Instance.MalusSent(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y, _freezeDuration);
+                WsClient.Instance.deleteBubble(gameObject.name);
             }
 
         }
@@ -452,7 +459,7 @@ public class Bubble : MonoBehaviour
                 Destroy(hitinfo.collider.gameObject); 
             }
         }*/
-        if (!frozen)
+        if (!_freeze)
         {
             multiTouch();
         }
