@@ -9,6 +9,7 @@ public class PersistentManagerScript : MonoBehaviour
     public string circleToMove = "";
     public float circleToMovePosX = 0;
     public float circleToMovePosY = 0;
+    public int freeze = 0;
 
     private void Awake()
     {

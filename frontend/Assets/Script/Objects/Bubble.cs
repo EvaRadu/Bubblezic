@@ -43,6 +43,8 @@ public class Bubble : MonoBehaviour
     private float _posXOpponent = 0f;
     private float _posYOpponent = 0f;
     private float _impulsion = 0f;
+
+    private bool frozen = false;
     // --------------------------------
 
 
@@ -90,6 +92,12 @@ public class Bubble : MonoBehaviour
 
 
     // --------------- FUNCTIONS ----------------
+
+    private void freeze(int time)
+    {
+        this.frozen = true;
+
+    }
     private void Start() 
     {
         _rb = this.GetComponent<Rigidbody2D>();
@@ -444,8 +452,10 @@ public class Bubble : MonoBehaviour
                 Destroy(hitinfo.collider.gameObject); 
             }
         }*/
-
-        multiTouch();
+        if (!frozen)
+        {
+            multiTouch();
+        }
     }
 
 }
