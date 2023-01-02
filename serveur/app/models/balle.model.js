@@ -18,6 +18,12 @@ module.exports = Joi.object().keys({
     rotation: Joi.number(),       // rotation de la balle --> pour les demi cercles
     side: Joi.number(),           // côté de la balle --> pour les demi cercles
     texture: Joi.string(),   
+
+    //POUR LES MALUS
+    posXOpponent : Joi.number(),
+    posYOpponent : Joi.number(),
+    impulsion: Joi.number(),
+    freezeDuration: Joi.number(),
 })
 
     

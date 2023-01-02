@@ -40,8 +40,15 @@ namespace Assets.Script
         public int side;
         public string texture;
 
+        //malus
+        public float impulsion;
+        public float posXOpponent;
+        public float posYOpponent;
+        public int freezeDuration;
+
     }
 
+  
 
     public class DesarializedObject
     {

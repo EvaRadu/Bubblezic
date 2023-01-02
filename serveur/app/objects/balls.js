@@ -1,7 +1,7 @@
 module.exports = listBalles = [
 
-    // TOUCHER PROLONGER
-    
+
+     // TOUCHER PROLONGER
    { 
         id:0,
         typeName : "bubble",
@@ -15,7 +15,7 @@ module.exports = listBalles = [
         duration: 4,
         rotation: 90,
         side: 0,
-        texture: ""
+        texture: "bubble2"
     },
     { 
         id:2,
@@ -45,23 +45,29 @@ module.exports = listBalles = [
         width : 5,
         height : 3,
     },
-    
-    // BULLE SIMPLE
+
+      
+    // MALUS
     { 
             id:3,
             typeName : "bubble",
+            type: 4,
+
             posX: -2,
             posY: -2,
-            couleur: 'yellow',
+            posXOpponent : 0,
+            posYOpponent : 0,
+            impulsion: 0.5,
+
+            couleur: 'white',
             rayon: 3,
             temps: 5,
-            type: 0,
             duration: 3,
             rotation: 90,
             side: 0,
-            texture: ""
+            freezeDuration : 5,
+            texture: "flocon"
         },
-
     // BULLE SIMPLE nÂ°2
            { 
             id:4,
@@ -75,7 +81,7 @@ module.exports = listBalles = [
             duration: 3,
             rotation: 90,
             side: 0,
-            texture: ""
+            texture: "bubble2"
         },
     
     // PUZZLE

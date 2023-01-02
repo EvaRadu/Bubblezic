@@ -104,10 +104,19 @@ public class createBalls : MonoBehaviour
                         spawnedCircle.setType(ball.type);
                         spawnedCircle.SetRadius(ball.rayon);
                         
-                        if (ball.type == 6 || ball.type == 9)
+                        if (ball.type == 6 || ball.type == 9 || ball.type == 4)
                         {
                             spawnedCircle.setTexture(ball.texture);
                         }
+
+                        //MALUS
+                        if (ball.type == 4)
+                        {
+                            spawnedCircle.setImpulsion(ball.impulsion);
+                            spawnedCircle.setPosOpponent(ball.posXOpponent, ball.posYOpponent);
+                            spawnedCircle.setFreezeDuration(ball.freezeDuration);
+                        }
+
                         bubbles.Add(spawnedCircle);
                         ball.created = true;
                         spawnedCircle.setBubble(ball);
@@ -129,10 +138,18 @@ public class createBalls : MonoBehaviour
                         opponentSpawnedCircle.SetRadius(0.5f);
                         opponentSpawnedCircle.SetIsOpponentCircle(true);
                         
-                        if (ball.type == 6 || ball.type == 9)
+                        if (ball.type == 6 || ball.type == 9 || ball.type == 4)
                         {
                             opponentSpawnedCircle.setTexture(ball.texture);
                         }
+
+                        //MALUS
+                        if (ball.type == 4)
+                        {
+                            opponentSpawnedCircle.setImpulsion(ball.impulsion);
+                            opponentSpawnedCircle.setPosOpponent(ball.posXOpponent, ball.posYOpponent);
+                        }
+
                         opponentBubbles.Add(opponentSpawnedCircle);
                         opponentSpawnedCircle.setBubble(ball);
 
@@ -141,7 +158,7 @@ public class createBalls : MonoBehaviour
                 }
             }
 
-            if (obj.GetType() == typeof(Trajectoire))
+                if (obj.GetType() == typeof(Trajectoire))
             {
                 Trajectoire traj = (Trajectoire) obj;
                 if (time >= traj.temps - 0.2 && time <= traj.temps + 0.2 && traj.created == false)

@@ -107,6 +107,7 @@ MonoBehaviour:
   _id: 0
   _idTrajectory: 0
   _trajectory: {fileID: 7426378504148958592, guid: da8929ddf8db01b4dbbe050d992f5f63, type: 3}
+  ice: {fileID: 2800000, guid: 5287ffe1634354f45838816c3de8ebef, type: 3}
 --- !u!58 &6730444996217557226
 CircleCollider2D:
   m_ObjectHideFlags: 0

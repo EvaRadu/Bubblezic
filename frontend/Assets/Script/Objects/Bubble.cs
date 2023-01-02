@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class Bubble : MonoBehaviour
 {
+    //  --- CHAMPS COMMUNS --- 
     private Bulle thisBubble; 
     [SerializeField] private Color color;
     [SerializeField] private SpriteRenderer _srenderer;
@@ -15,21 +16,19 @@ public class Bubble : MonoBehaviour
     [SerializeField] public int _id;
     [SerializeField] public int _idTrajectory;
     private bool _draggable = true;
-
     private bool _isOpponentCircle = false;
-
-
     private Vector3 _dragOffset;
     private Camera _cam; 
-    
     private string colorName;
     float duration; // duration of the apparition of the circle
     int type; // type of the circle
+    private Rigidbody2D _rb;
+    // --------------------------------
 
 
-
-    //Si la bulle est de type toucher prolonge 
+    //  --- CHAMPS POUR LE TOUCHER PROLONGE --- 
     [SerializeField] private Trajectory _trajectory;
+    // --------------------------------
 
 
     //  --- CHAMPS POUR LE PUZZLE --- 
@@ -37,6 +36,16 @@ public class Bubble : MonoBehaviour
     private int rightSide = 0;     // Variable pour savoir si on a la pièce de puzzle de droite
     private GameObject leftPiece;  // Variable pour stocker la pièce de puzzle de gauche
     private GameObject rightPiece; // Variable pour stocker la pièce de puzzle de droite
+    // --------------------------------
+
+
+    //  --- CHAMPS POUR LE MALUS --- 
+    private float _posXOpponent = 0f;
+    private float _posYOpponent = 0f;
+    private float _impulsion = 0f;
+
+    private bool _freeze = false;
+    private int _freezeDuration = 0;
     // --------------------------------
 
 
@@ -54,26 +63,48 @@ public class Bubble : MonoBehaviour
     float y4 = -3.27f;
     // ------------------------------------------
 
+
+    // ---------------- SETTERS -----------------
     public void SetRadius(float radius) => _radius = radius;
     public void SetDraggable(bool drag) => _draggable = drag;
-
     public void SetId(int id) => _id = id;
     public void SetIdTrajectory(int id) => _idTrajectory = id;
     public void SetIsOpponentCircle(bool b) => _isOpponentCircle = b;
-
-    public string getBubbleName(){
-        return gameObject.name;
+    public void setType(int type) { this.type = type; }
+    public void setBubble(Bulle b) { this.thisBubble = b; }
+    public void setColor(Color color) { this.color = color; _srenderer.material.color = color;}
+    public void setDuration(float dur) { this.duration = dur; }
+    public void setTexture(string texture) { Sprite sp = Resources.Load<Sprite>(texture); _srenderer.sprite = sp;}
+    public void setColor(string color) 
+    {
+        this.color = (Color)typeof(Color).GetProperty(color.ToLowerInvariant()).GetValue(null, null);
+        _srenderer.material.color = this.color;
     }
 
-    public Color getColor(){
-        return color;
-    }
+    public void setImpulsion(float impulsion) => _impulsion = impulsion;
+    public void setPosOpponent(float X, float Y) { _posXOpponent = X; _posYOpponent = Y; }
+    public void setFreezeDuration(int freezeDuration) => _freezeDuration = freezeDuration;
+    public void setFreeze(bool freeze) => _freeze = freeze;
 
+    // ------------------------------------------
+
+
+    // ---------------- GETTERS -----------------
+    public string getBubbleName() {return gameObject.name;}
+    public Color getColor() {return color;}
+    // ------------------------------------------
+
+
+    // --------------- FUNCTIONS ----------------
+
+    private void freeze(int time)
+    {
+        _freeze = true;
+
+    }
     private void Start() 
     {
-        
-        
-
+        _rb = this.GetComponent<Rigidbody2D>();
 
         if (type == 1 || type == 9) //si la bulle est de type toucher prolongé
         {
@@ -88,11 +119,21 @@ public class Bubble : MonoBehaviour
         }
         else { gameObject.GetComponent<CircleCollider2D>().isTrigger = false; }
 
+        if (type == 4)
+        {
+            _rb.bodyType = RigidbodyType2D.Dynamic; 
+        }
         if(!_isOpponentCircle){
         CreateRing();
         }
     }
 
+    private void AddForce()
+    {
+        _rb.velocity = new Vector2(0,0);
+        _rb.mass=100;
+        _rb.AddForce(Vector2.up * 500f +250f * _rb.velocity.normalized, ForceMode2D.Impulse);
+    }
 
 
     void OnTriggerEnter2D(Collider2D other)
@@ -210,40 +251,6 @@ public class Bubble : MonoBehaviour
         return _cam.ScreenToWorldPoint(Input.mousePosition);
     }
 
-    public void setType(int type)
-    {
-        this.type = type;
-    }
-
-
-    public void setBubble(Bulle b)
-    {
-        this.thisBubble = b;
-    }
-
-    public void setColor(Color color)
-    {
-        this.color = color;
-        _srenderer.material.color = color;
-    }
-
-    public void setDuration(float dur)
-    {
-        this.duration = dur;
-    }
-
-    public void setTexture(string texture)
-    {
-        Sprite sp = Resources.Load<Sprite>(texture);
-        _srenderer.sprite = sp;
-    }
-
-    public void setColor(string color)
-    {
-        this.color = (Color)typeof(Color).GetProperty(color.ToLowerInvariant()).GetValue(null, null);
-        _srenderer.material.color = this.color;
-    }
-
     /*
     private void OnMouseDown()
     {
@@ -344,6 +351,22 @@ public class Bubble : MonoBehaviour
                     {
                     }
                 }
+                else if (type == 4) { swipe(); }
+
+                /*else if (type == 4)
+                {
+                    Touch touch = Input.GetTouch(i);
+                    Vector3 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+                    RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(touchPos.x, touchPos.y), Vector2.zero);
+                    if (hitinfo.collider != null)
+                    {
+                        if ((touchPos.x < x3 || touchPos.x > x4) && (touchPos.y < y3 || touchPos.y > y4)) // Si on est pas dans l'écran adverse
+                        {
+                            AddForce();
+                            //Destroy(hitinfo.collider.gameObject);
+                        }
+                    }
+                }*/
             }
 
 
@@ -351,6 +374,31 @@ public class Bubble : MonoBehaviour
         }
     }
 
+
+
+    Vector2 startPos, endPos, direction;
+    float touchTimeStart, touchTimeFinish, timeInterval;
+
+    [Range(0.05f, 1f)]
+    public float throwForce = 0.3f;
+
+    private void swipe()
+    {
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            touchTimeStart = Time.time;
+            startPos = Input.GetTouch(0).position;
+        }
+
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        {
+            touchTimeFinish = Time.time;
+            timeInterval = touchTimeFinish - touchTimeStart;
+            endPos = Input.GetTouch(0).position;
+            direction = startPos - endPos;
+            GetComponent<Rigidbody2D>().AddForce(-direction / timeInterval * throwForce);
+        }
+    }
 
     public void Update(){
         duration -= Time.deltaTime;
@@ -367,7 +415,41 @@ public class Bubble : MonoBehaviour
         else { gameObject.SetActive(true);}
 
 
+        //check if malus is out of screen 
+        if ((type == 4) && (!_isOpponentCircle))
+        {
+            //WsClient.Instance.MalusSent(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y, _freezeDuration);
+
+            Vector3 viewPos = _cam.WorldToViewportPoint(gameObject.GetComponent<CircleCollider2D>().transform.position);
+            if (viewPos.x >= 0 && viewPos.x <= 1 && viewPos.y >= 0 && viewPos.y <= 1 && viewPos.z > 0)
+            {
+                // Your object is in the range of the camera, you can apply your behaviour
+            }
+            else
+            {
+                WsClient.Instance.MalusSent(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y, _freezeDuration);
+                WsClient.Instance.deleteBubble(gameObject.name);
+            }
+
+        }
+
         /*
+        //if (type==4) { Debug.Log("addForce"); AddForce(); }
+        if ((Input.GetMouseButtonDown(0)) && type == 4)
+        {
+            Debug.Log("addForce");
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(mousePos.x, mousePos.y), Vector2.zero);
+            if (hitinfo.collider != null)
+            {
+                if ((mousePos.x < x3 || mousePos.x > x4) && (mousePos.y < y3 || mousePos.y > y4)) // Si on est pas dans l'écran adverse
+                {
+                    AddForce();
+                    //Destroy(hitinfo.collider.gameObject);
+                }
+            }
+        }
+        
         if ((Input.GetMouseButtonDown(0)) && (type == 0)){
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(mousePos.x,mousePos.y), Vector2.zero);       
@@ -377,8 +459,10 @@ public class Bubble : MonoBehaviour
                 Destroy(hitinfo.collider.gameObject); 
             }
         }*/
-
-        multiTouch();
+        if (!_freeze)
+        {
+            multiTouch();
+        }
     }
 
 }
