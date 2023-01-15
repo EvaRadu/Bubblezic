@@ -56,116 +56,119 @@ public class createBalls : MonoBehaviour
 
                 if (time >= ball.temps - 0.2 && time <= ball.temps + 0.2 && ball.created == false)
                 {
-
-
-                    if (ball.type == 7)
-                    { // Type 7 = Semi Circle
-                        var spawnedSemiCircle = Instantiate(_semiCirclePrefab, new Vector3(ball.posX, ball.posY, 0), Quaternion.identity); // create a new semi circle
-                        spawnedSemiCircle.name = "Semi Circle " + ball.id + "";
-                        spawnedSemiCircle.setDuration(ball.duration);
-                        spawnedSemiCircle.setColor(ball.couleur);
-                        spawnedSemiCircle.setType(ball.type);
-                        spawnedSemiCircle.setRotation(ball.rotation);
-                        spawnedSemiCircle.setSide(ball.side);
-                        semiCircles.Add(spawnedSemiCircle);
-                        ball.created = true;
-                        spawnedSemiCircle.setBubble(ball);    
-
-                        
-                        /* --- OPPONENT SCREEN --- */
-
-                        var opponentSemiCircle = Instantiate(_semiCirclePrefab, new Vector3(
-                            ((ball.posX - x1) / (x2 - x1)) * (x4-x3) + x3,
-                            ((ball.posY - y1) / (y2 - y1)) * (y4-y3) + y3,
-                            0), 
-                              
-                                Quaternion.identity); // create a new circle
-                        opponentSemiCircle.name = "Opponent Semi Circle " + ball.id + "";
-                        opponentSemiCircle.setDuration(ball.duration);
-                        opponentSemiCircle.setColor(ball.couleur);
-                        opponentSemiCircle.setType(ball.type);
-                        opponentSemiCircle.setRotation(ball.rotation);
-                        opponentSemiCircle.setSide(ball.side);
-                        opponentSemiCircle.setScale(0.025f);
-                        opponentSemiCircle.setCanMove(0);
-                        opponentSemiCircle.SetIsOpponentSemiCircle(true);
-                        opponentSemiCircles.Add(opponentSemiCircle);
-                        ball.created = true;
-                        opponentSemiCircle.setBubble(ball);                  
-                    }
-                    else
+                    for (int i = ball.nbMalusMultiple; i > 0; i--)
                     {
-                        var spawnedCircle = Instantiate(_circlePrefab, new Vector3(ball.posX, ball.posY, 0), Quaternion.identity); // create a new circle
-                        spawnedCircle.name = "Bubble " + ball.id + "";
-                        spawnedCircle.SetId(ball.id);
-                        spawnedCircle.setDuration(ball.duration);
-                        spawnedCircle.transform.localScale = new Vector3(ball.rayon, ball.rayon, 1);
-                        spawnedCircle.setColor(ball.couleur);
-                        spawnedCircle.setType(ball.type);
-                        spawnedCircle.SetRadius(ball.rayon);
-                        
-                        if (ball.type == 6 || ball.type == 9 || ball.type == 4)
-                        {
-                            spawnedCircle.setTexture(ball.texture);
+
+                        if (ball.type == 7)
+                        { // Type 7 = Semi Circle
+                            var spawnedSemiCircle = Instantiate(_semiCirclePrefab, new Vector3(ball.posX, ball.posY, 0), Quaternion.identity); // create a new semi circle
+                            spawnedSemiCircle.name = "Semi Circle " + ball.id + "";
+                            spawnedSemiCircle.setDuration(ball.duration);
+                            spawnedSemiCircle.setColor(ball.couleur);
+                            spawnedSemiCircle.setType(ball.type);
+                            spawnedSemiCircle.setRotation(ball.rotation);
+                            spawnedSemiCircle.setSide(ball.side);
+                            semiCircles.Add(spawnedSemiCircle);
+                            ball.created = true;
+                            spawnedSemiCircle.setBubble(ball);
+
+
+                            /* --- OPPONENT SCREEN --- */
+
+                            var opponentSemiCircle = Instantiate(_semiCirclePrefab, new Vector3(
+                                ((ball.posX - x1) / (x2 - x1)) * (x4 - x3) + x3,
+                                ((ball.posY - y1) / (y2 - y1)) * (y4 - y3) + y3,
+                                0),
+
+                                    Quaternion.identity); // create a new circle
+                            opponentSemiCircle.name = "Opponent Semi Circle " + ball.id + "";
+                            opponentSemiCircle.setDuration(ball.duration);
+                            opponentSemiCircle.setColor(ball.couleur);
+                            opponentSemiCircle.setType(ball.type);
+                            opponentSemiCircle.setRotation(ball.rotation);
+                            opponentSemiCircle.setSide(ball.side);
+                            opponentSemiCircle.setScale(0.025f);
+                            opponentSemiCircle.setCanMove(0);
+                            opponentSemiCircle.SetIsOpponentSemiCircle(true);
+                            opponentSemiCircles.Add(opponentSemiCircle);
+                            ball.created = true;
+                            opponentSemiCircle.setBubble(ball);
                         }
-
-                        //MALUS
-                        if (ball.type == 4)
+                        else
                         {
-                            spawnedCircle.setImpulsion(ball.impulsion);
-                            spawnedCircle.setPosOpponent(ball.posXOpponent, ball.posYOpponent);
-                            spawnedCircle.setFreezeDuration(ball.freezeDuration);
+                            var spawnedCircle = Instantiate(_circlePrefab, new Vector3(ball.posX, ball.posY, 0), Quaternion.identity); // create a new circle
+                            spawnedCircle.name = "Bubble " + ball.id + "";
+                            spawnedCircle.SetId(ball.id);
+                            spawnedCircle.setDuration(ball.duration);
+                            spawnedCircle.transform.localScale = new Vector3(ball.rayon, ball.rayon, 1);
+                            spawnedCircle.setColor(ball.couleur);
+                            spawnedCircle.setType(ball.type);
+                            spawnedCircle.SetRadius(ball.rayon);
+
+                            if (ball.type == 6 || ball.type == 9 || ball.type == 4)
+                            {
+                                spawnedCircle.setTexture(ball.texture);
+                            }
+
+                            //MALUS
+                            if (ball.type == 4)
+                            {
+                                spawnedCircle.setImpulsion(ball.impulsion);
+                                spawnedCircle.setPosOpponent(ball.posXOpponent, ball.posYOpponent);
+                                spawnedCircle.setFreezeDuration(ball.freezeDuration);
+                            }
+                            if (ball.type == 5)
+                            {
+                                spawnedCircle.setImpulsion(ball.impulsion);
+                                spawnedCircle.setPosOpponent(ball.posXOpponent, ball.posYOpponent);
+                                spawnedCircle.setNbMalusMultiple(i);
+                                spawnedCircle.SetId(ball.id+ (i/10));
+                            }
+
+                            bubbles.Add(spawnedCircle);
+                            ball.created = true;
+                            spawnedCircle.setBubble(ball);
+
+                            /* --- OPPONENT SCREEN --- */
+
+                            var opponentSpawnedCircle = Instantiate(_circlePrefab, new Vector3(
+                                ((ball.posX - x1) / (x2 - x1)) * (x4 - x3) + x3,
+                                ((ball.posY - y1) / (y2 - y1)) * (y4 - y3) + y3,
+                                0),
+
+                                  Quaternion.identity); // create a new circle
+                            opponentSpawnedCircle.name = "Opponent Bubble " + ball.id + "";
+                            opponentSpawnedCircle.SetId(ball.id);
+                            opponentSpawnedCircle.setDuration(ball.duration);
+                            opponentSpawnedCircle.transform.localScale = new Vector3(0.5f, 0.5f, 1);
+                            opponentSpawnedCircle.setColor(ball.couleur);
+                            opponentSpawnedCircle.setType(ball.type);
+                            opponentSpawnedCircle.SetRadius(0.5f);
+                            opponentSpawnedCircle.SetIsOpponentCircle(true);
+
+                            if (ball.type == 6 || ball.type == 9 || ball.type == 4 || ball.type == 5)
+                            {
+                                opponentSpawnedCircle.setTexture(ball.texture);
+                            }
+
+                            //MALUS
+                            if (ball.type == 4)
+                            {
+                                opponentSpawnedCircle.setImpulsion(ball.impulsion);
+                                opponentSpawnedCircle.setPosOpponent(ball.posXOpponent, ball.posYOpponent);
+                            }
+                            if (ball.type == 5)
+                            {
+                                opponentSpawnedCircle.setImpulsion(ball.impulsion);
+                                opponentSpawnedCircle.setPosOpponent(ball.posXOpponent, ball.posYOpponent);
+                                opponentSpawnedCircle.setNbMalusMultiple(ball.nbMalusMultiple);
+                            }
+
+                            opponentBubbles.Add(opponentSpawnedCircle);
+                            opponentSpawnedCircle.setBubble(ball);
+
+
                         }
-                        if (ball.type == 5)
-                        {
-                            spawnedCircle.setImpulsion(ball.impulsion);
-                            spawnedCircle.setPosOpponent(ball.posXOpponent, ball.posYOpponent);
-                            spawnedCircle.setNbMalusMultiple(ball.nbMalusMultiple);
-                        }
-
-                        bubbles.Add(spawnedCircle);
-                        ball.created = true;
-                        spawnedCircle.setBubble(ball);
-
-                        /* --- OPPONENT SCREEN --- */
-
-                        var opponentSpawnedCircle = Instantiate(_circlePrefab, new Vector3(
-                            ((ball.posX - x1) / (x2 - x1)) * (x4-x3) + x3,
-                            ((ball.posY - y1) / (y2 - y1)) * (y4-y3) + y3,
-                            0), 
-                              
-                              Quaternion.identity); // create a new circle
-                        opponentSpawnedCircle.name = "Opponent Bubble " + ball.id + "";
-                        opponentSpawnedCircle.SetId(ball.id);
-                        opponentSpawnedCircle.setDuration(ball.duration);
-                        opponentSpawnedCircle.transform.localScale = new Vector3(0.5f, 0.5f, 1);
-                        opponentSpawnedCircle.setColor(ball.couleur);
-                        opponentSpawnedCircle.setType(ball.type);
-                        opponentSpawnedCircle.SetRadius(0.5f);
-                        opponentSpawnedCircle.SetIsOpponentCircle(true);
-                        
-                        if (ball.type == 6 || ball.type == 9 || ball.type == 4)
-                        {
-                            opponentSpawnedCircle.setTexture(ball.texture);
-                        }
-
-                        //MALUS
-                        if (ball.type == 4)
-                        {
-                            opponentSpawnedCircle.setImpulsion(ball.impulsion);
-                            opponentSpawnedCircle.setPosOpponent(ball.posXOpponent, ball.posYOpponent);
-                        }
-                        if (ball.type == 5)
-                        {
-                            opponentSpawnedCircle.setImpulsion(ball.impulsion);
-                            opponentSpawnedCircle.setPosOpponent(ball.posXOpponent, ball.posYOpponent);
-                            opponentSpawnedCircle.setNbMalusMultiple(ball.nbMalusMultiple);
-                        }
-
-                        opponentBubbles.Add(opponentSpawnedCircle);
-                        opponentSpawnedCircle.setBubble(ball);
-
-
                     }
                 }
             }

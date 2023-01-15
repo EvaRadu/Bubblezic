@@ -13,7 +13,7 @@ public class Bubble : MonoBehaviour
     [SerializeField] private float _speed=1000;
     [SerializeField] private Ring _ringPrefab;
     [SerializeField] private float _radius;
-    [SerializeField] public int _id;
+    [SerializeField] public float _id;
     [SerializeField] public int _idTrajectory;
     private bool _draggable = true;
     private bool _isOpponentCircle = false;
@@ -69,7 +69,7 @@ public class Bubble : MonoBehaviour
     // ---------------- SETTERS -----------------
     public void SetRadius(float radius) => _radius = radius;
     public void SetDraggable(bool drag) => _draggable = drag;
-    public void SetId(int id) => _id = id;
+    public void SetId(float id) => _id = id;
     public void SetIdTrajectory(int id) => _idTrajectory = id;
     public void SetIsOpponentCircle(bool b) => _isOpponentCircle = b;
     public void setType(int type) { this.type = type; }
@@ -107,6 +107,7 @@ public class Bubble : MonoBehaviour
     }
     private void Start() 
     {
+        Debug.Log(_id);
         _rb = this.GetComponent<Rigidbody2D>();
 
         if (type == 1 || type == 9) //si la bulle est de type toucher prolongé
@@ -122,7 +123,7 @@ public class Bubble : MonoBehaviour
         }
         else { gameObject.GetComponent<CircleCollider2D>().isTrigger = false; }
 
-        if (type == 4)
+        if (type == 4 || type == 5)
         {
             _rb.bodyType = RigidbodyType2D.Dynamic; 
         }
@@ -354,7 +355,7 @@ public class Bubble : MonoBehaviour
                     {
                     }
                 }
-                else if (type == 4) { swipe(); }
+                else if (type == 4 || type == 5) { swipe(); }
 
                 /*else if (type == 4)
                 {
@@ -419,7 +420,7 @@ public class Bubble : MonoBehaviour
 
 
         //check if malus is out of screen 
-        if ((type == 4) && (!_isOpponentCircle))
+        if ((type == 4)  && (!_isOpponentCircle))
         {
             //WsClient.Instance.MalusSent(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y, _freezeDuration);
 
@@ -430,7 +431,25 @@ public class Bubble : MonoBehaviour
             }
             else
             {
-                WsClient.Instance.MalusSent(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y, _freezeDuration);
+                WsClient.Instance.MalusSentFreeze(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y, _freezeDuration);
+                WsClient.Instance.deleteBubble(gameObject.name);
+            }
+
+        }
+
+
+        if ((type == 5) && (!_isOpponentCircle))
+        {
+            //WsClient.Instance.MalusSent(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y, _freezeDuration);
+
+            Vector3 viewPos = _cam.WorldToViewportPoint(gameObject.GetComponent<CircleCollider2D>().transform.position);
+            if (viewPos.x >= 0 && viewPos.x <= 1 && viewPos.y >= 0 && viewPos.y <= 1 && viewPos.z > 0)
+            {
+                // Your object is in the range of the camera, you can apply your behaviour
+            }
+            else
+            {
+                WsClient.Instance.MalusSentMultiple(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y, _freezeDuration);
                 WsClient.Instance.deleteBubble(gameObject.name);
             }
 

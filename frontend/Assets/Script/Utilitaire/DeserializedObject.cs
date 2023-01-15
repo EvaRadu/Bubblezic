@@ -46,7 +46,7 @@ namespace Assets.Script
         public float posYOpponent;
         public int freezeDuration;
 
-        public int nbMalusMultiple;
+        public int nbMalusMultiple = 1;
 
     }
 

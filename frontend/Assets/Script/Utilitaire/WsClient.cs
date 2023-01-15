@@ -241,7 +241,32 @@ public class WsClient : MonoBehaviour
         }
     }
 
-    public void MalusSent(string name, float posX, float posY, int duration)
+    public void MalusSentFreeze(string name, float posX, float posY, int duration)
+    {
+        try
+        {
+            if (ws == null)
+            {
+                Debug.Log("Null");
+                return;
+            }
+            else
+            {
+
+                ws.Send("Malus Sent. circleName =" + name + ", posX= " + posX + ", poxY= " + posY + ", duration= " + duration);
+                ws.OnMessage += (sender, e) =>
+                {
+                    Debug.Log(e.Data);
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+    }
+
+    public void MalusSentMultiple(string name, float posX, float posY, int duration)
     {
         try
         {
