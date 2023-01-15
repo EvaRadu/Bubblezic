@@ -462,6 +462,9 @@ public class Bubble : MonoBehaviour
         if (!_freeze)
         {
             multiTouch();
+        } else
+        {
+            Debug.Log("FROZEN");
         }
     }
 
