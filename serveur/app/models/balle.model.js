@@ -23,7 +23,12 @@ module.exports = Joi.object().keys({
     posXOpponent : Joi.number(),
     posYOpponent : Joi.number(),
     impulsion: Joi.number(),
+
+    //malus de type freeze
     freezeDuration: Joi.number(),
+
+    //malus de type multiple
+    nbMalusMultiple: Joi.number(),
 })
 
     

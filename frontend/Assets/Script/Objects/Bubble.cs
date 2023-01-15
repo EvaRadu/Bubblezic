@@ -46,6 +46,8 @@ public class Bubble : MonoBehaviour
 
     private bool _freeze = false;
     private int _freezeDuration = 0;
+
+    private int _nbMalusMultiple = 0;
     // --------------------------------
 
 
@@ -85,6 +87,7 @@ public class Bubble : MonoBehaviour
     public void setPosOpponent(float X, float Y) { _posXOpponent = X; _posYOpponent = Y; }
     public void setFreezeDuration(int freezeDuration) => _freezeDuration = freezeDuration;
     public void setFreeze(bool freeze) => _freeze = freeze;
+    public void setNbMalusMultiple(int nbMalusMultiple) => _nbMalusMultiple = nbMalusMultiple;
 
     // ------------------------------------------
 

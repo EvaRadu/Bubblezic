@@ -30,6 +30,7 @@ public class PersistentManagerScript : MonoBehaviour
         var foundBubbles = FindObjectsOfType<Bubble>();
         foreach (Bubble bubble in foundBubbles)
         {
+            Debug.Log("freezing " + bubble.name);
             bubble.setFreeze(true);
         }
         StartCoroutine(Instance.timer());

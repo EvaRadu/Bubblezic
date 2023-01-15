@@ -116,6 +116,12 @@ public class createBalls : MonoBehaviour
                             spawnedCircle.setPosOpponent(ball.posXOpponent, ball.posYOpponent);
                             spawnedCircle.setFreezeDuration(ball.freezeDuration);
                         }
+                        if (ball.type == 5)
+                        {
+                            spawnedCircle.setImpulsion(ball.impulsion);
+                            spawnedCircle.setPosOpponent(ball.posXOpponent, ball.posYOpponent);
+                            spawnedCircle.setNbMalusMultiple(ball.nbMalusMultiple);
+                        }
 
                         bubbles.Add(spawnedCircle);
                         ball.created = true;
@@ -148,6 +154,12 @@ public class createBalls : MonoBehaviour
                         {
                             opponentSpawnedCircle.setImpulsion(ball.impulsion);
                             opponentSpawnedCircle.setPosOpponent(ball.posXOpponent, ball.posYOpponent);
+                        }
+                        if (ball.type == 5)
+                        {
+                            opponentSpawnedCircle.setImpulsion(ball.impulsion);
+                            opponentSpawnedCircle.setPosOpponent(ball.posXOpponent, ball.posYOpponent);
+                            opponentSpawnedCircle.setNbMalusMultiple(ball.nbMalusMultiple);
                         }
 
                         opponentBubbles.Add(opponentSpawnedCircle);

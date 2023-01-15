@@ -68,6 +68,27 @@ module.exports = listBalles = [
             freezeDuration : 5,
             texture: "flocon"
         },
+
+        { 
+            id:3,
+            typeName : "bubble",
+            type: 4,
+
+            posX: -2,
+            posY: -2,
+            posXOpponent : 0,
+            posYOpponent : 0,
+            impulsion: 0.5,
+
+            couleur: 'white',
+            rayon: 3,
+            temps: 5,
+            duration: 3,
+            rotation: 90,
+            side: 0,
+            nbMalusMultiple : 5,
+            texture: "flocon"
+        },
     // BULLE SIMPLE nÂ°2
            { 
             id:4,
