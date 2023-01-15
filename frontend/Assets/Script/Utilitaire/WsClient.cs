@@ -100,7 +100,7 @@ public class WsClient : MonoBehaviour
                 PersistentManagerScript.Instance.circleToMovePosY = posY;
             }
 
-            else if(e.Data.Contains("Malus Received."))
+            else if(e.Data.Contains("Malus Received"))
             {
                 int pos1 = e.Data.IndexOf("=");
                 PersistentManagerScript.Instance.freezeDuration = Int16.Parse(e.Data.Substring(pos1 + 2));

@@ -122,7 +122,7 @@ wss.on('connection', (ws) => {
             let freezeDuration = parseFloat(msg.replace(",", "."));
 
             for(let [key, value] of clients){
-                if(value.id != metadata.id){
+                if(value.id == metadata.id){
                     key.send('Malus Received with duration = ' + freezeDuration);
                     key.send('Delete Bubble = ' + bubbleToDelete);
                 }
