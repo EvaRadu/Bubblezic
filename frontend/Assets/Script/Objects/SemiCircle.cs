@@ -17,8 +17,10 @@ public class SemiCircle : MonoBehaviour
     private Vector3 _dragOffset;
     private Camera _cam; 
     private int canMove = 1;  // 1 = on peut déplacer le demi cercle, 0 = on ne peut pas le déplacer
-    
-     // Variable pour stocker le cercle 
+    private bool _freeze = false;
+    private int _freezeDuration = 0;
+
+    // Variable pour stocker le cercle 
     private GameObject _circle;
     float duration; // duration of the apparition of the circle
     int type; // type of the circle
@@ -28,6 +30,9 @@ public class SemiCircle : MonoBehaviour
 
     public void SetRadius(float radius) => _radius = radius;
     public void SetIsOpponentSemiCircle(bool b) => _isOpponentSemiCircle = b;
+
+    public void setFreezeDuration(int freezeDuration) => _freezeDuration = freezeDuration;
+    public void setFreeze(bool freeze) => _freeze = freeze;
 
     private void Start() 
     {
@@ -180,7 +185,7 @@ public class SemiCircle : MonoBehaviour
         else { gameObject.SetActive(true);}
 
         /* --- GESTION DU MULTI-TOUCH --- */
-        if(!_isOpponentSemiCircle){
+        if ((!_isOpponentSemiCircle) && !_freeze){
         multiTouch();
         }
        

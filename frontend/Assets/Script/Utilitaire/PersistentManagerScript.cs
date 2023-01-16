@@ -33,28 +33,29 @@ public class PersistentManagerScript : MonoBehaviour
             Debug.Log("freezing " + bubble.name);
             bubble.setFreeze(true);
         }
-        StartCoroutine(Instance.timer());
-        foreach (Bubble bubble in foundBubbles)
+        var foundSemiCircles = FindObjectsOfType<SemiCircle>();
+        foreach (SemiCircle semiCircle in foundSemiCircles)
+        {
+            Debug.Log("freezing " + semiCircle.name);
+            semiCircle.setFreeze(true);
+        }
+        StartCoroutine(timer(foundBubbles, foundSemiCircles));
+        
+    }
+
+    private IEnumerator timer(Bubble[] foundBubble, SemiCircle[] foundSemiCircle)
+    {
+
+        yield return new WaitForSeconds(freezeDuration);
+        foreach (Bubble bubble in foundBubble)
         {
             bubble.setFreeze(false);
         }
-        FREEZE = false;
-    }
-
-    private IEnumerator timer()
-    {
-        while (true) {
-
-            if (counter >= freezeDuration)
-            {
-                counter = 0;
-                yield return null;
-            } else
-            {
-                counter += 1;
-                yield return new WaitForSeconds(1);
-            }
+        foreach (SemiCircle semiCircle in foundSemiCircle)
+        {
+            semiCircle.setFreeze(false);
         }
+        FREEZE = false;
     }
 
     private void Update()
