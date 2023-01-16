@@ -13,6 +13,9 @@ public class PersistentManagerScript : MonoBehaviour
     public int counter = 0;
     public bool FREEZE = false;
 
+    //Malus Multiple
+    public bool MALUSMULTIPLE = false;
+
     private void Awake()
     {
         if (Instance == null)
@@ -24,6 +27,11 @@ public class PersistentManagerScript : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void malusMultiple()
+    {
+        Instanciate();
     }
 
      void freeze() {
@@ -70,6 +78,12 @@ public class PersistentManagerScript : MonoBehaviour
         if (FREEZE)
         {
             freeze();
+        }
+
+        if (MALUSMULTIPLE)
+        {
+
+            MALUSMULTIPLE = false;
         }
      
     }
