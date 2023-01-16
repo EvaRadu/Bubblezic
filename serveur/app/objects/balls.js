@@ -68,9 +68,30 @@ module.exports = listBalles = [
             freezeDuration : 5,
             texture: "flocon"
         },
+
+        { 
+            id:4,
+            typeName : "bubble",
+            type: 5,
+
+            posX: -2,
+            posY: -2,
+            posXOpponent : 0,
+            posYOpponent : 0,
+            impulsion: 0.5,
+
+            couleur: 'white',
+            rayon: 3,
+            temps: 5,
+            duration: 3,
+            rotation: 90,
+            side: 0,
+            nbMalusMultiple : 5,
+            texture: "flocon"
+        },
     // BULLE SIMPLE nÂ°2
            { 
-            id:4,
+            id:5,
             typeName : "bubble",
             posX: 2,
             posY: 2,
@@ -86,7 +107,7 @@ module.exports = listBalles = [
     
     // PUZZLE
     { 
-        id:5,
+        id:6,
         typeName : "bubble",
         posX: -6,
         posY: 0,
@@ -100,7 +121,7 @@ module.exports = listBalles = [
         texture: ""
         },
         { 
-        id:6,
+        id:7,
         typeName : "bubble",
         posX: 6,
         posY: 0,
@@ -114,7 +135,7 @@ module.exports = listBalles = [
         texture: ""
     },
     { 
-        id:7,
+        id:8,
         typeName : "bubble",
         posX: 0,
         posY: 0,
@@ -130,7 +151,7 @@ module.exports = listBalles = [
 
     // DEUX BALLES EN MEME TEMPS
     { 
-            id:8,
+            id:9,
             typeName : "bubble",
             posX: 3,
             posY: 3,
@@ -144,7 +165,7 @@ module.exports = listBalles = [
             texture: ""
         },
         { 
-            id:9,
+            id:10,
             typeName : "bubble",
             posX: -3,
             posY: -3,
@@ -160,7 +181,7 @@ module.exports = listBalles = [
 
         // DEUXIEME PUZZLE
         { 
-            id:10,
+            id:11,
             typeName : "bubble",
             posX: -6,
             posY: 3,
@@ -174,7 +195,7 @@ module.exports = listBalles = [
             texture: ""
             },
             { 
-            id:11,
+            id:12,
             typeName : "bubble",
             posX: 6,
             posY: -3,
@@ -188,7 +209,7 @@ module.exports = listBalles = [
             texture: ""
         },
         { 
-            id:12,
+            id:13,
             typeName : "bubble",
             posX: 0,
             posY: 0,
@@ -205,7 +226,7 @@ module.exports = listBalles = [
         // QUATRES BULLES
 
      { 
-            id:13,
+            id:14,
             typeName : "bubble",
             posX: -4,
             posY: 3,
@@ -219,7 +240,7 @@ module.exports = listBalles = [
             texture: ""
         },
         { 
-            id:14,
+            id:15,
             typeName : "bubble",
             posX: -4,
             posY: -3,
@@ -233,7 +254,7 @@ module.exports = listBalles = [
             texture: ""
         },
         { 
-            id:15,
+            id:16,
             typeName : "bubble",
             posX: 4,
             posY: 3,
@@ -247,7 +268,7 @@ module.exports = listBalles = [
             texture: ""
         },
         { 
-            id:16,
+            id:17,
             typeName : "bubble",
             posX: 4,
             posY: -3,
