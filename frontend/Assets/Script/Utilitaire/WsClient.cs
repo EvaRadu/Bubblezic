@@ -103,7 +103,8 @@ public class WsClient : MonoBehaviour
             else if(e.Data.Contains("Malus Received"))
             {
                 int pos1 = e.Data.IndexOf("=");
-                PersistentManagerScript.Instance.freezeDuration = Int16.Parse(e.Data.Substring(pos1 + 2));
+                PersistentManagerScript.Instance.freezeDuration = float.Parse(e.Data.Substring(pos1 + 2));
+                Debug.Log("freezeDuration : " + PersistentManagerScript.Instance.freezeDuration);
                 PersistentManagerScript.Instance.FREEZE = true;
             }
 

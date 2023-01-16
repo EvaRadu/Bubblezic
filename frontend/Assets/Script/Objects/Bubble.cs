@@ -100,11 +100,6 @@ public class Bubble : MonoBehaviour
 
     // --------------- FUNCTIONS ----------------
 
-    private void freeze(int time)
-    {
-        _freeze = true;
-
-    }
     private void Start() 
     {
         Debug.Log(_id);

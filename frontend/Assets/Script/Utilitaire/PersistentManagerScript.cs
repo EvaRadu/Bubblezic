@@ -9,7 +9,7 @@ public class PersistentManagerScript : MonoBehaviour
     public string circleToMove = "";
     public float circleToMovePosX = 0;
     public float circleToMovePosY = 0;
-    public int freezeDuration = 0;
+    public float freezeDuration = 0;
     public int counter = 0;
     public bool FREEZE = false;
 

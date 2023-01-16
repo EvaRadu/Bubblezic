@@ -65,7 +65,7 @@ module.exports = listBalles = [
             duration: 3,
             rotation: 90,
             side: 0,
-            freezeDuration : 5,
+            freezeDuration : 7,
             texture: "flocon"
         },
 
@@ -82,7 +82,7 @@ module.exports = listBalles = [
 
             couleur: 'white',
             rayon: 3,
-            temps: 5,
+            temps: 8,
             duration: 3,
             rotation: 90,
             side: 0,
