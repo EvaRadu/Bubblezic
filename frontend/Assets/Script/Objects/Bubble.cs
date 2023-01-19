@@ -2,6 +2,7 @@ using Assets.Script;
 using System.Collections;
 using ProudLlama.CircleGenerator;
 using UnityEngine;
+using UnityEngine.SceneManagement; 
 
 
 public class Bubble : MonoBehaviour
@@ -145,7 +146,10 @@ public class Bubble : MonoBehaviour
             other.gameObject.GetComponent<Bubble>().SetDraggable(false);
             other.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y , 0);  // On place le morceau au bon endroit
             float time = TimerScript.Instance.time;
+            if (SceneManager.GetActiveScene().name != "FirstScene")
+            {
             WsClient.Instance.updateScore(this.thisBubble, time, 0);
+            }
             //Destroy(gameObject
             Destroy(gameObject);
             Destroy(other.gameObject);
@@ -180,7 +184,10 @@ public class Bubble : MonoBehaviour
             if ((leftSide == 1) && (rightSide == 1))
             {
                 float time = TimerScript.Instance.time;
+                 if (SceneManager.GetActiveScene().name == "FirstScene")
+                {
                 WsClient.Instance.updateScore(this.thisBubble, time, 7);
+                }
                 /*
                 Destroy(gameObject);  // On détruit la cible
                 Destroy(leftPiece);  // On détruit la pièce de gauche
@@ -314,7 +321,10 @@ public class Bubble : MonoBehaviour
                     if((touchPos.x < x3 || touchPos.x > x4) && (touchPos.y < y3 || touchPos.y > y4)) // Si on est pas dans l'écran adverse
                     {
                     float time = TimerScript.Instance.time;
+                     if (SceneManager.GetActiveScene().name == "FirstScene")
+                {
                     WsClient.Instance.updateScore(this.thisBubble, time, 0);
+                }
                     WsClient.Instance.deleteBubble(gameObject.name);
                     Destroy(hitinfo.collider.gameObject);
                     }

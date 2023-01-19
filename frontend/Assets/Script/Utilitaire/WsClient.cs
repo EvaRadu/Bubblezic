@@ -19,6 +19,7 @@ public class WsClient : MonoBehaviour
     public List<myObjects> ObjectsList = new List<myObjects>();
     public bool ready = false;
     public bool connected = false;  
+    public bool demo = false;
 
     public string serverUrl;
 
@@ -37,9 +38,18 @@ public class WsClient : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("Start");
         serverUrl = "ws://localhost:8080";
         inputURL.text = serverUrl;
 
+    }
+
+    public void setDemo()
+    {
+        Toggle toggle = GameObject.Find("Toggle").GetComponent<Toggle>();
+        this.demo = toggle.isOn;
+
+        Debug.Log("Demo : " + demo);
     }
 
     public void changeUrl()
@@ -111,11 +121,24 @@ public class WsClient : MonoBehaviour
         };
 
         ws.Connect();
+
+        ws.OnClose += (sender, e) =>
+        {
+            Debug.Log("Connexion is off");
+            connected = false;
+            ready = false;
+        };
+    }
+
+    public void closeSocket()
+    {
+        ws.Close();
     }
 
 
     private void Update()
     {
+        setDemo();
         if (connected && !ready)
         {
             readyButton.interactable = true;
@@ -123,8 +146,10 @@ public class WsClient : MonoBehaviour
         }
         if (ready && connected)
         {
+            if(startButton != null && readyButton != null){
             startButton.interactable = true;
             readyButton.interactable = false;
+            }
         }
     }
 
@@ -139,7 +164,15 @@ public class WsClient : MonoBehaviour
             }
             else
             {
-                ws.Send("Ready");
+                if (this.demo == true)
+                {
+                    Debug.Log("DEMOOOO");
+                    ws.Send("Ready Demo");
+                }
+                else
+                {
+                    ws.Send("Ready");
+                }
                 ws.OnMessage += (sender, e) =>
                 {
                     String typeName = DesarializedObject.typeForTheList(e.Data);
