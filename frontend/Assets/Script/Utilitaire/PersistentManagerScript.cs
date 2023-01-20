@@ -31,7 +31,7 @@ public class PersistentManagerScript : MonoBehaviour
 
     private void malusMultiple()
     {
-        Instanciate();
+        //Instanciate();
     }
 
      void freeze() {
