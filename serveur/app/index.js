@@ -4,6 +4,7 @@ const wait = require('./fonctions/wait');
 const calculePoints = require('./fonctions/calculerPoints');
 const calculePos = require('./fonctions/calculerPosition');
 const listBalles = require('./objects/balls');
+const listBalles2 = require('./objects/balls2');
 const listBallesDemo = require('./objects/ballsDemo');
 const myport = 8080;
 const clients = new Map();
@@ -37,11 +38,11 @@ wss.on('connection', (ws) => {
         /* --- MESSAGE = 'Ready Demo ' --- */
         /* ------------------------------- */
         if(messageAsString.toString() == 'Ready Demo'){
-            nbClients++;
+            /*nbClients++;
             while(nbClients < 2 && nbClients >= 0){
                 console.log("waiting for second client");
                 await wait(1000);
-            }
+            }*/
             console.log("Both clients are ready, sending balls");
             listBallesDemo.forEach(ball => {
                 ws.send(JSON.stringify(ball));
@@ -53,11 +54,11 @@ wss.on('connection', (ws) => {
         /* --- MESSAGE = 'Ready ' --- */
         /* -------------------------- */
         else if(messageAsString.toString() == 'Ready'){
-            nbClients++;
+            /*nbClients++;
             while(nbClients < 2 && nbClients >= 0){
                 console.log("waiting for second client");
                 await wait(1000);
-            }
+            }*/
             console.log("Both clients are ready, sending balls");
             listBalles.forEach(ball => {
                 ws.send(JSON.stringify(ball));
