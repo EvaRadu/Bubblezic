@@ -20,11 +20,17 @@ public class MenuController : MonoBehaviour {
                 SceneManager.LoadScene(SceneName, LoadSceneMode.Single);
                 WsClient.Instance.StartScene();   
                 Destroy(WsClient.Instance.gameObject);
-                Destroy(GameObject.Find("Scene2"));
+                //Destroy(GameObject.Find("Scene2"));
             }
-
-            else{
+            else if(SceneName == "Scene2" && SceneManager.GetActiveScene().name == "Start")
+            {
                 SceneManager.LoadScene(SceneName, LoadSceneMode.Single);
+                WsClient.Instance.Scene2();
+                Destroy(WsClient.Instance.gameObject);
+                //Destroy(GameObject.Find("Start"));
+            }
+            else{
+                // TODO
             }
                    
         }

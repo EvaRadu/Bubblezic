@@ -38,11 +38,11 @@ wss.on('connection', (ws) => {
         /* --- MESSAGE = 'Ready Demo ' --- */
         /* ------------------------------- */
         if(messageAsString.toString() == 'Ready Demo'){
-            /*nbClients++;
+            nbClients++;
             while(nbClients < 2 && nbClients >= 0){
                 console.log("waiting for second client");
                 await wait(1000);
-            }*/
+            }
             console.log("Both clients are ready, sending balls");
             listBallesDemo.forEach(ball => {
                 ws.send(JSON.stringify(ball));
@@ -54,11 +54,11 @@ wss.on('connection', (ws) => {
         /* --- MESSAGE = 'Ready ' --- */
         /* -------------------------- */
         else if(messageAsString.toString() == 'Ready'){
-            /*nbClients++;
+            nbClients++;
             while(nbClients < 2 && nbClients >= 0){
                 console.log("waiting for second client");
                 await wait(1000);
-            }*/
+            }
             console.log("Both clients are ready, sending balls");
             listBalles.forEach(ball => {
                 ws.send(JSON.stringify(ball));
@@ -114,6 +114,19 @@ wss.on('connection', (ws) => {
                 }
             }
         }
+
+        /* --------------------------- */
+        /* --- MESSAGE = 'Scene 2" --- */
+        /* --------------------------- */
+        else if(messageAsString.toString() == 'Scene 2'){
+            //console.log("Scene 2");
+            for(let [key, value] of clients){
+                if(value.id != metadata.id){
+                    key.send("Scene 2");
+                }
+            }
+        }
+        
 
         /* -------------------------------- */
         /* --- MESSAGE = 'Update Score' --- */
