@@ -148,6 +148,7 @@ public class WsClient : MonoBehaviour
 
             else if(e.Data.Contains("Start Scene")){
                 SceneManager.LoadScene("Start", LoadSceneMode.Single);
+                TimerScript.Instance.Resume();
                 Destroy(WsClient.Instance.gameObject);
 
             }
@@ -378,7 +379,7 @@ public class WsClient : MonoBehaviour
             }
             else
             {
-
+                
                 ws.Send("Pause");
                 ws.OnMessage += (sender, e) =>
                 {
@@ -452,6 +453,7 @@ public class WsClient : MonoBehaviour
             else
             {
                 ws.Send("Start Scene");
+                TimerScript.Instance.Resume();
                 ws.OnMessage += (sender, e) =>
                 {
                     Debug.Log(e.Data);

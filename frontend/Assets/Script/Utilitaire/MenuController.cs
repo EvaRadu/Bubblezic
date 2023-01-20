@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class MenuController : MonoBehaviour {
     
+    public float endTime = 30f; // time after which the game scene will be switched to the end scene
 
     public void getReady()
     {
@@ -30,7 +31,7 @@ public class MenuController : MonoBehaviour {
                 //Destroy(GameObject.Find("Start"));
             }
             else{
-                // TODO
+                // 
             }
                    
         }
@@ -39,6 +40,18 @@ public class MenuController : MonoBehaviour {
     public void switchTime()
     {
         TimerScript.Instance.switchTime();
+    }
+
+    public void Update(){
+        // Get the current time
+        float currentTime = Time.timeSinceLevelLoad;
+        // If the current time is greater than the end time
+        if (currentTime > endTime)
+        {
+            // Load the scene
+            SceneManager.LoadScene("End", LoadSceneMode.Single);
+            Destroy(WsClient.Instance.gameObject);
+        }
     }
 
    
