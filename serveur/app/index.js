@@ -4,6 +4,7 @@ const wait = require('./fonctions/wait');
 const calculePoints = require('./fonctions/calculerPoints');
 const calculePos = require('./fonctions/calculerPosition');
 const listBalles = require('./objects/balls');
+const listBallesDemo = require('./objects/ballsDemo');
 const myport = 8080;
 const clients = new Map();
 
@@ -32,10 +33,26 @@ wss.on('connection', (ws) => {
     ws.on('message', async (messageAsString) => {
         console.log("message received : " + messageAsString.toString());
 
+        /* ------------------------------- */
+        /* --- MESSAGE = 'Ready Demo ' --- */
+        /* ------------------------------- */
+        if(messageAsString.toString() == 'Ready Demo'){
+            nbClients++;
+            while(nbClients < 2 && nbClients >= 0){
+                console.log("waiting for second client");
+                await wait(1000);
+            }
+            console.log("Both clients are ready, sending balls");
+            listBallesDemo.forEach(ball => {
+                ws.send(JSON.stringify(ball));
+            });
+        }
+
+
         /* -------------------------- */
         /* --- MESSAGE = 'Ready ' --- */
         /* -------------------------- */
-        if(messageAsString.toString() == 'Ready'){
+        else if(messageAsString.toString() == 'Ready'){
             nbClients++;
             while(nbClients < 2 && nbClients >= 0){
                 console.log("waiting for second client");
@@ -45,6 +62,56 @@ wss.on('connection', (ws) => {
             listBalles.forEach(ball => {
                 ws.send(JSON.stringify(ball));
             });
+        }
+
+        /* ------------------------- */
+        /* --- MESSAGE = 'Pause' --- */
+        /* ------------------------- */
+        else if(messageAsString.toString() == 'Pause'){
+            //console.log("Pause");
+            for(let [key, value] of clients){
+                if(value.id != metadata.id){
+                    key.send("Pause");
+                }
+            }
+        }
+
+        /* -------------------------- */
+        /* --- MESSAGE = 'Resume' --- */
+        /* -------------------------- */
+        else if(messageAsString.toString() == 'Resume'){
+            //console.log("Resume");
+            for(let [key, value] of clients){
+                if(value.id != metadata.id){
+                    key.send("Resume");
+                }
+           }
+        }
+
+        /* -------------------------- */
+        /* --- MESSAGE = 'Demo =' --- */
+        /* -------------------------- */
+        else if(messageAsString.toString().includes('Demo =')){
+            let pos1 = messageAsString.toString().indexOf('=');
+            let msg = messageAsString.toString().substring(pos1+1);
+            for(let [key, value] of clients){
+                if(value.id != metadata.id){
+                    console.log("Demo = " + msg, "id = " + value.id);
+                    key.send("Demo =" + msg);
+                }
+            }
+        }
+
+        /* ------------------------------- */
+        /* --- MESSAGE = 'Start Scene" --- */
+        /* ------------------------------- */
+        else if(messageAsString.toString() == 'Start Scene'){
+            //console.log("Start Scene");
+            for(let [key, value] of clients){
+                if(value.id != metadata.id){
+                    key.send("Start Scene");
+                }
+            }
         }
 
         /* -------------------------------- */

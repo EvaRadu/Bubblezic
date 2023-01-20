@@ -2,6 +2,7 @@ using Assets.Script;
 using System.Collections;
 using ProudLlama.CircleGenerator;
 using UnityEngine;
+using UnityEngine.SceneManagement; 
 
 
 public class Bubble : MonoBehaviour
@@ -53,11 +54,11 @@ public class Bubble : MonoBehaviour
 
     // --- CHAMPS POUR L'ECRAN DE L'ADVERSAIRE ---
     // Grand écran (player)
-    float x1 = -8.88f;
+    /*float x1 = -8.88f;
     float x2 = 8.8f;
     float y1 = -5f;
     float y2 = 5f;
-
+    */
     // Petit écran (opponent)
     float x3 = 5.8f;
     float x4 = 8.6f;

@@ -19,6 +19,7 @@ public class WsClient : MonoBehaviour
     public List<myObjects> ObjectsList = new List<myObjects>();
     public bool ready = false;
     public bool connected = false;  
+    public bool demo = false;
 
     public string serverUrl;
 
@@ -37,10 +38,22 @@ public class WsClient : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("Start");
         serverUrl = "ws://localhost:8080";
         inputURL.text = serverUrl;
 
     }
+
+    public void setDemo()
+    {
+        bool previousDemo = demo;
+        Toggle toggle = GameObject.Find("Toggle").GetComponent<Toggle>();
+        this.demo = toggle.isOn;
+        if(previousDemo != demo){
+            updateDemo();
+        }
+    }
+
 
     public void changeUrl()
     {
@@ -108,14 +121,61 @@ public class WsClient : MonoBehaviour
                 PersistentManagerScript.Instance.FREEZE = true;
             }
 
+            else if(e.Data.Contains("Pause")){
+                TimerScript.Instance.Pause();
+            }
+
+            else if(e.Data.Contains("Resume")){
+                TimerScript.Instance.Resume();
+            }
+
+            else if(e.Data.Contains("Demo =")){
+                int pos1 = e.Data.IndexOf("=");
+                string demo = e.Data.Substring(pos1 + 1);
+                Debug.Log("!!!! demo : " + demo);
+                if(demo == "True"){
+                    this.demo = true;
+                    // update on toggle
+                    Toggle toggle = GameObject.Find("Toggle").GetComponent<Toggle>();
+                    toggle.isOn = true;
+                }
+                else{
+                    this.demo = false;
+                    // update on toggle
+                    Toggle toggle = GameObject.Find("Toggle").GetComponent<Toggle>();
+                    toggle.isOn = false;
+                }
+            }
+
+            else if(e.Data.Contains("Start Scene")){
+                // Press the back button to go back to the main menu
+                Debug.Log("Start Scene !!");
+                GameObject.Find("Back Button").GetComponent<Button>().onClick.Invoke();
+
+            }
+            
+
         };
 
         ws.Connect();
+
+        ws.OnClose += (sender, e) =>
+        {
+            Debug.Log("Connexion is off");
+            connected = false;
+            ready = false;
+        };
+    }
+
+    public void closeSocket()
+    {
+        ws.Close();
     }
 
 
     private void Update()
     {
+        setDemo();
         if (connected && !ready)
         {
             readyButton.interactable = true;
@@ -123,8 +183,10 @@ public class WsClient : MonoBehaviour
         }
         if (ready && connected)
         {
+            if(startButton != null && readyButton != null){
             startButton.interactable = true;
             readyButton.interactable = false;
+            }
         }
     }
 
@@ -139,7 +201,16 @@ public class WsClient : MonoBehaviour
             }
             else
             {
-                ws.Send("Ready");
+                if (this.demo == true)
+                {
+                    // Delete the previous ObjectsList
+                    ObjectsList.Clear();
+                    ws.Send("Ready Demo");
+                }
+                else
+                {
+                    ws.Send("Ready");
+                }
                 ws.OnMessage += (sender, e) =>
                 {
                     String typeName = DesarializedObject.typeForTheList(e.Data);
@@ -280,6 +351,104 @@ public class WsClient : MonoBehaviour
             {
 
                 ws.Send("Malus Sent. circleName =" + name + ", posX= " + posX + ", poxY= " + posY + ", duration= " + duration);
+                ws.OnMessage += (sender, e) =>
+                {
+                    Debug.Log(e.Data);
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+    }
+
+    public void Pause()
+    {
+        try
+        {
+            if (ws == null)
+            {
+                Debug.Log("Null");
+                return;
+            }
+            else
+            {
+
+                ws.Send("Pause");
+                ws.OnMessage += (sender, e) =>
+                {
+                    Debug.Log(e.Data);
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+    }
+
+    public void Resume()
+    {
+        try
+        {
+            if (ws == null)
+            {
+                Debug.Log("Null");
+                return;
+            }
+            else
+            {
+
+                ws.Send("Resume");
+                ws.OnMessage += (sender, e) =>
+                {
+                    Debug.Log(e.Data);
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+    }
+
+    public void updateDemo(){
+        try
+        {
+            if (ws == null)
+            {
+                Debug.Log("Null");
+                return;
+            }
+            else
+            {
+
+                ws.Send("Demo ="+this.demo);
+                ws.OnMessage += (sender, e) =>
+                {
+                    Debug.Log(e.Data);
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+    }
+
+    public void StartScene(){
+        try
+        {
+            if (ws == null)
+            {
+                Debug.Log("Null");
+                return;
+            }
+            else
+            {
+
+                ws.Send("Start Scene");
                 ws.OnMessage += (sender, e) =>
                 {
                     Debug.Log(e.Data);
