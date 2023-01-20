@@ -46,11 +46,14 @@ public class WsClient : MonoBehaviour
 
     public void setDemo()
     {
+        bool previousDemo = demo;
         Toggle toggle = GameObject.Find("Toggle").GetComponent<Toggle>();
         this.demo = toggle.isOn;
-
-        Debug.Log("Demo : " + demo);
+        if(previousDemo != demo){
+            updateDemo();
+        }
     }
+
 
     public void changeUrl()
     {
@@ -118,6 +121,40 @@ public class WsClient : MonoBehaviour
                 PersistentManagerScript.Instance.FREEZE = true;
             }
 
+            else if(e.Data.Contains("Pause")){
+                TimerScript.Instance.Pause();
+            }
+
+            else if(e.Data.Contains("Resume")){
+                TimerScript.Instance.Resume();
+            }
+
+            else if(e.Data.Contains("Demo =")){
+                int pos1 = e.Data.IndexOf("=");
+                string demo = e.Data.Substring(pos1 + 1);
+                Debug.Log("!!!! demo : " + demo);
+                if(demo == "True"){
+                    this.demo = true;
+                    // update on toggle
+                    Toggle toggle = GameObject.Find("Toggle").GetComponent<Toggle>();
+                    toggle.isOn = true;
+                }
+                else{
+                    this.demo = false;
+                    // update on toggle
+                    Toggle toggle = GameObject.Find("Toggle").GetComponent<Toggle>();
+                    toggle.isOn = false;
+                }
+            }
+
+            else if(e.Data.Contains("Start Scene")){
+                // Press the back button to go back to the main menu
+                Debug.Log("Start Scene !!");
+                GameObject.Find("Back Button").GetComponent<Button>().onClick.Invoke();
+
+            }
+            
+
         };
 
         ws.Connect();
@@ -166,7 +203,8 @@ public class WsClient : MonoBehaviour
             {
                 if (this.demo == true)
                 {
-                    Debug.Log("DEMOOOO");
+                    // Delete the previous ObjectsList
+                    ObjectsList.Clear();
                     ws.Send("Ready Demo");
                 }
                 else
@@ -313,6 +351,104 @@ public class WsClient : MonoBehaviour
             {
 
                 ws.Send("Malus Sent. circleName =" + name + ", posX= " + posX + ", poxY= " + posY + ", duration= " + duration);
+                ws.OnMessage += (sender, e) =>
+                {
+                    Debug.Log(e.Data);
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+    }
+
+    public void Pause()
+    {
+        try
+        {
+            if (ws == null)
+            {
+                Debug.Log("Null");
+                return;
+            }
+            else
+            {
+
+                ws.Send("Pause");
+                ws.OnMessage += (sender, e) =>
+                {
+                    Debug.Log(e.Data);
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+    }
+
+    public void Resume()
+    {
+        try
+        {
+            if (ws == null)
+            {
+                Debug.Log("Null");
+                return;
+            }
+            else
+            {
+
+                ws.Send("Resume");
+                ws.OnMessage += (sender, e) =>
+                {
+                    Debug.Log(e.Data);
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+    }
+
+    public void updateDemo(){
+        try
+        {
+            if (ws == null)
+            {
+                Debug.Log("Null");
+                return;
+            }
+            else
+            {
+
+                ws.Send("Demo ="+this.demo);
+                ws.OnMessage += (sender, e) =>
+                {
+                    Debug.Log(e.Data);
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+    }
+
+    public void StartScene(){
+        try
+        {
+            if (ws == null)
+            {
+                Debug.Log("Null");
+                return;
+            }
+            else
+            {
+
+                ws.Send("Start Scene");
                 ws.OnMessage += (sender, e) =>
                 {
                     Debug.Log(e.Data);

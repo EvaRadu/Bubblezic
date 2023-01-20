@@ -64,6 +64,56 @@ wss.on('connection', (ws) => {
             });
         }
 
+        /* ------------------------- */
+        /* --- MESSAGE = 'Pause' --- */
+        /* ------------------------- */
+        else if(messageAsString.toString() == 'Pause'){
+            //console.log("Pause");
+            for(let [key, value] of clients){
+                if(value.id != metadata.id){
+                    key.send("Pause");
+                }
+            }
+        }
+
+        /* -------------------------- */
+        /* --- MESSAGE = 'Resume' --- */
+        /* -------------------------- */
+        else if(messageAsString.toString() == 'Resume'){
+            //console.log("Resume");
+            for(let [key, value] of clients){
+                if(value.id != metadata.id){
+                    key.send("Resume");
+                }
+           }
+        }
+
+        /* -------------------------- */
+        /* --- MESSAGE = 'Demo =' --- */
+        /* -------------------------- */
+        else if(messageAsString.toString().includes('Demo =')){
+            let pos1 = messageAsString.toString().indexOf('=');
+            let msg = messageAsString.toString().substring(pos1+1);
+            for(let [key, value] of clients){
+                if(value.id != metadata.id){
+                    console.log("Demo = " + msg, "id = " + value.id);
+                    key.send("Demo =" + msg);
+                }
+            }
+        }
+
+        /* ------------------------------- */
+        /* --- MESSAGE = 'Start Scene" --- */
+        /* ------------------------------- */
+        else if(messageAsString.toString() == 'Start Scene'){
+            //console.log("Start Scene");
+            for(let [key, value] of clients){
+                if(value.id != metadata.id){
+                    key.send("Start Scene");
+                }
+            }
+        }
+
         /* -------------------------------- */
         /* --- MESSAGE = 'Update Score' --- */
         /* -------------------------------- */

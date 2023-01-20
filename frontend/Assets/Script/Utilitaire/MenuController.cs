@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class MenuController : MonoBehaviour {
+    
 
     public void getReady()
     {
@@ -14,11 +15,24 @@ public class MenuController : MonoBehaviour {
     public void LoadScene(string SceneName){
         if (WsClient.Instance.ready)
         {      
-            
-            SceneManager.LoadScene(SceneName, LoadSceneMode.Single);
-            Destroy(WsClient.Instance.gameObject);
-            Destroy(GameObject.Find("Scene2"));          
+            if(SceneName == "Start" && SceneManager.GetActiveScene().name == "Scene2")
+            {
+                SceneManager.LoadScene(SceneName, LoadSceneMode.Single);
+                WsClient.Instance.StartScene();   
+                Destroy(WsClient.Instance.gameObject);
+                Destroy(GameObject.Find("Scene2"));
+            }
+
+            else{
+                SceneManager.LoadScene(SceneName, LoadSceneMode.Single);
+            }
+                   
         }
+    }
+
+    public void switchTime()
+    {
+        TimerScript.Instance.switchTime();
     }
 
    

@@ -8,7 +8,7 @@ using UnityEngine;
         [SerializeField] private float _speed;
         [SerializeField] private float _radius;
         [SerializeField] private float _duration;
-        private float t = 0;
+        //private float t = 0;
         private StrokeCircleGenerator _circleGenerator;
         private LineRenderer _lineRenderer;
         

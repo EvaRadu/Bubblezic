@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class TimerScript : MonoBehaviour
 {
@@ -23,6 +24,39 @@ public class TimerScript : MonoBehaviour
     void Start()
     {
         time = Time.timeSinceLevelLoad;
+    }
+
+    // Pause the time and music + change the button text
+    public void Pause()
+    {
+        Time.timeScale = 0;
+        GameObject.Find("Music").GetComponent<AudioSource>().Pause();
+        GameObject.Find("PauseText").GetComponentInChildren<TextMeshProUGUI>().text = "RESUME";
+
+    }
+
+    // Resume the time and music + change the button text
+    public void Resume()
+    {
+        Time.timeScale = 1;
+        GameObject.Find("Music").GetComponent<AudioSource>().Play();
+        GameObject.Find("PauseText").GetComponentInChildren<TextMeshProUGUI>().text = "PAUSE";
+        
+    }
+
+    public void switchTime()
+    {
+        if (Time.timeScale == 1)
+        {
+            Pause();
+            WsClient.Instance.Pause();
+        }
+        else
+        {
+            Resume();
+            WsClient.Instance.Resume();
+
+        }
     }
 
     // Update is called once per frame

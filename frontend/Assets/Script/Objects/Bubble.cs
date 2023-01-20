@@ -54,11 +54,11 @@ public class Bubble : MonoBehaviour
 
     // --- CHAMPS POUR L'ECRAN DE L'ADVERSAIRE ---
     // Grand écran (player)
-    float x1 = -8.88f;
+    /*float x1 = -8.88f;
     float x2 = 8.8f;
     float y1 = -5f;
     float y2 = 5f;
-
+    */
     // Petit écran (opponent)
     float x3 = 5.8f;
     float x4 = 8.6f;
@@ -146,10 +146,7 @@ public class Bubble : MonoBehaviour
             other.gameObject.GetComponent<Bubble>().SetDraggable(false);
             other.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y , 0);  // On place le morceau au bon endroit
             float time = TimerScript.Instance.time;
-            if (SceneManager.GetActiveScene().name != "FirstScene")
-            {
             WsClient.Instance.updateScore(this.thisBubble, time, 0);
-            }
             //Destroy(gameObject
             Destroy(gameObject);
             Destroy(other.gameObject);
@@ -184,10 +181,7 @@ public class Bubble : MonoBehaviour
             if ((leftSide == 1) && (rightSide == 1))
             {
                 float time = TimerScript.Instance.time;
-                 if (SceneManager.GetActiveScene().name == "FirstScene")
-                {
                 WsClient.Instance.updateScore(this.thisBubble, time, 7);
-                }
                 /*
                 Destroy(gameObject);  // On détruit la cible
                 Destroy(leftPiece);  // On détruit la pièce de gauche
@@ -321,10 +315,7 @@ public class Bubble : MonoBehaviour
                     if((touchPos.x < x3 || touchPos.x > x4) && (touchPos.y < y3 || touchPos.y > y4)) // Si on est pas dans l'écran adverse
                     {
                     float time = TimerScript.Instance.time;
-                     if (SceneManager.GetActiveScene().name == "FirstScene")
-                {
                     WsClient.Instance.updateScore(this.thisBubble, time, 0);
-                }
                     WsClient.Instance.deleteBubble(gameObject.name);
                     Destroy(hitinfo.collider.gameObject);
                     }
