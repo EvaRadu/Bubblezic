@@ -12,12 +12,35 @@ public class PersistentManagerScript : MonoBehaviour
     public float freezeDuration = 0;
     public int counter = 0;
     public bool FREEZE = false;
+    float screenWidth;
+    float screenHeight;
+    public Bubble _bubblePrefab;
+    public int idMalusMultiple;
+
+
+    // Taille des deux écrans : 
+    // Grand écran (player)
+    float x1 = -8.88f;
+    float x2 = 8.8f;
+    float y1 = -5f;
+    float y2 = 5f;
+
+    // Petit écran (opponent)
+    float x3 = 5.8f;
+    float x4 = 8.6f;
+    float y3 = -4.6f;
+    float y4 = -3.27f;
+
+
 
     //Malus Multiple
     public bool MALUSMULTIPLE = false;
 
     private void Awake()
     {
+        // Determine the boundaries of the screen
+        screenWidth = Camera.main.orthographicSize * Camera.main.aspect;
+        screenHeight = Camera.main.orthographicSize;
         if (Instance == null)
         {
             Instance = this;
@@ -31,10 +54,24 @@ public class PersistentManagerScript : MonoBehaviour
 
     private void malusMultiple()
     {
-        //Instanciate();
+        Debug.Log("Malus creation");
+
+
+        //Ecran Joueur
+        Bubble newObject = Instantiate(_bubblePrefab);
+        Vector3 pos = new Vector3(Random.Range(-screenWidth + newObject.transform.localScale.x / 2, screenWidth - newObject.transform.localScale.x / 2), Random.Range(-screenHeight + newObject.transform.localScale.y / 2, screenHeight - newObject.transform.localScale.y / 2), 0);
+        Debug.Log(pos);
+        newObject.name = "MALUS";
+        newObject.transform.position = pos;
+        newObject.setDuration(3);
+        newObject.setColor(Color.magenta);
+        newObject.setType(10);
+        newObject.SetRadius(4);
+        Debug.Log("Malus created");
+
     }
 
-     void freeze() {
+    void freeze() {
         var foundBubbles = FindObjectsOfType<Bubble>();
         foreach (Bubble bubble in foundBubbles)
         {
@@ -64,6 +101,7 @@ public class PersistentManagerScript : MonoBehaviour
             semiCircle.setFreeze(false);
         }
         FREEZE = false;
+        Debug.Log("END OF FREEZING");
     }
 
     private void Update()
@@ -82,7 +120,7 @@ public class PersistentManagerScript : MonoBehaviour
 
         if (MALUSMULTIPLE)
         {
-
+            malusMultiple();
             MALUSMULTIPLE = false;
         }
      

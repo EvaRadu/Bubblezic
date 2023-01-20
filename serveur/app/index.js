@@ -122,7 +122,7 @@ wss.on('connection', (ws) => {
             let freezeDuration = parseFloat(msg.replace(",", "."));
 
             for(let [key, value] of clients){
-                if(value.id == metadata.id){
+                if(value.id != metadata.id){
                     key.send('Freeze Malus Received with duration = ' + freezeDuration);
                     key.send('Delete Bubble = ' + bubbleToDelete);
                 }
@@ -132,7 +132,7 @@ wss.on('connection', (ws) => {
         /* -------------------------------- */
         /* --- MSG= 'Multiple Malus Sent' --- */
         /* -------------------------------- */
-        else if (messageAsString.toString().includes('Freeze Malus Sent.')) {
+        else if (messageAsString.toString().includes('Multiple Malus Sent.')) {
             // get the second client
             // send malus data to the second client
 
@@ -163,7 +163,7 @@ wss.on('connection', (ws) => {
             let id = parseFloat(msg.replace(",", "."));
 
             for(let [key, value] of clients){
-                if(value.id == metadata.id){
+                if(value.id != metadata.id){
                     key.send('Multiple Malus Received with id = ' + id);
                     key.send('Delete Bubble = ' + bubbleToDelete);
                 }

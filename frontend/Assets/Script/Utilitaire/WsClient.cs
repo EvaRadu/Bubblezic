@@ -102,6 +102,7 @@ public class WsClient : MonoBehaviour
 
             else if(e.Data.Contains("Freeze Malus Received"))
             {
+                Debug.Log("FREEZE MALUS RECEIVED");
                 int pos1 = e.Data.IndexOf("=");
                 PersistentManagerScript.Instance.freezeDuration = float.Parse(e.Data.Substring(pos1 + 2));
                 Debug.Log("freezeDuration : " + PersistentManagerScript.Instance.freezeDuration);
@@ -110,6 +111,7 @@ public class WsClient : MonoBehaviour
 
             else if (e.Data.Contains("Multiple Malus Received"))
             {
+                Debug.Log("MULTIPLE MALUS RECEIVED");
                 PersistentManagerScript.Instance.MALUSMULTIPLE = true;
             }
 
@@ -284,7 +286,7 @@ public class WsClient : MonoBehaviour
             else
             {
 
-                ws.Send("Malus Sent. circleName =" + name + ", posX= " + posX + ", poxY= " + posY + ", duration= " + duration);
+                ws.Send("Multiple Malus Sent. circleName =" + name + ", posX= " + posX + ", poxY= " + posY + ", duration= " + duration);
                 ws.OnMessage += (sender, e) =>
                 {
                     Debug.Log(e.Data);

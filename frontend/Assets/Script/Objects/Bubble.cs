@@ -47,7 +47,12 @@ public class Bubble : MonoBehaviour
     private bool _freeze = false;
     private int _freezeDuration = 0;
 
+    private bool _freezeMalusSent = false;
+
     private int _nbMalusMultiple = 0;
+
+    public float force = 10f;
+
     // --------------------------------
 
 
@@ -102,7 +107,7 @@ public class Bubble : MonoBehaviour
 
     private void Start() 
     {
-        Debug.Log(_id);
+        //Debug.Log(_id);
         _rb = this.GetComponent<Rigidbody2D>();
 
         if (type == 1 || type == 9) //si la bulle est de type toucher prolongé
@@ -118,10 +123,16 @@ public class Bubble : MonoBehaviour
         }
         else { gameObject.GetComponent<CircleCollider2D>().isTrigger = false; }
 
-        if (type == 4 || type == 5)
+        if (type == 4 || type == 5 || type == 10)
         {
             _rb.bodyType = RigidbodyType2D.Dynamic; 
         }
+
+        if (type==10)
+        {
+            AddForce();
+        }
+
         if(!_isOpponentCircle){
         CreateRing();
         }
@@ -131,7 +142,9 @@ public class Bubble : MonoBehaviour
     {
         _rb.velocity = new Vector2(0,0);
         _rb.mass=100;
-        _rb.AddForce(Vector2.up * 500f +250f * _rb.velocity.normalized, ForceMode2D.Impulse);
+        //_rb.AddForce(Vector2.up * 500f +250f * _rb.velocity.normalized, ForceMode2D.Impulse);
+        Vector2 randomForce = Random.insideUnitCircle * force;
+        GetComponent<Rigidbody2D>().AddForce(randomForce);
     }
 
 
@@ -396,6 +409,8 @@ public class Bubble : MonoBehaviour
             endPos = Input.GetTouch(0).position;
             direction = startPos - endPos;
             GetComponent<Rigidbody2D>().AddForce(-direction / timeInterval * throwForce);
+
+            
         }
     }
 
@@ -426,8 +441,12 @@ public class Bubble : MonoBehaviour
             }
             else
             {
-                WsClient.Instance.MalusSentFreeze(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y, _freezeDuration);
-                WsClient.Instance.deleteBubble(gameObject.name);
+                if (!_freezeMalusSent)
+                {
+                    WsClient.Instance.MalusSentFreeze(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y, _freezeDuration);
+                    WsClient.Instance.deleteBubble(gameObject.name);
+                    _freezeMalusSent = true;
+                }
             }
 
         }
@@ -444,11 +463,19 @@ public class Bubble : MonoBehaviour
             }
             else
             {
-                WsClient.Instance.MalusSentMultiple(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y, _freezeDuration);
+                WsClient.Instance.MalusSentMultiple(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y, 3);
+
+                if (_nbMalusMultiple > 0) {
+                    Bubble newB = Instantiate(this);
+                    newB.transform.position = new Vector3(thisBubble.posX, thisBubble.posY, 0);
+                    newB.setNbMalusMultiple(_nbMalusMultiple--);
+                    newB.SetId(_id - 0.1f);
+                }
                 WsClient.Instance.deleteBubble(gameObject.name);
             }
 
         }
+
 
         /*
         //if (type==4) { Debug.Log("addForce"); AddForce(); }
@@ -476,6 +503,17 @@ public class Bubble : MonoBehaviour
                 Destroy(hitinfo.collider.gameObject); 
             }
         }*/
+        if (type == 10)
+        {
+            Vector3 pos = transform.position;
+            float screenWidth = Camera.main.orthographicSize * Camera.main.aspect;
+            float screenHeight = Camera.main.orthographicSize;
+            pos.x = Mathf.Clamp(pos.x, -screenWidth + transform.localScale.x / 2, screenWidth - transform.localScale.x / 2);
+
+            // Clamp the object's y-coordinate between the top and bottom edges of the screen
+            pos.y = Mathf.Clamp(pos.y, -screenHeight + transform.localScale.y / 2, screenHeight - transform.localScale.y / 2);
+        }
+
         if (!_freeze)
         {
             multiTouch();

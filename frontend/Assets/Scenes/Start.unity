@@ -2023,6 +2023,8 @@ MonoBehaviour:
   freezeDuration: 0
   counter: 0
   FREEZE: 0
+  _bubblePrefab: {fileID: 8129448099910963033, guid: 7449d7920e146564ca950877f84f87d4, type: 3}
+  MALUSMULTIPLE: 0
 --- !u!4 &2139546389
 Transform:
   m_ObjectHideFlags: 0

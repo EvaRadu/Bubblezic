@@ -60,7 +60,7 @@ module.exports = listBalles = [
             impulsion: 0.5,
 
             couleur: 'white',
-            rayon: 3,
+            rayon: 2,
             temps: 5,
             duration: 3,
             rotation: 90,
@@ -74,20 +74,20 @@ module.exports = listBalles = [
             typeName : "bubble",
             type: 5,
 
-            posX: -2,
-            posY: -2,
+            posX: 4,
+            posY: 3,
             posXOpponent : 0,
             posYOpponent : 0,
             impulsion: 0.5,
 
             couleur: 'white',
-            rayon: 3,
+            rayon: 2,
             temps: 8,
             duration: 3,
             rotation: 90,
             side: 0,
-            nbMalusMultiple : 5,
-            texture: "flocon"
+            nbMalusMultiple : 3,
+            texture: "ice"
         },
     // BULLE SIMPLE nÂ°2
            { 
