@@ -13,8 +13,10 @@ public class MenuController : MonoBehaviour {
 
     public void LoadScene(string SceneName){
         if (WsClient.Instance.ready)
-        {
-            SceneManager.LoadScene(SceneName);
+        {            SceneManager.LoadScene(SceneName, LoadSceneMode.Single);
+           
         }
     }
+
+   
 }

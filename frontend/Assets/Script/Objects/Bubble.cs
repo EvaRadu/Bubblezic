@@ -176,7 +176,7 @@ public class Bubble : MonoBehaviour
                 WsClient.Instance.MoveCircle(other.gameObject.name, other.gameObject.transform.position.x, other.gameObject.transform.position.y);     
             }
 
-            // SI ON A LES DEUX MORCEAUX --> ON DETRUIT LE PUZZLE ET ON ENVOIE LE SCORE
+            // SI ON A LES DEUX MORCEAUX --> ON ENVOIE LE SCORE
             if ((leftSide == 1) && (rightSide == 1))
             {
                 float time = TimerScript.Instance.time;
