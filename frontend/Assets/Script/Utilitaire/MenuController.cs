@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class MenuController : MonoBehaviour {
     
-    public float endTime = 5f; // time after which the game scene will be switched to the end scene
+    public float endTime = 30f; // time after which the game scene will be switched to the end scene
     public bool updated = false; // to make sure the scores at the end of the game are updated only once
 
     public void getReady()
