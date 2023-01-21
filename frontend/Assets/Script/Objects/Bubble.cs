@@ -418,8 +418,10 @@ public class Bubble : MonoBehaviour
             endPos = Input.GetTouch(0).position;
             direction = startPos - endPos;
             GetComponent<Rigidbody2D>().AddForce(-direction / timeInterval * throwForce);
+            WsClient.Instance.MoveCircle(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y);
 
-            
+
+
         }
     }
 
@@ -479,6 +481,7 @@ public class Bubble : MonoBehaviour
                     newB.transform.position = new Vector3(thisBubble.posX, thisBubble.posY, 0);
                     newB.setNbMalusMultiple(_nbMalusMultiple--);
                     newB.SetId(_id - 0.1f);
+                    newB.setDuration(duration);
                 }
                 WsClient.Instance.deleteBubble(gameObject.name);
             }

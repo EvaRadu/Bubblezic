@@ -13,6 +13,7 @@ public class WsClient : MonoBehaviour
     public Button readyButton;
     public Button connectButton;
     public InputField inputURL;
+    public bool freeze = false;
 
     WebSocket ws;
     public static WsClient Instance { get; private set; }
@@ -120,6 +121,7 @@ public class WsClient : MonoBehaviour
                 int pos1 = e.Data.IndexOf("=");
                 PersistentManagerScript.Instance.freezeDuration = float.Parse(e.Data.Substring(pos1 + 2));
                 Debug.Log("freezeDuration : " + PersistentManagerScript.Instance.freezeDuration);
+                freeze = true;
                 PersistentManagerScript.Instance.FREEZE = true;
             }
             else if(e.Data.Contains("Pause")){
@@ -176,6 +178,7 @@ public class WsClient : MonoBehaviour
                 Debug.Log("MULTIPLE MALUS RECEIVED");
                 PersistentManagerScript.Instance.MALUSMULTIPLE = true;
             }
+            
 
         };
 
@@ -335,28 +338,37 @@ public class WsClient : MonoBehaviour
         }
     }
 
+    public void EndMalusFreeze()
+    {
+        freeze = false;
+    }
+
+
     public void MalusSentFreeze(string name, float posX, float posY, int duration)
     {
-        try
+        if (!freeze)
         {
-            if (ws == null)
+            try
             {
-                Debug.Log("Null");
-                return;
-            }
-            else
-            {
-
-                ws.Send("Freeze Malus Sent. circleName =" + name + ", posX= " + posX + ", poxY= " + posY + ", duration= " + duration);
-                ws.OnMessage += (sender, e) =>
+                if (ws == null)
                 {
-                    Debug.Log(e.Data);
-                };
+                    Debug.Log("Null");
+                    return;
+                }
+                else
+                {
+
+                    ws.Send("Freeze Malus Sent. circleName =" + name + ", posX= " + posX + ", poxY= " + posY + ", duration= " + duration);
+                    ws.OnMessage += (sender, e) =>
+                    {
+                        Debug.Log(e.Data);
+                    };
+                }
             }
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e.Message);
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+            }
         }
     }
 

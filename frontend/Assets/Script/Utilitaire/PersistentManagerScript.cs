@@ -110,6 +110,9 @@ public class PersistentManagerScript : MonoBehaviour
         //set background color back
         Debug.Log("change of color : " + bckColor);
         Camera.main.backgroundColor = bckColor;
+
+        //self knows end of freezing malus
+        WsClient.Instance.EndMalusFreeze();
         Debug.Log("END OF FREEZING");
     }
 
