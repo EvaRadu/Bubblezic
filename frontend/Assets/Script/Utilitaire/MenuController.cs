@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class MenuController : MonoBehaviour {
     
-    public float endTime = 5f; // time after which the game scene will be switched to the end scene
+    public float endTime = 30f; // time after which the game scene will be switched to the end scene
     public bool updated = false; // to make sure the scores at the end of the game are updated only once
 
     public void getReady()
@@ -55,7 +55,7 @@ public class MenuController : MonoBehaviour {
             PlayerPrefs.DeleteAll();
             PlayerPrefs.Save();
             WsClient.Instance.EndScene();
-            while(PersistentManagerScript.Instance.scoreTeam == -1 && PersistentManagerScript.Instance.scoreOpponent == -1)
+            while(PersistentManagerScript.Instance.scoreTeam == -100000 && PersistentManagerScript.Instance.scoreOpponent == -100000)
             {
                 // wait for the scores to be updated
             }

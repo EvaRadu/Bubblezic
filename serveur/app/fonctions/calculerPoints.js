@@ -1,10 +1,24 @@
 const listBalles = require('../objects/balls');
+const listBalles2 = require('../objects/balls2');
+const listBallesDemo = require('../objects/ballsDemo');
+
 
 module.exports = function calculePoints(time, id) {
     let ballTime = 0;
     let delay = 1.2;
 
-    listBalles.forEach(ball => {
+    // get the demoMode value of the index.js file
+    let demoMode = require('../index').demoMode;
+    let currentJson;
+
+    if(demoMode){
+        currentJson = listBallesDemo;
+    }
+    else{
+        currentJson = listBalles;
+    }
+
+    currentJson.forEach(ball => {
         if (ball.id == id) {
             ballTime = ball.temps;
             ballDuration = ball.duration;
@@ -13,8 +27,10 @@ module.exports = function calculePoints(time, id) {
 
     let timeBubble = ballTime + ballDuration;
     
-    //console.log("time = " +time);
-    //console.log("timeBubble = " +timeBubble);
+    //console.log("ballTime =" + ballTime);
+    //console.log("ballDuration =" + ballDuration);
+    console.log("time = " +time);
+    console.log("timeBubble = " +timeBubble);
 
     if(Math.abs(time-timeBubble) <= 0.05 ){
         return 10;
