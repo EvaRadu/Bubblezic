@@ -126,6 +126,31 @@ wss.on('connection', (ws) => {
                 }
             }
         }
+
+        /* ----------------------------- */
+        /* --- MESSAGE = 'End Scene" --- */
+        /* ----------------------------- */
+        else if(messageAsString.toString() == 'End Scene'){
+            let scoreTeam;
+            let scoreOpponentTeam;
+
+            for(let [key, value] of clients){
+                if(value.id == metadata.id){
+                    console.log("score = " + value.score);
+                    scoreTeam = value.score;
+                }
+                else{
+                    console.log("score = " + value.score);
+                    scoreOpponentTeam = value.score;
+                }
+            }
+            //console.log("ScoreTeam = " + scoreTeam + ", ScoreOpponent = " + scoreOpponentTeam);
+
+
+
+            ws.send("ScoreTeam = " + scoreTeam + ", ScoreOpponent = " + scoreOpponentTeam);
+        }
+
         
 
         /* -------------------------------- */

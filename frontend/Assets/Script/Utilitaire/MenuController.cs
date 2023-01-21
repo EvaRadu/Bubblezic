@@ -37,6 +37,7 @@ public class MenuController : MonoBehaviour {
         }
     }
 
+
     public void switchTime()
     {
         TimerScript.Instance.switchTime();
@@ -44,14 +45,30 @@ public class MenuController : MonoBehaviour {
 
     public void Update(){
         // Get the current time
+        if(SceneManager.GetActiveScene().name == "Scene2"){
         float currentTime = Time.timeSinceLevelLoad;
         // If the current time is greater than the end time
         if (currentTime > endTime)
         {
             // Load the scene
+            PlayerPrefs.DeleteAll();
+            PlayerPrefs.Save();
+            WsClient.Instance.EndScene();
+            while(PersistentManagerScript.Instance.scoreTeam == 0 && PersistentManagerScript.Instance.scoreOpponent == 0)
+            {
+                // wait for the scores to be updated
+            }
+            PlayerPrefs.SetInt("ScoreTeam", PersistentManagerScript.Instance.scoreTeam);
+            PlayerPrefs.SetInt("ScoreOpponent", PersistentManagerScript.Instance.scoreOpponent);
+            PlayerPrefs.Save();
             SceneManager.LoadScene("End", LoadSceneMode.Single);
-            Destroy(WsClient.Instance.gameObject);
         }
+        }
+    }
+
+    IEnumerator WaitForSceneLoad()
+    {
+        yield return new WaitForSeconds(10);
     }
 
    
