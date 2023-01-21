@@ -1684,6 +1684,7 @@ GameObject:
   - component: {fileID: 1495670661}
   - component: {fileID: 1495670660}
   - component: {fileID: 1495670659}
+  - component: {fileID: 1495670662}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1757,6 +1758,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1495670662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1495670658}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e04bb6db621797a429430a9df5029fb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 1, g: 1, b: 0.7019608, a: 0}
+  initialColor: {r: 1, g: 1, b: 0.7019608, a: 0}
 --- !u!1 &1611697272
 GameObject:
   m_ObjectHideFlags: 0
@@ -2024,6 +2039,8 @@ MonoBehaviour:
   counter: 0
   FREEZE: 0
   _bubblePrefab: {fileID: 8129448099910963033, guid: 7449d7920e146564ca950877f84f87d4, type: 3}
+  idMalusMultiple: 0
+  bckColor: {r: 1, g: 1, b: 1, a: 1}
   MALUSMULTIPLE: 0
 --- !u!4 &2139546389
 Transform:

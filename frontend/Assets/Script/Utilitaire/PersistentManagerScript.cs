@@ -16,6 +16,7 @@ public class PersistentManagerScript : MonoBehaviour
     float screenHeight;
     public Bubble _bubblePrefab;
     public int idMalusMultiple;
+    public Color bckColor = Color.white;
 
 
     // Taille des deux écrans : 
@@ -41,6 +42,7 @@ public class PersistentManagerScript : MonoBehaviour
         // Determine the boundaries of the screen
         screenWidth = Camera.main.orthographicSize * Camera.main.aspect;
         screenHeight = Camera.main.orthographicSize;
+        bckColor = Camera.main.backgroundColor;
         if (Instance == null)
         {
             Instance = this;
@@ -72,6 +74,7 @@ public class PersistentManagerScript : MonoBehaviour
     }
 
     void freeze() {
+        Camera.main.backgroundColor = Color.red;
         var foundBubbles = FindObjectsOfType<Bubble>();
         foreach (Bubble bubble in foundBubbles)
         {
@@ -101,6 +104,10 @@ public class PersistentManagerScript : MonoBehaviour
             semiCircle.setFreeze(false);
         }
         FREEZE = false;
+
+        //set background color back
+        Debug.Log("change of color : " + bckColor);
+        Camera.main.backgroundColor = bckColor;
         Debug.Log("END OF FREEZING");
     }
 

@@ -128,6 +128,11 @@ public class Bubble : MonoBehaviour
             _rb.bodyType = RigidbodyType2D.Dynamic; 
         }
 
+        if (type == 5)
+        {
+            transform.Find("TextContainer").GetComponent<TextMesh>().text = _nbMalusMultiple.ToString();
+        }
+
         if (type==10)
         {
             AddForce();
