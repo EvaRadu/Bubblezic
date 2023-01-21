@@ -2347,8 +2347,8 @@ MonoBehaviour:
   freezeDuration: 0
   counter: 0
   FREEZE: 0
-  scoreTeam: -1
-  scoreOpponent: -1
+  scoreTeam: -100000
+  scoreOpponent: -100000
   _bubblePrefab: {fileID: 8129448099910963033, guid: 7449d7920e146564ca950877f84f87d4, type: 3}
   idMalusMultiple: 0
   bckColor: {r: 1, g: 1, b: 1, a: 1}

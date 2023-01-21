@@ -11,6 +11,7 @@ const clients = new Map();
 
 let nbClients = 0;
 let log = [];
+let demoMode = false;
 
 const wss = new WebSocket.Server({ port: myport },()=>{
     console.log("Server started");
@@ -47,6 +48,7 @@ wss.on('connection', (ws) => {
             listBallesDemo.forEach(ball => {
                 ws.send(JSON.stringify(ball));
             });
+            demoMode = true;
         }
 
 

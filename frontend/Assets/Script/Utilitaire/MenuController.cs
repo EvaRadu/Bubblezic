@@ -55,7 +55,7 @@ public class MenuController : MonoBehaviour {
             PlayerPrefs.DeleteAll();
             PlayerPrefs.Save();
             WsClient.Instance.EndScene();
-            while(PersistentManagerScript.Instance.scoreTeam == -1 && PersistentManagerScript.Instance.scoreOpponent == -1)
+            while(PersistentManagerScript.Instance.scoreTeam == -100000 && PersistentManagerScript.Instance.scoreOpponent == -100000)
             {
                 // wait for the scores to be updated
             }
