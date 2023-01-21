@@ -194,10 +194,10 @@ wss.on('connection', (ws) => {
             }
         }
 
-        /* ------------------------- */
-        /* --- MSG= 'Malus Sent' --- */
-        /* ------------------------- */
-        else if (messageAsString.toString().includes('Malus Sent.')) {
+        /* -------------------------------- */
+        /* --- MSG= 'Freeze Malus Sent' --- */
+        /* -------------------------------- */
+        else if (messageAsString.toString().includes('Freeze Malus Sent.')) {
             // get the second client
             // send malus data to the second client
 
@@ -229,7 +229,48 @@ wss.on('connection', (ws) => {
 
             for(let [key, value] of clients){
                 if(value.id != metadata.id){
-                    key.send('Malus Received with duration = ' + freezeDuration);
+                    key.send('Freeze Malus Received with duration = ' + freezeDuration);
+                    key.send('Delete Bubble = ' + bubbleToDelete);
+                }
+            }
+        }
+
+        /* -------------------------------- */
+        /* --- MSG= 'Multiple Malus Sent' --- */
+        /* -------------------------------- */
+        else if (messageAsString.toString().includes('Multiple Malus Sent.')) {
+            // get the second client
+            // send malus data to the second client
+
+            //bubble to delete
+            let pos1 = messageAsString.toString().indexOf('=');
+            let pos2 = messageAsString.toString().indexOf(',');
+            let msg = messageAsString.toString().substring(pos1+1, pos2);
+            let bubbleToDelete = "Opponent " + msg;
+
+            //posX
+            msg = messageAsString.toString().substring(pos1 + 1);
+
+            pos1 = msg.toString().indexOf('=');
+            pos2 = msg.toString().indexOf(',');
+            msg = msg.toString().substring(pos1 + 1);
+        
+            let posX = parseFloat(msg.replace(",", "."));
+
+            //posY
+            pos1 = msg.toString().indexOf('=');
+            pos2 = msg.toString().indexOf(',');
+            msg = msg.toString().substring(pos1 + 1);
+            let posY = parseFloat(msg.replace(",", "."));
+
+            //id
+            pos1 = msg.toString().indexOf('=');
+            msg = msg.toString().substring(pos1 + 1);
+            let id = parseFloat(msg.replace(",", "."));
+
+            for(let [key, value] of clients){
+                if(value.id != metadata.id){
+                    key.send('Multiple Malus Received with id = ' + id);
                     key.send('Delete Bubble = ' + bubbleToDelete);
                 }
             }

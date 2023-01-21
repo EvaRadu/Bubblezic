@@ -56,8 +56,8 @@ public class createBalls : MonoBehaviour
 
                 if (time >= ball.temps - 0.2 && time <= ball.temps + 0.2 && ball.created == false)
                 {
-                    for (int i = ball.nbMalusMultiple; i > 0; i--)
-                    {
+                    /*for (int i = ball.nbMalusMultiple; i > 0; i--)
+                    {*/
 
                         if (ball.type == 7)
                         { // Type 7 = Semi Circle
@@ -97,7 +97,7 @@ public class createBalls : MonoBehaviour
                         }
                         else
                         {
-                            var spawnedCircle = Instantiate(_circlePrefab, new Vector3(ball.posX, ball.posY, 0), Quaternion.identity); // create a new circle
+                            var spawnedCircle = Instantiate(_circlePrefab, new Vector3(ball.posX, ball.posY , 0), Quaternion.identity); // create a new circle
                             spawnedCircle.name = "Bubble " + ball.id + "";
                             spawnedCircle.SetId(ball.id);
                             spawnedCircle.setDuration(ball.duration);
@@ -106,7 +106,7 @@ public class createBalls : MonoBehaviour
                             spawnedCircle.setType(ball.type);
                             spawnedCircle.SetRadius(ball.rayon);
 
-                            if (ball.type == 6 || ball.type == 9 || ball.type == 4)
+                            if (ball.type == 6 || ball.type == 9 || ball.type == 4) 
                             {
                                 spawnedCircle.setTexture(ball.texture);
                             }
@@ -122,8 +122,8 @@ public class createBalls : MonoBehaviour
                             {
                                 spawnedCircle.setImpulsion(ball.impulsion);
                                 spawnedCircle.setPosOpponent(ball.posXOpponent, ball.posYOpponent);
-                                spawnedCircle.setNbMalusMultiple(i);
-                                spawnedCircle.SetId(ball.id+ (i/10));
+                                spawnedCircle.setNbMalusMultiple(ball.nbMalusMultiple);
+                                spawnedCircle.SetId(ball.id+ (ball.nbMalusMultiple/ 10));
                             }
 
                             bubbles.Add(spawnedCircle);
@@ -171,7 +171,7 @@ public class createBalls : MonoBehaviour
 
                         }
                     }
-                }
+                //}
             }
 
                 if (obj.GetType() == typeof(Trajectoire))

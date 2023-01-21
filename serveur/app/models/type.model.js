@@ -12,4 +12,5 @@ module.exports = Type = {
     PuzzleSide: 7,
     Collaboration: 8,
     ProlongedTouchCible : 9,
-}
+    MalusMultipleReceived : 10
+};

@@ -114,14 +114,14 @@ public class WsClient : MonoBehaviour
                 PersistentManagerScript.Instance.circleToMovePosY = posY;
             }
 
-            else if(e.Data.Contains("Malus Received"))
+            else if(e.Data.Contains("Freeze Malus Received"))
             {
+                Debug.Log("FREEZE MALUS RECEIVED");
                 int pos1 = e.Data.IndexOf("=");
                 PersistentManagerScript.Instance.freezeDuration = float.Parse(e.Data.Substring(pos1 + 2));
                 Debug.Log("freezeDuration : " + PersistentManagerScript.Instance.freezeDuration);
                 PersistentManagerScript.Instance.FREEZE = true;
             }
-
             else if(e.Data.Contains("Pause")){
                 TimerScript.Instance.Pause();
             }
@@ -170,6 +170,12 @@ public class WsClient : MonoBehaviour
                 PersistentManagerScript.Instance.scoreOpponent = scoreO;            
             }
             
+
+            else if (e.Data.Contains("Multiple Malus Received"))
+            {
+                Debug.Log("MULTIPLE MALUS RECEIVED");
+                PersistentManagerScript.Instance.MALUSMULTIPLE = true;
+            }
 
         };
 
@@ -341,7 +347,7 @@ public class WsClient : MonoBehaviour
             else
             {
 
-                ws.Send("Malus Sent. circleName =" + name + ", posX= " + posX + ", poxY= " + posY + ", duration= " + duration);
+                ws.Send("Freeze Malus Sent. circleName =" + name + ", posX= " + posX + ", poxY= " + posY + ", duration= " + duration);
                 ws.OnMessage += (sender, e) =>
                 {
                     Debug.Log(e.Data);
@@ -366,7 +372,7 @@ public class WsClient : MonoBehaviour
             else
             {
 
-                ws.Send("Malus Sent. circleName =" + name + ", posX= " + posX + ", poxY= " + posY + ", duration= " + duration);
+                ws.Send("Multiple Malus Sent. circleName =" + name + ", posX= " + posX + ", poxY= " + posY + ", duration= " + duration);
                 ws.OnMessage += (sender, e) =>
                 {
                     Debug.Log(e.Data);
