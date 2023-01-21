@@ -24,6 +24,10 @@ public class EndManager : MonoBehaviour {
 
     }
 
+    public void reStart(){
+        SceneManager.LoadScene("Start", LoadSceneMode.Single);
+    }
+
 
     void Update(){
         Debug.Log("ScoreTeam : " + PlayerPrefs.GetInt("ScoreTeam"));

@@ -5,7 +5,8 @@ using System.Collections.Generic;
 
 public class MenuController : MonoBehaviour {
     
-    public float endTime = 30f; // time after which the game scene will be switched to the end scene
+    public float endTime = 5f; // time after which the game scene will be switched to the end scene
+    public bool updated = false; // to make sure the scores at the end of the game are updated only once
 
     public void getReady()
     {
@@ -48,13 +49,13 @@ public class MenuController : MonoBehaviour {
         if(SceneManager.GetActiveScene().name == "Scene2"){
         float currentTime = Time.timeSinceLevelLoad;
         // If the current time is greater than the end time
-        if (currentTime > endTime)
+        if ((currentTime > endTime) && updated == false)
         {
             // Load the scene
             PlayerPrefs.DeleteAll();
             PlayerPrefs.Save();
             WsClient.Instance.EndScene();
-            while(PersistentManagerScript.Instance.scoreTeam == 0 && PersistentManagerScript.Instance.scoreOpponent == 0)
+            while(PersistentManagerScript.Instance.scoreTeam == -1 && PersistentManagerScript.Instance.scoreOpponent == -1)
             {
                 // wait for the scores to be updated
             }
@@ -62,6 +63,7 @@ public class MenuController : MonoBehaviour {
             PlayerPrefs.SetInt("ScoreOpponent", PersistentManagerScript.Instance.scoreOpponent);
             PlayerPrefs.Save();
             SceneManager.LoadScene("End", LoadSceneMode.Single);
+            updated = true;
         }
         }
     }

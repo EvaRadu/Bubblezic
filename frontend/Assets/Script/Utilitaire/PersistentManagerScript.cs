@@ -12,8 +12,8 @@ public class PersistentManagerScript : MonoBehaviour
     public float freezeDuration = 0;
     public int counter = 0;
     public bool FREEZE = false;
-    public int scoreTeam;
-    public int scoreOpponent;
+    public int scoreTeam = -1;
+    public int scoreOpponent = -1;
 
     private void Awake()
     {
