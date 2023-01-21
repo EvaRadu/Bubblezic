@@ -68,6 +68,7 @@ public class createBalls : MonoBehaviour
                             spawnedSemiCircle.setType(ball.type);
                             spawnedSemiCircle.setRotation(ball.rotation);
                             spawnedSemiCircle.setSide(ball.side);
+                            spawnedSemiCircle.setScale((0.1f * ball.rayon)/2);
                             semiCircles.Add(spawnedSemiCircle);
                             ball.created = true;
                             spawnedSemiCircle.setBubble(ball);

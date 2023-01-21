@@ -23,6 +23,8 @@ public class WsClient : MonoBehaviour
 
     public string serverUrl;
 
+
+
     private void Awake()
     {
         if (Instance == null)
@@ -53,7 +55,6 @@ public class WsClient : MonoBehaviour
             updateDemo();
         }
     }
-
 
     public void changeUrl()
     {
@@ -132,7 +133,6 @@ public class WsClient : MonoBehaviour
             else if(e.Data.Contains("Demo =")){
                 int pos1 = e.Data.IndexOf("=");
                 string demo = e.Data.Substring(pos1 + 1);
-                Debug.Log("!!!! demo : " + demo);
                 if(demo == "True"){
                     this.demo = true;
                     // update on toggle
@@ -148,10 +148,26 @@ public class WsClient : MonoBehaviour
             }
 
             else if(e.Data.Contains("Start Scene")){
-                // Press the back button to go back to the main menu
-                Debug.Log("Start Scene !!");
-                GameObject.Find("Back Button").GetComponent<Button>().onClick.Invoke();
+                SceneManager.LoadScene("Start", LoadSceneMode.Single);
+                TimerScript.Instance.Resume();
+                Destroy(WsClient.Instance.gameObject);
 
+            }
+
+            else if(e.Data.Contains("Scene 2")){
+                SceneManager.LoadScene("Scene2", LoadSceneMode.Single);
+                Destroy(WsClient.Instance.gameObject);
+
+            }
+
+            else if(e.Data.Contains("ScoreTeam")){
+                int pos1 = e.Data.IndexOf("=");
+                int pos2 = e.Data.IndexOf("ScoreOpponent");
+                int scoreT = Int16.Parse(e.Data.Substring(pos1 + 2, pos2 - 14));
+                int scoreO = Int16.Parse(e.Data.Substring(pos2 + 16));
+        
+                PersistentManagerScript.Instance.scoreTeam = scoreT;
+                PersistentManagerScript.Instance.scoreOpponent = scoreO;            
             }
             
 
@@ -374,7 +390,7 @@ public class WsClient : MonoBehaviour
             }
             else
             {
-
+                
                 ws.Send("Pause");
                 ws.OnMessage += (sender, e) =>
                 {
@@ -447,8 +463,56 @@ public class WsClient : MonoBehaviour
             }
             else
             {
-
                 ws.Send("Start Scene");
+                TimerScript.Instance.Resume();
+                ws.OnMessage += (sender, e) =>
+                {
+                    Debug.Log(e.Data);
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+    }
+
+    public void Scene2(){
+        try
+        {
+            if (ws == null)
+            {
+                Debug.Log("Null");
+                return;
+            }
+            else
+            {
+
+                ws.Send("Scene 2");
+                ws.OnMessage += (sender, e) =>
+                {
+                    Debug.Log(e.Data);
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+    }
+
+    public void EndScene(){
+        try
+        {
+            if (ws == null)
+            {
+                Debug.Log("Null");
+                return;
+            }
+            else
+            {
+
+                ws.Send("End Scene");
                 ws.OnMessage += (sender, e) =>
                 {
                     Debug.Log(e.Data);

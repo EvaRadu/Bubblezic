@@ -4,6 +4,7 @@ const wait = require('./fonctions/wait');
 const calculePoints = require('./fonctions/calculerPoints');
 const calculePos = require('./fonctions/calculerPosition');
 const listBalles = require('./objects/balls');
+const listBalles2 = require('./objects/balls2');
 const listBallesDemo = require('./objects/ballsDemo');
 const myport = 8080;
 const clients = new Map();
@@ -113,6 +114,44 @@ wss.on('connection', (ws) => {
                 }
             }
         }
+
+        /* --------------------------- */
+        /* --- MESSAGE = 'Scene 2" --- */
+        /* --------------------------- */
+        else if(messageAsString.toString() == 'Scene 2'){
+            //console.log("Scene 2");
+            for(let [key, value] of clients){
+                if(value.id != metadata.id){
+                    key.send("Scene 2");
+                }
+            }
+        }
+
+        /* ----------------------------- */
+        /* --- MESSAGE = 'End Scene" --- */
+        /* ----------------------------- */
+        else if(messageAsString.toString() == 'End Scene'){
+            let scoreTeam;
+            let scoreOpponentTeam;
+
+            for(let [key, value] of clients){
+                if(value.id == metadata.id){
+                    console.log("score = " + value.score);
+                    scoreTeam = value.score;
+                }
+                else{
+                    console.log("score = " + value.score);
+                    scoreOpponentTeam = value.score;
+                }
+            }
+            //console.log("ScoreTeam = " + scoreTeam + ", ScoreOpponent = " + scoreOpponentTeam);
+
+
+
+            ws.send("ScoreTeam = " + scoreTeam + ", ScoreOpponent = " + scoreOpponentTeam);
+        }
+
+        
 
         /* -------------------------------- */
         /* --- MESSAGE = 'Update Score' --- */

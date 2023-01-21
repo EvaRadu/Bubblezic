@@ -161,7 +161,7 @@ public class Bubble : MonoBehaviour
             if (other.gameObject.GetComponent<SemiCircle>().GetSide() == 1)
             {
                 other.gameObject.GetComponent<SemiCircle>().setCanMove(0);  // On bloque le déplacement 
-                other.transform.position = new Vector3(gameObject.transform.position.x - 0.7f, gameObject.transform.position.y, 0);  // On place le morceau au bon endroit
+                other.transform.position = new Vector3(gameObject.transform.position.x - ((0.7f * _radius) / 3), gameObject.transform.position.y, 0);  // On place le morceau au bon endroit
                 leftSide = 1;  // On indique qu'on a la pièce de gauche
                 leftPiece = other.gameObject;  // On stocke la pièce de gauche
                 WsClient.Instance.MoveCircle(other.gameObject.name, other.gameObject.transform.position.x, other.gameObject.transform.position.y);
@@ -171,7 +171,7 @@ public class Bubble : MonoBehaviour
             else if (other.gameObject.GetComponent<SemiCircle>().GetSide() == 2)
             {
                 other.gameObject.GetComponent<SemiCircle>().setCanMove(0);  // On bloque le déplacement
-                other.transform.position = new Vector3(gameObject.transform.position.x + 0.7f, gameObject.transform.position.y, 0); // On place le morceau au bon endroit
+                other.transform.position = new Vector3(gameObject.transform.position.x + ((0.7f * _radius) / 3), gameObject.transform.position.y, 0); // On place le morceau au bon endroit
                 rightSide = 1;  // On indique qu'on a la pièce de droite  
                 rightPiece = other.gameObject;  // On stocke la pièce de droite     
                 WsClient.Instance.MoveCircle(other.gameObject.name, other.gameObject.transform.position.x, other.gameObject.transform.position.y);     
@@ -312,12 +312,15 @@ public class Bubble : MonoBehaviour
                 RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(touchPos.x, touchPos.y), Vector2.zero);
                 if (hitinfo.collider != null)
                 {
+                    if(hitinfo.collider.gameObject.name == gameObject.name) // Si on touche la balle
+                    {
                     if((touchPos.x < x3 || touchPos.x > x4) && (touchPos.y < y3 || touchPos.y > y4)) // Si on est pas dans l'écran adverse
                     {
                     float time = TimerScript.Instance.time;
                     WsClient.Instance.updateScore(this.thisBubble, time, 0);
                     WsClient.Instance.deleteBubble(gameObject.name);
                     Destroy(hitinfo.collider.gameObject);
+                    }
                     }
                 }
             }
