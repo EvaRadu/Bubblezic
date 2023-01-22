@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class MenuController : MonoBehaviour {
     
-    public float endTime = 30f; // time after which the game scene will be switched to the end scene
+    public float endTime = 60f; // time after which the game scene will be switched to the end scene
     public bool updated = false; // to make sure the scores at the end of the game are updated only once
 
     public void getReady()
@@ -47,7 +47,7 @@ public class MenuController : MonoBehaviour {
     public void Update(){
         // Get the current time
         if(SceneManager.GetActiveScene().name == "Scene2"){
-        float currentTime = Time.timeSinceLevelLoad;
+        float currentTime = TimerScript.Instance.time;
         
         // If the current time is greater than the end time
         if ((currentTime > endTime) && updated == false)

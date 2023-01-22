@@ -15,7 +15,7 @@ module.exports = function calculePoints(time, id) {
         currentJson = listBallesDemo;
     }
     else{
-        currentJson = listBalles;
+        currentJson = listBalles2;
     }
 
     currentJson.forEach(ball => {
