@@ -163,9 +163,11 @@ public class createBalls : MonoBehaviour
                                 opponentSpawnedCircle.setImpulsion(ball.impulsion);
                                 opponentSpawnedCircle.setPosOpponent(ball.posXOpponent, ball.posYOpponent);
                                 opponentSpawnedCircle.setNbMalusMultiple(ball.nbMalusMultiple);
-                            }
+                                opponentSpawnedCircle.SetId(ball.id + (ball.nbMalusMultiple / 10));
 
-                            opponentBubbles.Add(opponentSpawnedCircle);
+                        }
+
+                        opponentBubbles.Add(opponentSpawnedCircle);
                             opponentSpawnedCircle.setBubble(ball);
 
 

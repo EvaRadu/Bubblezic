@@ -106,6 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068a19cf6d63b47429454341efa1cb31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _bubblePrefab: {fileID: 8129448099910963033}
   color: {r: 0, g: 0, b: 0, a: 0}
   _srenderer: {fileID: 2572338613394678857}
   _speed: 0.5

@@ -176,9 +176,12 @@ public class WsClient : MonoBehaviour
             else if (e.Data.Contains("Multiple Malus Received"))
             {
                 Debug.Log("MULTIPLE MALUS RECEIVED");
-                PersistentManagerScript.Instance.MALUSMULTIPLE = true;
+                int pos1 = e.Data.IndexOf("=");
+                // PersistentManagerScript.Instance.MALUSMULTIPLE = true;
+                PersistentManagerScript.Instance.malusMultiple( float.Parse(e.Data.Substring(pos1 + 2)) );
+
             }
-            
+
 
         };
 
@@ -372,7 +375,7 @@ public class WsClient : MonoBehaviour
         }
     }
 
-    public void MalusSentMultiple(string name, float posX, float posY, int duration)
+    public void MalusSentMultiple(string name, float posX, float posY, float id)
     {
         try
         {
@@ -384,7 +387,7 @@ public class WsClient : MonoBehaviour
             else
             {
 
-                ws.Send("Multiple Malus Sent. circleName =" + name + ", posX= " + posX + ", poxY= " + posY + ", duration= " + duration);
+                ws.Send("Multiple Malus Sent. circleName =" + name + ", posX= " + posX + ", poxY= " + posY + ", id= " + id);
                 ws.OnMessage += (sender, e) =>
                 {
                     Debug.Log(e.Data);
@@ -519,6 +522,30 @@ public class WsClient : MonoBehaviour
         }
     }
 
+    public void TEST(String msg)
+    {
+        try
+        {
+            if (ws == null)
+            {
+                Debug.Log("Null");
+                return;
+            }
+            else
+            {
+
+                ws.Send(msg);
+                ws.OnMessage += (sender, e) =>
+                {
+                    Debug.Log(e.Data);
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+    }
     public void EndScene(){
         try
         {

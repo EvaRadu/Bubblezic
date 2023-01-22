@@ -236,7 +236,7 @@ wss.on('connection', (ws) => {
         }
 
         /* -------------------------------- */
-        /* --- MSG= 'Multiple Malus Sent' --- */
+        /* -- MSG= 'Multiple Malus Sent' -- */
         /* -------------------------------- */
         else if (messageAsString.toString().includes('Multiple Malus Sent.')) {
             // get the second client
@@ -271,7 +271,7 @@ wss.on('connection', (ws) => {
             for(let [key, value] of clients){
                 if(value.id != metadata.id){
                     key.send('Multiple Malus Received with id = ' + id);
-                    key.send('Delete Bubble = ' + bubbleToDelete);
+                    //key.send('Delete Bubble = ' + bubbleToDelete);
                 }
             }
         }
