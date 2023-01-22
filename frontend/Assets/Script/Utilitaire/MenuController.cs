@@ -48,23 +48,34 @@ public class MenuController : MonoBehaviour {
         // Get the current time
         if(SceneManager.GetActiveScene().name == "Scene2"){
         float currentTime = Time.timeSinceLevelLoad;
+        
         // If the current time is greater than the end time
         if ((currentTime > endTime) && updated == false)
-        {
-            // Load the scene
-            PlayerPrefs.DeleteAll();
-            PlayerPrefs.Save();
-            WsClient.Instance.EndScene();
-            while(PersistentManagerScript.Instance.scoreTeam == -100000 && PersistentManagerScript.Instance.scoreOpponent == -100000)
             {
-                // wait for the scores to be updated
+                // Restores the scores to -100000 to make sure the scores are updated
+                PlayerPrefs.SetInt("ScoreTeam", -100000);
+                PlayerPrefs.SetInt("ScoreOpponent", -100000);
+                PlayerPrefs.Save();
+
+                // End the scene and wait for the scores to be updated
+                WsClient.Instance.EndScene();
+                while(PersistentManagerScript.Instance.scoreTeam == -100000 && PersistentManagerScript.Instance.scoreOpponent == -100000)
+                {
+                    // wait for the scores to be updated
+                }
+
+                // Save the scores and load the end scene
+                PlayerPrefs.SetInt("ScoreTeam", PersistentManagerScript.Instance.scoreTeam);
+                PlayerPrefs.SetInt("ScoreOpponent", PersistentManagerScript.Instance.scoreOpponent);
+                PlayerPrefs.Save();
+                SceneManager.LoadScene("End", LoadSceneMode.Single);
+                updated = true; // to make sure the scores are updated only once
             }
-            PlayerPrefs.SetInt("ScoreTeam", PersistentManagerScript.Instance.scoreTeam);
-            PlayerPrefs.SetInt("ScoreOpponent", PersistentManagerScript.Instance.scoreOpponent);
-            PlayerPrefs.Save();
-            SceneManager.LoadScene("End", LoadSceneMode.Single);
-            updated = true;
         }
+
+        if(SceneManager.GetActiveScene().name == "Start")
+        {
+            updated = false;
         }
     }
 
