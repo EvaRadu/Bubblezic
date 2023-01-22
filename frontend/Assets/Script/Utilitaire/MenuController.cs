@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class MenuController : MonoBehaviour {
     
-    public float endTime = 60f; // time after which the game scene will be switched to the end scene
+    public float endTime = 100f; // time after which the game scene will be switched to the end scene
     public bool updated = false; // to make sure the scores at the end of the game are updated only once
     public bool played = false; // to make sure the music is played only once
 
@@ -55,6 +55,9 @@ public class MenuController : MonoBehaviour {
                 // Restores the scores to -100000 to make sure the scores are updated
                 PlayerPrefs.SetInt("ScoreTeam", -100000);
                 PlayerPrefs.SetInt("ScoreOpponent", -100000);
+                PersistentManagerScript.Instance.scoreTeam = -100000;
+                PersistentManagerScript.Instance.scoreOpponent = -100000;
+                PlayerPrefs.DeleteAll();
                 PlayerPrefs.Save();
 
                 // End the scene and wait for the scores to be updated
@@ -88,11 +91,17 @@ public class MenuController : MonoBehaviour {
                  if(PersistentManagerScript.Instance.music == "1"){
                     GameObject.Find("Music1").GetComponent<AudioSource>().Play();
                     played = true;
+                    if(!WsClient.Instance.demo){
+                    endTime = 42f;
+                    }
                      
                 }
                 else{
                     GameObject.Find("Music2").GetComponent<AudioSource>().Play();
                     played = true;
+                    if(!WsClient.Instance.demo){
+                    endTime = 27f;
+                    }
                 }
                }
         }

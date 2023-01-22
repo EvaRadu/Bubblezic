@@ -43,10 +43,10 @@ wss.on('connection', (ws) => {
         /* ------------------------------- */
         if(messageAsString.toString() == 'Ready Demo'){
             nbClients++;
-            /*while(nbClients < 2 && nbClients >= 0){
+            while(nbClients < 2 && nbClients >= 0){
                 console.log("waiting for second client");
                 await wait(1000);
-            }*/
+            }
             listBallesDemoMusic.forEach(ball => {
                 ws.send(JSON.stringify(ball));
             });
@@ -60,10 +60,10 @@ wss.on('connection', (ws) => {
         /* -------------------------- */
         else if(messageAsString.toString() == 'Ready'){
             nbClients++;
-            /*while(nbClients < 2 && nbClients >= 0){
+            while(nbClients < 2 && nbClients >= 0){
                 console.log("waiting for second client");
                 await wait(1000);
-            }*/
+            }
             console.log("Both clients are ready, sending balls");
             if(music == 1){
             listBallesMusic1.forEach(ball => {

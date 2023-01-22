@@ -1261,8 +1261,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2e0b6993eed5204786c3b91690cacd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endTime: 60
+  endTime: 100
   updated: 0
+  played: 0
 --- !u!4 &961080949
 Transform:
   m_ObjectHideFlags: 0
@@ -2008,7 +2009,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Music 2 - ??
+  m_Text: Music 2 - Flamenco
 --- !u!222 &1377159848
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2774,6 +2775,7 @@ MonoBehaviour:
   demo: 0
   music1: 1
   music2: 0
+  endTime: 0
   serverUrl: ws://localhost:8080
 --- !u!4 &2035598702
 Transform:
@@ -2921,6 +2923,7 @@ MonoBehaviour:
   _bubblePrefab: {fileID: 8129448099910963033, guid: 7449d7920e146564ca950877f84f87d4, type: 3}
   idMalusMultiple: 0
   bckColor: {r: 1, g: 1, b: 1, a: 1}
+  music: 
   MALUSMULTIPLE: 0
 --- !u!4 &2139546389
 Transform:
