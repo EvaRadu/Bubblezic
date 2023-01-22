@@ -7,6 +7,7 @@ public class MenuController : MonoBehaviour {
     
     public float endTime = 60f; // time after which the game scene will be switched to the end scene
     public bool updated = false; // to make sure the scores at the end of the game are updated only once
+    public bool played = false; // to make sure the music is played only once
 
     public void getReady()
     {
@@ -29,7 +30,6 @@ public class MenuController : MonoBehaviour {
                 SceneManager.LoadScene(SceneName, LoadSceneMode.Single);
                 WsClient.Instance.Scene2();
                 Destroy(WsClient.Instance.gameObject);
-                //Destroy(GameObject.Find("Start"));
             }
             else{
                 // 
@@ -76,6 +76,25 @@ public class MenuController : MonoBehaviour {
         if(SceneManager.GetActiveScene().name == "Start")
         {
             updated = false;
+        }
+
+        if (SceneManager.GetActiveScene().name == "Scene2"){
+               
+               if(played == false){
+                while(PersistentManagerScript.Instance.music == ""){
+                    // wait for the music to be updated
+                }
+                
+                 if(PersistentManagerScript.Instance.music == "1"){
+                    GameObject.Find("Music1").GetComponent<AudioSource>().Play();
+                    played = true;
+                     
+                }
+                else{
+                    GameObject.Find("Music2").GetComponent<AudioSource>().Play();
+                    played = true;
+                }
+               }
         }
     }
 

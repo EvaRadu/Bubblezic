@@ -4,14 +4,17 @@ const wait = require('./fonctions/wait');
 const calculePoints = require('./fonctions/calculerPoints');
 const calculePos = require('./fonctions/calculerPosition');
 const listBalles = require('./objects/balls');
-const listBalles2 = require('./objects/balls2');
-const listBallesDemo = require('./objects/ballsDemo');
+const listBallesMusic1 = require('./objects/ballsMusic1');
+const listBallesMusic2 = require('./objects/ballsMusic2');
+const listBallesDemoMusic1 = require('./objects/ballsDemoMusic1');
+const listBallesDemoMusic2 = require('./objects/ballsDemoMusic2');
 const myport = 8080;
 const clients = new Map();
 
 let nbClients = 0;
 let log = [];
 let demoMode = false;
+let music;
 
 const wss = new WebSocket.Server({ port: myport },()=>{
     console.log("Server started");
@@ -35,6 +38,7 @@ wss.on('connection', (ws) => {
     ws.on('message', async (messageAsString) => {
         console.log("message received : " + messageAsString.toString());
 
+
         /* ------------------------------- */
         /* --- MESSAGE = 'Ready Demo ' --- */
         /* ------------------------------- */
@@ -45,9 +49,16 @@ wss.on('connection', (ws) => {
                 await wait(1000);
             }
             console.log("Both clients are ready, sending balls");
-            listBallesDemo.forEach(ball => {
+            if(music == 1){
+            listBallesDemoMusic1.forEach(ball => {
                 ws.send(JSON.stringify(ball));
             });
+            }
+            else if(music == 2){
+                listBallesDemoMusic2.forEach(ball => {
+                    ws.send(JSON.stringify(ball));
+                });
+            }
             demoMode = true;
         }
 
@@ -62,10 +73,34 @@ wss.on('connection', (ws) => {
                 await wait(1000);
             }*/
             console.log("Both clients are ready, sending balls");
-            listBalles2.forEach(ball => {
+            if(music == 1){
+            listBallesMusic1.forEach(ball => {
                 ws.send(JSON.stringify(ball));
             });
+            }
+            else if(music == 2){
+                listBallesMusic2.forEach(ball => {
+                    ws.send(JSON.stringify(ball));
+                });
+            }            
         }
+
+        /* -------------------------- */
+        /* --- MESSAGE = 'Music' --- */
+        /* -------------------------- */
+        // Music = 1
+        else if(messageAsString.toString().includes('Music')){
+            console.log("Music");
+            for(let [key, value] of clients){
+                if(value.id != metadata.id){
+                    key.send(messageAsString.toString());
+                }
+            }
+            
+            pos1 = messageAsString.toString().indexOf('=');
+            music = parseInt(messageAsString.toString().substring(pos1+1));
+        }
+
 
         /* ------------------------- */
         /* --- MESSAGE = 'Pause' --- */
