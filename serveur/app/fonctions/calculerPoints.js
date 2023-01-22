@@ -1,21 +1,30 @@
 const listBalles = require('../objects/balls');
-const listBalles2 = require('../objects/balls2');
-const listBallesDemo = require('../objects/ballsDemo');
+const listBallesMusic1 = require('../objects/ballsMusic1');
+const listBallesMusic2 = require('../objects/ballsMusic2');
+const listBallesDemoMusic = require('../objects/ballsDemoMusic');
 
 
 module.exports = function calculePoints(time, id) {
     let ballTime = 0;
-    let delay = 1.2;
 
     // get the demoMode value of the index.js file
     let demoMode = require('../index').demoMode;
+
+    // get the music value of the index.js file
+    let music = require('../index').music;
+
     let currentJson;
 
     if(demoMode){
-        currentJson = listBallesDemo;
+        currentJson = listBallesDemoMusic;
     }
     else{
-        currentJson = listBalles;
+        if(music == 1){
+        currentJson = listBallesMusic1;
+        }
+        else{
+        currentJson = listBallesMusic2;
+        }
     }
 
     currentJson.forEach(ball => {

@@ -19,6 +19,7 @@ public class PersistentManagerScript : MonoBehaviour
     public Bubble _bubblePrefab;
     public int idMalusMultiple;
     public Color bckColor = Color.white;
+    public string music = "";
 
 
     // Taille des deux écrans : 

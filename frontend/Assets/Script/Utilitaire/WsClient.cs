@@ -21,6 +21,8 @@ public class WsClient : MonoBehaviour
     public bool ready = false;
     public bool connected = false;  
     public bool demo = false;
+    public bool music1 = true;
+    public bool music2 = false;
 
     public string serverUrl;
 
@@ -55,6 +57,36 @@ public class WsClient : MonoBehaviour
         if(previousDemo != demo){
             updateDemo();
         }
+    }
+
+    public void setMusic(){
+        bool previousMusic1 = music1;
+        bool previousMusic2 = music2;
+        Toggle toggle1 = GameObject.Find("ToggleMusic1").GetComponent<Toggle>();
+        Toggle toggle2 = GameObject.Find("ToggleMusic2").GetComponent<Toggle>();
+        this.music1 = toggle1.isOn;
+        this.music2 = toggle2.isOn;
+
+        if(previousMusic1!=music1){
+            //Debug.Log("--- MUSIC 1 ---");
+            music2 = !music2;
+            GameObject.Find("ToggleMusic2").GetComponent<Toggle>().isOn = music2;
+            updateMusic();
+        }
+        else if(previousMusic2!=music2){
+            //Debug.Log("--- MUSIC 2 ---");
+            music1 = !music1;
+            GameObject.Find("ToggleMusic1").GetComponent<Toggle>().isOn = music1;
+            updateMusic();
+        }
+        if(music1==true){
+            PersistentManagerScript.Instance.music = "1";
+        }
+        else if(music2==true){
+            PersistentManagerScript.Instance.music = "2";
+        }
+        
+
     }
 
     public void changeUrl()
@@ -149,6 +181,32 @@ public class WsClient : MonoBehaviour
                 }
             }
 
+            // Music = 1
+            else if(e.Data.Contains("Music")){
+                int pos1 = e.Data.IndexOf("=");
+                string music = e.Data.Substring(pos1 + 1);
+                if(music == "Music = 1"){
+                    this.music1 = true;
+                    this.music2 = false;
+                    // update on toggle
+                    Toggle toggle1 = GameObject.Find("ToggleMusic1").GetComponent<Toggle>();
+                    Toggle toggle2 = GameObject.Find("ToggleMusic2").GetComponent<Toggle>();
+                    toggle1.isOn = true;
+                    toggle2.isOn = false;
+                    PersistentManagerScript.Instance.music = "1";
+                }
+                else{
+                    this.music1 = false;
+                    this.music2 = true;
+                    // update on toggle
+                    Toggle toggle1 = GameObject.Find("ToggleMusic1").GetComponent<Toggle>();
+                    Toggle toggle2 = GameObject.Find("ToggleMusic2").GetComponent<Toggle>();
+                    toggle1.isOn = false;
+                    toggle2.isOn = true;
+                    PersistentManagerScript.Instance.music = "2";
+                }
+            }
+
             else if(e.Data.Contains("Start Scene")){
                 SceneManager.LoadScene("Start", LoadSceneMode.Single);
                 TimerScript.Instance.Resume();
@@ -201,6 +259,7 @@ public class WsClient : MonoBehaviour
     private void Update()
     {
         setDemo();
+        setMusic();
         if (connected && !ready)
         {
             readyButton.interactable = true;
@@ -531,6 +590,32 @@ public class WsClient : MonoBehaviour
             {
 
                 ws.Send("End Scene");
+                ws.OnMessage += (sender, e) =>
+                {
+                    Debug.Log(e.Data);
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+    }
+
+    public void updateMusic(){
+        try
+        {
+            if (ws == null)
+            {
+                Debug.Log("Null");
+                return;
+            }
+            else
+            {
+                if(this.music1)
+                    ws.Send("Music = 1"); 
+                else
+                    ws.Send("Music = 2");
                 ws.OnMessage += (sender, e) =>
                 {
                     Debug.Log(e.Data);
