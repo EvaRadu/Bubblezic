@@ -23,6 +23,7 @@ public class WsClient : MonoBehaviour
     public bool demo = false;
     public bool music1 = true;
     public bool music2 = false;
+    public float endTime;
 
     public string serverUrl;
 
@@ -81,9 +82,11 @@ public class WsClient : MonoBehaviour
         }
         if(music1==true){
             PersistentManagerScript.Instance.music = "1";
+            endTime = 42f;
         }
         else if(music2==true){
             PersistentManagerScript.Instance.music = "2";
+            endTime = 27f;
         }
         
 
