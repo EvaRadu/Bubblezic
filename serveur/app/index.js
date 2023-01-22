@@ -6,15 +6,14 @@ const calculePos = require('./fonctions/calculerPosition');
 const listBalles = require('./objects/balls');
 const listBallesMusic1 = require('./objects/ballsMusic1');
 const listBallesMusic2 = require('./objects/ballsMusic2');
-const listBallesDemoMusic1 = require('./objects/ballsDemoMusic1');
-const listBallesDemoMusic2 = require('./objects/ballsDemoMusic2');
+const listBallesDemoMusic = require('./objects/ballsDemoMusic');
 const myport = 8080;
 const clients = new Map();
 
 let nbClients = 0;
 let log = [];
 let demoMode = false;
-let music;
+let music = 1;
 
 const wss = new WebSocket.Server({ port: myport },()=>{
     console.log("Server started");
@@ -44,21 +43,14 @@ wss.on('connection', (ws) => {
         /* ------------------------------- */
         if(messageAsString.toString() == 'Ready Demo'){
             nbClients++;
-            while(nbClients < 2 && nbClients >= 0){
+            /*while(nbClients < 2 && nbClients >= 0){
                 console.log("waiting for second client");
                 await wait(1000);
-            }
-            console.log("Both clients are ready, sending balls");
-            if(music == 1){
-            listBallesDemoMusic1.forEach(ball => {
+            }*/
+            listBallesDemoMusic.forEach(ball => {
                 ws.send(JSON.stringify(ball));
             });
-            }
-            else if(music == 2){
-                listBallesDemoMusic2.forEach(ball => {
-                    ws.send(JSON.stringify(ball));
-                });
-            }
+
             demoMode = true;
         }
 

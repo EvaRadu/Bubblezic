@@ -30,7 +30,12 @@ public class TimerScript : MonoBehaviour
     public void Pause()
     {
         Time.timeScale = 0;
-        GameObject.Find("Music").GetComponent<AudioSource>().Pause();
+        if(PersistentManagerScript.Instance.music == "1"){
+        GameObject.Find("Music1").GetComponent<AudioSource>().Pause();
+        }
+        else if(PersistentManagerScript.Instance.music == "2"){
+        GameObject.Find("Music2").GetComponent<AudioSource>().Pause();
+        }
         GameObject.Find("PauseText").GetComponentInChildren<TextMeshProUGUI>().text = "RESUME";
 
     }
@@ -39,7 +44,12 @@ public class TimerScript : MonoBehaviour
     public void Resume()
     {
         Time.timeScale = 1;
-        GameObject.Find("Music").GetComponent<AudioSource>().Play();
+        if(PersistentManagerScript.Instance.music == "1"){
+        GameObject.Find("Music1").GetComponent<AudioSource>().Play();
+        }
+        else if(PersistentManagerScript.Instance.music == "2"){
+        GameObject.Find("Music2").GetComponent<AudioSource>().Play();
+        }
         GameObject.Find("PauseText").GetComponentInChildren<TextMeshProUGUI>().text = "PAUSE";
         
     }
