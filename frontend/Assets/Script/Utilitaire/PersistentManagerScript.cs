@@ -56,11 +56,12 @@ public class PersistentManagerScript : MonoBehaviour
         }
     }
 
-    public void malusMultiple(float id)
+    public void malusMultiple()
     {
-        Debug.Log("Malus creation");
         WsClient.Instance.TEST("Malus creation");
         Camera.main.backgroundColor = Color.red;
+        /*Debug.Log("Malus creation");
+        
 
 
         //Ecran Joueur
@@ -100,7 +101,7 @@ public class PersistentManagerScript : MonoBehaviour
         WsClient.Instance.TEST("test8");
 
         Debug.Log("Malus created");
-        WsClient.Instance.TEST("SET CREATION");
+        WsClient.Instance.TEST("SET CREATION");*/
         StartCoroutine(timerMalusMultiple());
 
     }

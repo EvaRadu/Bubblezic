@@ -24,6 +24,8 @@ public class WsClient : MonoBehaviour
 
     public string serverUrl;
 
+    public bool bonus = false;
+    public int bonusScore = 0;
 
 
     private void Awake()
@@ -84,15 +86,40 @@ public class WsClient : MonoBehaviour
             if (e.Data.Contains("New score"))
             {
                 int pos1 = e.Data.IndexOf("=");
-                Score.Instance.score = Int16.Parse(e.Data.Substring(pos1 + 2));
-                PersistentManagerScript.Instance.score = Int16.Parse(e.Data.Substring(pos1 + 2));
+                int pos2 = e.Data.IndexOf("bonusStatus");
+                Score.Instance.score = Int16.Parse(e.Data.Substring(pos1 + 2, pos2 - pos1 - 4));
+                PersistentManagerScript.Instance.score = Int16.Parse(e.Data.Substring(pos1 + 2, pos2 - pos1 - 4));
+
+                int pos3 = e.Data.IndexOf("bonusStatus =");
+                int pos4 = e.Data.IndexOf("bonusPoints =");
+
+                int pos5 = e.Data.IndexOf("points =");
+
+                bool.TryParse(e.Data.Substring(pos3 + 14, pos4 - pos3 - 16), out Score.Instance.bonusStatus);
+                Score.Instance.bonusPoints = Int16.Parse(e.Data.Substring(pos4 + 14, pos5 - pos4 - 16));
+
+                Score.Instance.points = Int16.Parse(e.Data.Substring(pos5 + 9));
+
+                Debug.Log("TEST A : " + Int16.Parse(e.Data.Substring(pos4 + 14, pos5 - pos4 - 16)));
+                Debug.Log("TEST B : " + Int16.Parse(e.Data.Substring(pos4 + 14, pos5 - pos4 - 16)));
+
+
             }
 
             else if (e.Data.Contains("Opponent score"))
             {
                 int pos1 = e.Data.IndexOf("=");
-                OpponentScore.Instance.score = Int16.Parse(e.Data.Substring(pos1 + 2));
-                PersistentManagerScript.Instance.opponentScore = Int16.Parse(e.Data.Substring(pos1 + 2));
+                int pos2 = e.Data.IndexOf("bonusStatus");
+                OpponentScore.Instance.score = Int16.Parse(e.Data.Substring(pos1 + 2, pos2 - pos1 - 4));
+                PersistentManagerScript.Instance.opponentScore = Int16.Parse(e.Data.Substring(pos1 + 2, pos2 - pos1 - 4));
+
+                int pos3 = e.Data.IndexOf("bonusStatus =");
+                int pos4 = e.Data.IndexOf("bonusPoints =");
+                int pos5 = e.Data.IndexOf("points =");
+                bool.TryParse(e.Data.Substring(pos3 + 14, pos4 - pos3 - 16), out OpponentScore.Instance.bonusStatus);
+                OpponentScore.Instance.bonusPoints = Int16.Parse(e.Data.Substring(pos4 + 14, pos5 - pos4 - 16));
+                OpponentScore.Instance.points = Int16.Parse(e.Data.Substring(pos5 + 9));
+
             }
 
             else if(e.Data.Contains("Delete Bubble"))
@@ -178,8 +205,8 @@ public class WsClient : MonoBehaviour
                 Debug.Log("MULTIPLE MALUS RECEIVED");
                 int pos1 = e.Data.IndexOf("=");
                 // PersistentManagerScript.Instance.MALUSMULTIPLE = true;
-                PersistentManagerScript.Instance.malusMultiple( float.Parse(e.Data.Substring(pos1 + 2)) );
-
+                PersistentManagerScript.Instance.malusMultiple();
+                WsClient.Instance.updateScore(null, 0f, 10);
             }
 
 
@@ -278,8 +305,14 @@ public class WsClient : MonoBehaviour
             }
             else
             {
-
-                ws.Send("Update Score. ballId =" + b.id + ", time= " + time + ", type= " + type);
+                if (type == 10)
+                {
+                    ws.Send("Update Score. ballId =" + 0 + ", time= " + 0 + ", type= " + type);
+                }
+                else
+                {
+                    ws.Send("Update Score. ballId =" + b.id + ", time= " + time + ", type= " + type);
+                }
                 ws.OnMessage += (sender, e) =>
                 {
                     Debug.Log(e.Data);

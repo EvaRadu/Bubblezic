@@ -22,8 +22,10 @@ wss.on('listening',()=>{
 
 wss.on('connection', (ws) => {
     const id = uuidv4();
-    const score = 0;
-    const metadata = {id, score};
+    var score = 0;
+    var bonus = false;
+    var bonusPoint = 0;
+    var metadata = {id, score, bonus, bonusPoint};
     //console.log(" id = " + metadata.id + " score = " + metadata.score + "");
 
     clients.set(ws, metadata);
@@ -179,17 +181,22 @@ wss.on('connection', (ws) => {
 
             console.log("type = " + type);
             
-            let point = calculePoints(temps, ballId, type);
-        
-            metadata.score += point;
-            console.log(metadata.score);
+            var point = calculePoints(temps, ballId, type, metadata.bonus, bonusPoint);
+            bonus = point[1];
+            metadata.bonus = bonus;
+            bonusPoint = point[2];
+            metadata.bonusPoint = bonusPoint;
+            metadata.score += point[0];
+            var p = point[0];
            
-            ws.send("New score = " + metadata.score);
+            console.log(point[0]);
+           
+            ws.send("New score = " + metadata.score + ", bonusStatus = " + metadata.bonus + ", bonusPoints = " + metadata.bonusPoint, ", points =" +p);
 
             // ON ENVOIT LE SCORE A L'AUTRE CLIENT
             for(let [key, value] of clients){
                 if(value.id != metadata.id){
-                    key.send("Opponent score = " + metadata.score);
+                    key.send("Opponent score = " + metadata.score + ", bonusStatus = " + metadata.bonus + ", bonusPoints = " + metadata.bonusPoint + ", points =" + p);
                 }
             }
         }
@@ -274,6 +281,14 @@ wss.on('connection', (ws) => {
                     //key.send('Delete Bubble = ' + bubbleToDelete);
                 }
             }
+        }
+
+        /* --------------------------------- */
+        /*  ---- MSG= Malus Received' ------ */
+        /* -------------------------------- */
+        else if (messageAsString.toString().includes('Multiple Malus Received') | messageAsString.toString().includes('Freeze Malus Received')) {
+            metadata.bonus = false;
+            metadata.bonusPoint = 0;
         }
 
 

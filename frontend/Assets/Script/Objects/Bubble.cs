@@ -27,6 +27,7 @@ public class Bubble : MonoBehaviour
     int type; // type of the circle
     private Rigidbody2D _rb;
     private bool instantiated = false;
+    private bool touched = false;
     // --------------------------------
 
 
@@ -386,8 +387,8 @@ public class Bubble : MonoBehaviour
                 else if ((type == 4 || type == 5))
                 {
 
-
-                    Touch touch = Input.GetTouch(i);
+                    swipe();
+                   /* Touch touch = Input.GetTouch(i);
                     Vector3 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
                     RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(touchPos.x, touchPos.y), Vector2.zero);
                     if (hitinfo.collider != null)
@@ -400,7 +401,7 @@ public class Bubble : MonoBehaviour
                             }
                         }
 
-                    }
+                    }*/
                 }
 
                 /*else if (type == 4)
@@ -467,7 +468,7 @@ public class Bubble : MonoBehaviour
             endPos = Input.GetTouch(0).position;
             direction = startPos - endPos;
             GetComponent<Rigidbody2D>().AddForce(-direction / timeInterval * throwForce);
-            WsClient.Instance.MoveCircle(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y);
+            //WsClient.Instance.MoveCircle(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y);
 
 
 
@@ -483,8 +484,14 @@ public class Bubble : MonoBehaviour
         {
             if (gameObject.activeSelf)   
             {  
-                gameObject.SetActive(false); 
-            }      
+                gameObject.SetActive(false);
+               /* if (!touched)
+                {
+                    float time = TimerScript.Instance.time;
+                    WsClient.Instance.updateScore(this.thisBubble, time, 0);
+                    Destroy(this);
+                }*/
+            }
         }
         else { gameObject.SetActive(true);}
 

@@ -1179,6 +1179,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 0
+  bonusStatus: 0
+  bonusPoints: 0
+  points: 0
 --- !u!1 &1281114518
 GameObject:
   m_ObjectHideFlags: 0
@@ -2454,6 +2457,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 0
+  bonusStatus: 0
+  bonusPoints: 0
+  points: 0
 --- !u!4 &2105431247
 Transform:
   m_ObjectHideFlags: 0
@@ -2563,3 +2569,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 0
+  bonusStatus: 0
+  bonusPoints: 0
+  points: 0
