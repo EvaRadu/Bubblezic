@@ -86,7 +86,7 @@ module.exports = listBalles = [
             duration: 3,
             rotation: 90,
             side: 0,
-            nbMalusMultiple : 3,
+            nbMalusMultiple : 2,
             texture: ""
         },
     // BULLE SIMPLE nÂ°2

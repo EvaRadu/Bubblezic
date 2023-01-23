@@ -2,13 +2,15 @@ using Assets.Script;
 using System.Collections;
 using ProudLlama.CircleGenerator;
 using UnityEngine;
+using TMPro;
 using UnityEngine.SceneManagement; 
 
 
 public class Bubble : MonoBehaviour
 {
     //  --- CHAMPS COMMUNS --- 
-    private Bulle thisBubble; 
+    private Bulle thisBubble;
+    public Bubble _bubblePrefab;
     [SerializeField] private Color color;
     [SerializeField] private SpriteRenderer _srenderer;
     [SerializeField] private float _speed=1000;
@@ -24,6 +26,8 @@ public class Bubble : MonoBehaviour
     float duration; // duration of the apparition of the circle
     int type; // type of the circle
     private Rigidbody2D _rb;
+    private bool instantiated = false;
+    private bool touched = false;
     // --------------------------------
 
 
@@ -53,6 +57,8 @@ public class Bubble : MonoBehaviour
     private int _nbMalusMultiple = 0;
 
     public float force = 10f;
+
+    private bool isOutside = false;
 
     // --------------------------------
 
@@ -131,12 +137,14 @@ public class Bubble : MonoBehaviour
 
         if (type == 5)
         {
-            transform.Find("TextContainer").GetComponent<TextMesh>().text = _nbMalusMultiple.ToString();
+            transform.Find("TextContainer").GetComponent<TMP_Text>().SetText(_nbMalusMultiple.ToString());
         }
 
         if (type==10)
         {
-            AddForce();
+            // AddForce();
+
+            WsClient.Instance.TEST("Multiple Malus Received AND CREATED");
         }
 
         if(!_isOpponentCircle){
@@ -320,6 +328,8 @@ public class Bubble : MonoBehaviour
 
     private void multiTouch()
     {
+        RaycastHit2D hit;
+
         for (int i = 0; i < Input.touchCount; i++)  // Pour chaque toucher sur l'écran
         {
             /*  --- TYPE 0 : Balle qui disparait  --- */
@@ -356,13 +366,14 @@ public class Bubble : MonoBehaviour
                         RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(touchPos.x, touchPos.y), Vector2.zero);
                         if (hitinfo.collider != null)
                         {
-                            if(hitinfo.collider.gameObject.GetComponent<Trajectory>() != null){
-                                if((touchPos.x < x3 || touchPos.x > x4) && (touchPos.y < y3 || touchPos.y > y4))  // Si on est pas dans l'écran adverse
-                                    {
+                            if (hitinfo.collider.gameObject.GetComponent<Trajectory>() != null)
+                            {
+                                if ((touchPos.x < x3 || touchPos.x > x4) && (touchPos.y < y3 || touchPos.y > y4))  // Si on est pas dans l'écran adverse
+                                {
                                     hitinfo.collider.gameObject.GetComponent<Trajectory>().getBubble().transform.position = touchPos;
                                     Debug.Log("TOUCHEPOS 2 = " + touchPos);
                                     WsClient.Instance.MoveCircle(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y);
-                                    }
+                                }
                             }
                             //hitinfo.collider.gameObject.transform.position = touchPos;
                         }
@@ -372,7 +383,26 @@ public class Bubble : MonoBehaviour
                     {
                     }
                 }
-                else if (type == 4 || type == 5) { swipe(); }
+
+                else if ((type == 4 || type == 5))
+                {
+
+                    swipe();
+                   /* Touch touch = Input.GetTouch(i);
+                    Vector3 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+                    RaycastHit2D hitinfo = Physics2D.Raycast(new Vector2(touchPos.x, touchPos.y), Vector2.zero);
+                    if (hitinfo.collider != null)
+                    {
+                        if (hitinfo.collider.gameObject.name == gameObject.name) // Si on touche la balle
+                        {
+                            if ((touchPos.x < x3 || touchPos.x > x4) && (touchPos.y < y3 || touchPos.y > y4)) // Si on est pas dans l'écran adverse
+                            {
+                                swipe();
+                            }
+                        }
+
+                    }*/
+                }
 
                 /*else if (type == 4)
                 {
@@ -396,6 +426,24 @@ public class Bubble : MonoBehaviour
     }
 
 
+    private bool CheckTouchCollision(GameObject obj, out RaycastHit2D hit)
+    {
+        // Get the touch position
+        Vector3 touchPos = Input.GetTouch(0).position;
+
+        // Create a ray using the touch position
+        Vector2 touchPos2D = new Vector2(touchPos.x, touchPos.y);
+
+        // Perform the raycast and store the information in hit
+        hit = Physics2D.Raycast(touchPos2D, Vector2.zero);
+
+        // Check if the raycast hit the specific object
+        if (hit.collider != null && hit.collider.gameObject == obj)
+        {
+            return true;
+        }
+        return false;
+    }
 
     Vector2 startPos, endPos, direction;
     float touchTimeStart, touchTimeFinish, timeInterval;
@@ -403,8 +451,10 @@ public class Bubble : MonoBehaviour
     [Range(0.05f, 1f)]
     public float throwForce = 0.3f;
 
+
     private void swipe()
-    {
+    {        
+
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             touchTimeStart = Time.time;
@@ -418,7 +468,7 @@ public class Bubble : MonoBehaviour
             endPos = Input.GetTouch(0).position;
             direction = startPos - endPos;
             GetComponent<Rigidbody2D>().AddForce(-direction / timeInterval * throwForce);
-            WsClient.Instance.MoveCircle(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y);
+            //WsClient.Instance.MoveCircle(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y);
 
 
 
@@ -434,8 +484,14 @@ public class Bubble : MonoBehaviour
         {
             if (gameObject.activeSelf)   
             {  
-                gameObject.SetActive(false); 
-            }      
+                gameObject.SetActive(false);
+               /* if (!touched)
+                {
+                    float time = TimerScript.Instance.time;
+                    WsClient.Instance.updateScore(this.thisBubble, time, 0);
+                    Destroy(this);
+                }*/
+            }
         }
         else { gameObject.SetActive(true);}
 
@@ -474,16 +530,25 @@ public class Bubble : MonoBehaviour
             }
             else
             {
-                WsClient.Instance.MalusSentMultiple(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y, 3);
 
-                if (_nbMalusMultiple > 0) {
+                if (_nbMalusMultiple > 0 & !instantiated) {
+                    WsClient.Instance.MalusSentMultiple(gameObject.name, gameObject.transform.position.x, gameObject.transform.position.y, 3);
+
+                    WsClient.Instance.TEST("creation of next MALUS " + _nbMalusMultiple--);
+                    //recup de la bulle
                     Bubble newB = Instantiate(this);
                     newB.transform.position = new Vector3(thisBubble.posX, thisBubble.posY, 0);
                     newB.setNbMalusMultiple(_nbMalusMultiple--);
                     newB.SetId(_id - 0.1f);
-                    newB.setDuration(duration);
+                    newB.name = "Malus " + newB._id;
+                    newB.setDuration(thisBubble.duration);
+                    newB.setType(5);
+                    WsClient.Instance.TEST("End of creation");
+                    Destroy(this.gameObject);
+                    instantiated = true;
+                    WsClient.Instance.deleteBubble(gameObject.name);
+
                 }
-                WsClient.Instance.deleteBubble(gameObject.name);
             }
 
         }
@@ -517,14 +582,15 @@ public class Bubble : MonoBehaviour
         }*/
         if (type == 10)
         {
-            Vector3 pos = transform.position;
+            /*Vector3 pos = transform.position;
             float screenWidth = Camera.main.orthographicSize * Camera.main.aspect;
             float screenHeight = Camera.main.orthographicSize;
             pos.x = Mathf.Clamp(pos.x, -screenWidth + transform.localScale.x / 2, screenWidth - transform.localScale.x / 2);
 
             // Clamp the object's y-coordinate between the top and bottom edges of the screen
             pos.y = Mathf.Clamp(pos.y, -screenHeight + transform.localScale.y / 2, screenHeight - transform.localScale.y / 2);
-        }
+        */
+            }
 
         if (!_freeze)
         {

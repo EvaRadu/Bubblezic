@@ -130,8 +130,10 @@ public class createBalls : MonoBehaviour
                             ball.created = true;
                             spawnedCircle.setBubble(ball);
 
-                            /* --- OPPONENT SCREEN --- */
+                        /* --- OPPONENT SCREEN --- */
 
+                        if (ball.type != 4 & ball.type != 5)
+                        {
                             var opponentSpawnedCircle = Instantiate(_circlePrefab, new Vector3(
                                 ((ball.posX - x1) / (x2 - x1)) * (x4 - x3) + x3,
                                 ((ball.posY - y1) / (y2 - y1)) * (y4 - y3) + y3,
@@ -163,12 +165,14 @@ public class createBalls : MonoBehaviour
                                 opponentSpawnedCircle.setImpulsion(ball.impulsion);
                                 opponentSpawnedCircle.setPosOpponent(ball.posXOpponent, ball.posYOpponent);
                                 opponentSpawnedCircle.setNbMalusMultiple(ball.nbMalusMultiple);
+                                opponentSpawnedCircle.SetId(ball.id + (ball.nbMalusMultiple / 10));
+
                             }
 
                             opponentBubbles.Add(opponentSpawnedCircle);
                             opponentSpawnedCircle.setBubble(ball);
 
-
+                        }
                         }
                     }
                 //}

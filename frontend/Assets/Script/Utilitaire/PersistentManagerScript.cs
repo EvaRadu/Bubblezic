@@ -16,7 +16,7 @@ public class PersistentManagerScript : MonoBehaviour
     public int scoreOpponent = -100000;
     float screenWidth;
     float screenHeight;
-    public Bubble _bubblePrefab;
+    [SerializeField] private Bubble _bubblePrefab;
     public int idMalusMultiple;
     public Color bckColor = Color.white;
     public string music = "";
@@ -57,27 +57,58 @@ public class PersistentManagerScript : MonoBehaviour
         }
     }
 
-    private void malusMultiple()
+    public void malusMultiple()
     {
-        Debug.Log("Malus creation");
+        WsClient.Instance.TEST("Malus creation");
+        Camera.main.backgroundColor = Color.red;
+        /*Debug.Log("Malus creation");
+        
 
 
         //Ecran Joueur
-        Bubble newObject = Instantiate(_bubblePrefab);
-        Vector3 pos = new Vector3(Random.Range(-screenWidth + newObject.transform.localScale.x / 2, screenWidth - newObject.transform.localScale.x / 2), Random.Range(-screenHeight + newObject.transform.localScale.y / 2, screenHeight - newObject.transform.localScale.y / 2), 0);
-        Debug.Log(pos);
-        newObject.name = "MALUS";
-        newObject.transform.position = pos;
+        WsClient.Instance.TEST("test0");
+
+       // Vector3 pos = new Vector3(Random.Range(-screenWidth + newObject.transform.localScale.x / 2, screenWidth - newObject.transform.localScale.x / 2), Random.Range(-screenHeight + newObject.transform.localScale.y / 2, screenHeight - newObject.transform.localScale.y / 2), 0);
+
+
+        // Generate random positions within the screen boundaries
+        float x = Random.Range(-screenWidth, screenWidth);
+        float y = Random.Range(-screenHeight, screenHeight);
+        
+       
+        // Create a new object at the random position
+        Bubble newObject = Instantiate(_bubblePrefab, new Vector3(1, 2, 0), Quaternion.identity);
+    
+        WsClient.Instance.TEST("test1");
+
+       // Debug.Log(pos);
+        newObject.name = "MALUS " + (-id).ToString();
+        WsClient.Instance.TEST("test2");
+       // newObject.transform.localScale = pos;
+        WsClient.Instance.TEST("test3");
         newObject.setDuration(3);
-        newObject.setColor(Color.magenta);
+        WsClient.Instance.TEST("test4");
+
+        newObject.SetId(-id);
+        WsClient.Instance.TEST("test5");
+
+        newObject.setColor(Color.yellow);
+        WsClient.Instance.TEST("test6");
+
         newObject.setType(10);
+        WsClient.Instance.TEST("test7");
+
         newObject.SetRadius(4);
+        WsClient.Instance.TEST("test8");
+
         Debug.Log("Malus created");
+        WsClient.Instance.TEST("SET CREATION");*/
+        StartCoroutine(timerMalusMultiple());
 
     }
 
     void freeze() {
-        Camera.main.backgroundColor = Color.red;
+        Camera.main.backgroundColor = Color.blue;
         var foundBubbles = FindObjectsOfType<Bubble>();
         foreach (Bubble bubble in foundBubbles)
         {
@@ -92,6 +123,13 @@ public class PersistentManagerScript : MonoBehaviour
         }
         StartCoroutine(timer(foundBubbles, foundSemiCircles));
         
+    }
+
+    private IEnumerator timerMalusMultiple()
+    {
+        yield return new WaitForSeconds(0.5f);
+        Camera.main.backgroundColor = bckColor;
+        WsClient.Instance.TEST("MALUS MULTIPLE END with bck color = " + bckColor.ToString());
     }
 
     private IEnumerator timer(Bubble[] foundBubble, SemiCircle[] foundSemiCircle)
@@ -131,11 +169,11 @@ public class PersistentManagerScript : MonoBehaviour
             freeze();
         }
 
-        if (MALUSMULTIPLE)
+        /*if (MALUSMULTIPLE)
         {
             malusMultiple();
             MALUSMULTIPLE = false;
-        }
+        }*/
      
     }
 }
