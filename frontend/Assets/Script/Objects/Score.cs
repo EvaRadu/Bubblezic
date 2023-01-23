@@ -27,7 +27,7 @@ public class Score : MonoBehaviour
     void Start()
     {
 
-        gameObject.GetComponent<Text>().text = score + " pts -> points : " + points + " | bonus : " + bonusPoints;
+        gameObject.GetComponent<Text>().text = score + " pts -> bonus : " + bonusPoints;
         GameObject.Find("Slider").GetComponent<Slider>().value = score;
         
         
@@ -37,7 +37,7 @@ public class Score : MonoBehaviour
     {
         //Debug.Log("Update score");
 
-        gameObject.GetComponent<Text>().text = score + " pts -> points : " + points + " | bonus : " + bonusPoints;
+        gameObject.GetComponent<Text>().text = score + " pts -> bonus : " + bonusPoints;
         GameObject.Find("Slider").GetComponent<Slider>().value = score;
         //WsClient.Instance.TEST("UPDATE SCORE : " + points);
     }

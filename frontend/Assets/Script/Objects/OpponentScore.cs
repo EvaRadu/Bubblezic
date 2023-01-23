@@ -25,13 +25,13 @@ public class OpponentScore : MonoBehaviour
 
     void Start()
     {
-        gameObject.GetComponent<Text>().text = score + " pts -> points : " + points +  " | bonus : " + bonusPoints;
+        gameObject.GetComponent<Text>().text = score + " pts -> bonus : " + bonusPoints;
         GameObject.Find("Slider").GetComponent<Slider>().value = score;
     }
 
     void Update()
     {
-        gameObject.GetComponent<Text>().text = score + " pts -> points : " + points + " | bonus : " + bonusPoints;
+        gameObject.GetComponent<Text>().text = score + " pts -> bonus : " + bonusPoints;
         GameObject.Find("Slider").GetComponent<Slider>().value = score;
         }
     }
