@@ -213,22 +213,6 @@ module.exports = listBalles = [
         texture: "ciblePuzzle"
     },
 
-    // BULLE SIMPLE
-    { 
-        id:14,
-        typeName : "bubble",
-        posX: 3,
-        posY: 3,
-        couleur: 'yellow',
-        rayon: 2,
-        temps: 6.5,
-        type: 0,
-        duration: 1.5,
-        rotation: 90,
-        side: 0,
-        texture: "bubble2"
-    },
-
     // DEUX TOUCHERS PROLONGERS
     { 
         id:15,
@@ -526,7 +510,7 @@ module.exports = listBalles = [
         couleur: 'white',
         rayon: 2,
         temps: 12.5,
-        duration: 0.5,
+        duration: 1.5,
         rotation: 90,
         side: 0,
         freezeDuration : 7,
@@ -631,7 +615,7 @@ module.exports = listBalles = [
     { 
         id:40,
         typeName : "bubble",
-        posX: 0,
+        posX: -4,
         posY: 2.75,
         couleur: 'yellow',
         rayon: 2,
@@ -646,7 +630,7 @@ module.exports = listBalles = [
     { 
         id:41,
         typeName : "bubble",
-        posX: 0,
+        posX: 4,
         posY: 0,
         couleur: 'red',
         rayon: 2,
@@ -699,5 +683,674 @@ module.exports = listBalles = [
         side: 0,
         texture: "ciblePuzzle"
     },
+
+    // 2 * 2 BULLES
+    { 
+        id:45,
+        typeName : "bubble",
+        posX: -3.5,
+        posY: -2.75,
+        couleur: 'magenta',
+        rayon: 2,
+        temps: 19.5,
+        type: 0,
+        duration: 1.5,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+
+    { 
+        id:46,
+        typeName : "bubble",
+        posX: -2.5,
+        posY: 2.75,
+        couleur: 'magenta',
+        rayon: 2,
+        temps: 19.5,
+        type: 0,
+        duration: 1.5,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+
+    { 
+        id:47,
+        typeName : "bubble",
+        posX: 2.5,
+        posY: -2.75,
+        couleur: 'blue',
+        rayon: 2,
+        temps: 19.5,
+        type: 0,
+        duration: 1.5,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+
+    { 
+        id:48,
+        typeName : "bubble",
+        posX: 3.5,
+        posY: 2.75,
+        couleur: 'blue',
+        rayon: 2,
+        temps: 19.5,
+        type: 0,
+        duration: 1.5,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+
+    // 2 * 2 BULLES
+
+    { 
+        id:49,
+        typeName : "bubble",
+        posX: -2.5,
+        posY: -2.75,
+        couleur: 'white',
+        rayon: 2,
+        temps: 21.5,
+        type: 0,
+        duration: 1.5,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+
+    { 
+        id:50,
+        typeName : "bubble",
+        posX: -3.5,
+        posY: 2.75,
+        couleur: 'white',
+        rayon: 2,
+        temps: 21.5,
+        type: 0,
+        duration: 1.5,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+
+    { 
+        id:51,
+        typeName : "bubble",
+        posX: 3.5,
+        posY: -2.75,
+        couleur: 'green',
+        rayon: 2,
+        temps: 21.5,
+        type: 0,
+        duration: 1.5,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+
+    { 
+        id:52,
+        typeName : "bubble",
+        posX: 2.5,
+        posY: 2.75,
+        couleur: 'green',
+        rayon: 2,
+        temps: 21.5,
+        type: 0,
+        duration: 1.5,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+
+    // 2 * 2 BULLES + MALUS MULTIPLE
+    { 
+        id:53,
+        typeName : "bubble",
+        posX: -3,
+        posY: -1,
+        couleur: 'black',
+        rayon: 2,
+        temps: 23.5,
+        type: 0,
+        duration: 1.5,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+
+    { 
+        id:54,
+        typeName : "bubble",
+        posX: 3,
+        posY: -1,
+        couleur: 'black',
+        rayon: 2,
+        temps: 23.5,
+        type: 0,
+        duration: 1.5,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+    { 
+        id:53,
+        typeName : "bubble",
+        posX: -4,
+        posY: 2,
+        couleur: 'white',
+        rayon: 2,
+        temps: 24.5,
+        type: 0,
+        duration: 1.5,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+
+    { 
+        id:54,
+        typeName : "bubble",
+        posX: 4,
+        posY: 2,
+        couleur: 'white',
+        rayon: 2,
+        temps: 24.5,
+        type: 0,
+        duration: 1.5,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+    { 
+        id:55,
+        typeName : "bubble",
+        type: 5,
+         posX: 0,
+         posY: -3,
+         posXOpponent : 0,
+         posYOpponent : 0,
+         impulsion: 0.5,
+
+         couleur: 'green',
+         rayon: 2,
+         temps: 23.5,
+         duration: 4,
+         rotation: 90,
+         side: 0,
+         nbMalusMultiple : 2,
+         texture: ""
+     },
+
+     // 4 TOUCHERS PROLONGERS 
+     //1er
+     { 
+        id:56,
+        typeName : "bubble",
+        posX: -4.5,
+        posY: 2.5,
+        idTrajectoire: 1,
+        couleur: 'red',
+        rayon: 1,
+        temps: 28,
+        type: 1,
+        duration: 2,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+    { 
+        id:58,
+        typeName : "bubble",
+        idTrajectoire: 1,
+        posX: -1.5,
+        posY: 2.5,
+        couleur: 'grey',
+        rayon: 1,
+        temps: 28,
+        type: 9,
+        duration: 2,
+        rotation: 90,
+        side: 0,
+        texture: "cibleToucherProlonger"
+    },
+    { 
+        id:57,
+        idBubble : 57,
+        idCible : 58,
+        typeName : "trajectory",
+        posX: -3,
+        posY: 2.5,
+        couleur: 'yellow',
+        temps: 28,
+        duration: 2, 
+        width : 5,
+        height : 3,
+    },
+    //2eme
+    { 
+        id:59,
+        typeName : "bubble",
+        posX: -4.5,
+        posY: -2.5,
+        idTrajectoire: 1,
+        couleur: 'red',
+        rayon: 1,
+        temps: 28,
+        type: 1,
+        duration: 2,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+    { 
+        id:61,
+        typeName : "bubble",
+        idTrajectoire: 1,
+        posX: -1.5,
+        posY: -2.5,
+        couleur: 'grey',
+        rayon: 1,
+        temps: 28,
+        type: 9,
+        duration: 2,
+        rotation: 90,
+        side: 0,
+        texture: "cibleToucherProlonger"
+    },
+    { 
+        id:60,
+        idBubble : 60,
+        idCible : 61,
+        typeName : "trajectory",
+        posX: -3,
+        posY: -2.5,
+        couleur: 'cyan',
+        temps: 28,
+        duration: 2, 
+        width : 5,
+        height : 3,
+    },
+    //3eme
+    {
+        id: 56,
+        typeName: "bubble",
+        posX: 1.5,
+        posY: 2.5,
+        idTrajectoire: 1,
+        couleur: 'red',
+        rayon: 1,
+        temps: 28,
+        type: 1,
+        duration: 2,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+    {
+        id: 58,
+        typeName: "bubble",
+        idTrajectoire: 1,
+        posX: 4.5,
+        posY: 2.5,
+        couleur: 'grey',
+        rayon: 1,
+        temps: 28,
+        type: 9,
+        duration: 2,
+        rotation: 90,
+        side: 0,
+        texture: "cibleToucherProlonger"
+    },
+    {
+        id: 57,
+        idBubble: 57,
+        idCible: 58,
+        typeName: "trajectory",
+        posX: 3,
+        posY: 2.5,
+        couleur: 'cyan',
+        temps: 28,
+        duration: 2,
+        width: 5,
+        height: 3,
+    },
+    //4eme
+    {
+        id: 59,
+        typeName: "bubble",
+        posX: 1.5,
+        posY: -2.5,
+        idTrajectoire: 1,
+        couleur: 'red',
+        rayon: 1,
+        temps: 28,
+        type: 1,
+        duration: 2,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+    {
+        id: 61,
+        typeName: "bubble",
+        idTrajectoire: 1,
+        posX: 4.5,
+        posY: -2.5,
+        couleur: 'grey',
+        rayon: 1,
+        temps: 28,
+        type: 9,
+        duration: 2,
+        rotation: 90,
+        side: 0,
+        texture: "cibleToucherProlonger"
+    },
+    {
+        id: 60,
+        idBubble: 60,
+        idCible: 61,
+        typeName: "trajectory",
+        posX: 3,
+        posY: -2.5,
+        couleur: 'yellow',
+        temps: 28,
+        duration: 2,
+        width: 5,
+        height: 3,
+    },
+
+    // 2 TOUCHERS SIMPLES + PUZZLE + MALUS
+    // 2 BULLES SIMPLES
+    { 
+        id:61,
+        typeName : "bubble",
+        posX: -3,
+        posY: -3,
+        couleur: 'red',
+        rayon: 2,
+        temps: 31,
+        type: 0,
+        duration: 1.5,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+    
+    { 
+        id:62,
+        typeName : "bubble",
+        posX: 3,
+        posY: 3,
+        couleur: 'green',
+        rayon: 2,
+        temps: 31,
+        type: 0,
+        duration: 1.5,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+
+    // PUZZLE
+    {
+        id: 63,
+        typeName: "bubble",
+        posX: -2.5,
+        posY: 2,
+        couleur: 'white',
+        rayon: 2,
+        temps: 32.5,
+        type: 7,
+        duration: 1.5,
+        rotation: 90,
+        side: 1,
+        texture: ""
+    },
+    {
+        id: 64,
+        typeName: "bubble",
+        posX: 2.5,
+        posY: 2,
+        couleur: 'white',
+        rayon: 2,
+        temps: 32.5,
+        type: 7,
+        duration: 1.5,
+        rotation: -90,
+        side: 2,
+        texture: ""
+    },
+    {
+        id: 65,
+        typeName: "bubble",
+        posX: 0,
+        posY: 2,
+        couleur: 'magenta',
+        rayon: 2,
+        temps: 32.5,
+        type: 6,
+        duration: 1.5,
+        rotation: 90,
+        side: 0,
+        texture: "ciblePuzzle"
+    },
+
+
+
+
+    // MALUS 
+    { 
+        id:66,
+        typeName : "bubble",
+        type: 4,
+
+        posX: 0,
+        posY: -3.5,
+        posXOpponent : 0,
+        posYOpponent : 0,
+        impulsion: 0.5,
+
+        couleur: 'white',
+        rayon: 2,
+        temps: 33,
+        duration: 3,
+        rotation: 90,
+        side: 0,
+        freezeDuration : 7,
+        texture: "flocon"
+    },
+
+    // 2 TOUCHERS SIMPLES + 2 TOUCHERS PROLONGERS
+    // 2 BULLES 
+    { 
+        id:67,
+        typeName : "bubble",
+        posX: -2,
+        posY: 1.5,
+        couleur: 'blue',
+        rayon: 2,
+        temps: 35,
+        type: 0,
+        duration: 1.5,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+
+    { 
+        id:68,
+        typeName : "bubble",
+        posX: 2,
+        posY: 1.5,
+        couleur: 'blue',
+        rayon: 2,
+        temps: 35,
+        type: 0,
+        duration: 1.5,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+    // 1er TOUCHER PROLONGER
+    { 
+        id:69,
+        typeName : "bubble",
+        posX: -4.5,
+        posY: -2.5,
+        idTrajectoire: 1,
+        couleur: 'blue',
+        rayon: 1,
+        temps: 37,
+        type: 1,
+        duration: 2,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+    { 
+        id:71,
+        typeName : "bubble",
+        idTrajectoire: 1,
+        posX: -1.5,
+        posY: -2.5,
+        couleur: 'grey',
+        rayon: 1,
+        temps: 37,
+        type: 9,
+        duration: 2,
+        rotation: 90,
+        side: 0,
+        texture: "cibleToucherProlonger"
+    },
+    { 
+        id:70,
+        idBubble : 70,
+        idCible : 71,
+        typeName : "trajectory",
+        posX: -3,
+        posY: -2.5,
+        couleur: 'green',
+        temps: 37,
+        duration: 2, 
+        width : 5,
+        height : 3,
+    },
+    //2eme TOUCHER PROLONGER
+    { 
+        id:72,
+        typeName : "bubble",
+        posX: 1.5,
+        posY: -2.5,
+        idTrajectoire: 1,
+        couleur: 'blue',
+        rayon: 1,
+        temps: 37,
+        type: 1,
+        duration: 2,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+    { 
+        id:74,
+        typeName : "bubble",
+        idTrajectoire: 1,
+        posX: 4.5,
+        posY: -2.5,
+        couleur: 'grey',
+        rayon: 1,
+        temps: 37,
+        type: 9,
+        duration: 2,
+        rotation: 90,
+        side: 0,
+        texture: "cibleToucherProlonger"
+    },
+    { 
+        id:73,
+        idBubble : 73,
+        idCible : 74,
+        typeName : "trajectory",
+        posX: 3,
+        posY: -2.5,
+        couleur: 'green',
+        temps: 37,
+        duration: 2, 
+        width : 5,
+        height : 3,
+    },
+
+    // 2*2 BULLES SIMPLES
+    { 
+        id:75,
+        typeName : "bubble",
+        posX: -3.5,
+        posY: -2.75,
+        couleur: 'yellow',
+        rayon: 2,
+        temps: 39.5,
+        type: 0,
+        duration: 1.5,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+
+    { 
+        id:76,
+        typeName : "bubble",
+        posX: -2.5,
+        posY: 2.75,
+        couleur: 'yellow',
+        rayon: 2,
+        temps: 39.5,
+        type: 0,
+        duration: 1.5,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+
+    { 
+        id:77,
+        typeName : "bubble",
+        posX: 2.5,
+        posY: -2.75,
+        couleur: 'red',
+        rayon: 2,
+        temps: 39.5,
+        type: 0,
+        duration: 1.5,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+
+    { 
+        id:78,
+        typeName : "bubble",
+        posX: 3.5,
+        posY: 2.75,
+        couleur: 'red',
+        rayon: 2,
+        temps: 39.5,
+        type: 0,
+        duration: 1.5,
+        rotation: 90,
+        side: 0,
+        texture: "bubble2"
+    },
+
+
+
+
+
+
+
    
 ]

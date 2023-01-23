@@ -1,10 +1,33 @@
 const listBalles = require('../objects/balls');
+const listBallesMusic1 = require('../objects/ballsMusic1');
+const listBallesMusic2 = require('../objects/ballsMusic2');
+const listBallesDemoMusic = require('../objects/ballsDemoMusic');
+
 
 module.exports = function calculePoints(time, id, type, bonus, bonusPoint) {
     let ballTime = 0;
-    let delay = 1.2;
 
-    listBalles.forEach(ball => {
+    // get the demoMode value of the index.js file
+    let demoMode = require('../index').demoMode;
+
+    // get the music value of the index.js file
+    let music = require('../index').music;
+
+    let currentJson;
+
+    if(demoMode){
+        currentJson = listBallesDemoMusic;
+    }
+    else{
+        if(music == 1){
+        currentJson = listBallesMusic1;
+        }
+        else{
+        currentJson = listBallesMusic2;
+        }
+    }
+
+    currentJson.forEach(ball => {
         if (ball.id == id) {
             ballTime = ball.temps;
             ballDuration = ball.duration;
@@ -13,8 +36,10 @@ module.exports = function calculePoints(time, id, type, bonus, bonusPoint) {
 
     let timeBubble = ballTime + ballDuration;
     
-    //console.log("time = " +time);
-    //console.log("timeBubble = " +timeBubble);
+    //console.log("ballTime =" + ballTime);
+    //console.log("ballDuration =" + ballDuration);
+    console.log("time = " +time);
+    console.log("timeBubble = " +timeBubble);
 
     if (type != 10) {
     //[point, bool bonus, numBonus]

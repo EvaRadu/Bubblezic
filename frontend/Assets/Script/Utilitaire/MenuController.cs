@@ -5,8 +5,9 @@ using System.Collections.Generic;
 
 public class MenuController : MonoBehaviour {
     
-    public float endTime = 30f; // time after which the game scene will be switched to the end scene
+    public float endTime = 100f; // time after which the game scene will be switched to the end scene
     public bool updated = false; // to make sure the scores at the end of the game are updated only once
+    public bool played = false; // to make sure the music is played only once
 
     public void getReady()
     {
@@ -29,7 +30,6 @@ public class MenuController : MonoBehaviour {
                 SceneManager.LoadScene(SceneName, LoadSceneMode.Single);
                 WsClient.Instance.Scene2();
                 Destroy(WsClient.Instance.gameObject);
-                //Destroy(GameObject.Find("Start"));
             }
             else{
                 // 
@@ -47,24 +47,63 @@ public class MenuController : MonoBehaviour {
     public void Update(){
         // Get the current time
         if(SceneManager.GetActiveScene().name == "Scene2"){
-        float currentTime = Time.timeSinceLevelLoad;
+        float currentTime = TimerScript.Instance.time;
+        
         // If the current time is greater than the end time
         if ((currentTime > endTime) && updated == false)
-        {
-            // Load the scene
-            PlayerPrefs.DeleteAll();
-            PlayerPrefs.Save();
-            WsClient.Instance.EndScene();
-            while(PersistentManagerScript.Instance.scoreTeam == -1 && PersistentManagerScript.Instance.scoreOpponent == -1)
             {
-                // wait for the scores to be updated
+                // Restores the scores to -100000 to make sure the scores are updated
+                PlayerPrefs.SetInt("ScoreTeam", -100000);
+                PlayerPrefs.SetInt("ScoreOpponent", -100000);
+                PersistentManagerScript.Instance.scoreTeam = -100000;
+                PersistentManagerScript.Instance.scoreOpponent = -100000;
+                PlayerPrefs.DeleteAll();
+                PlayerPrefs.Save();
+
+                // End the scene and wait for the scores to be updated
+                WsClient.Instance.EndScene();
+                while(PersistentManagerScript.Instance.scoreTeam == -100000 && PersistentManagerScript.Instance.scoreOpponent == -100000)
+                {
+                    // wait for the scores to be updated
+                }
+
+                // Save the scores and load the end scene
+                PlayerPrefs.SetInt("ScoreTeam", PersistentManagerScript.Instance.scoreTeam);
+                PlayerPrefs.SetInt("ScoreOpponent", PersistentManagerScript.Instance.scoreOpponent);
+                PlayerPrefs.Save();
+                SceneManager.LoadScene("End", LoadSceneMode.Single);
+                updated = true; // to make sure the scores are updated only once
             }
-            PlayerPrefs.SetInt("ScoreTeam", PersistentManagerScript.Instance.scoreTeam);
-            PlayerPrefs.SetInt("ScoreOpponent", PersistentManagerScript.Instance.scoreOpponent);
-            PlayerPrefs.Save();
-            SceneManager.LoadScene("End", LoadSceneMode.Single);
-            updated = true;
         }
+
+        if(SceneManager.GetActiveScene().name == "Start")
+        {
+            updated = false;
+        }
+
+        if (SceneManager.GetActiveScene().name == "Scene2"){
+               
+               if(played == false){
+                while(PersistentManagerScript.Instance.music == ""){
+                    // wait for the music to be updated
+                }
+                
+                 if(PersistentManagerScript.Instance.music == "1"){
+                    GameObject.Find("Music1").GetComponent<AudioSource>().Play();
+                    played = true;
+                    if(!WsClient.Instance.demo){
+                    endTime = 42f;
+                    }
+                     
+                }
+                else{
+                    GameObject.Find("Music2").GetComponent<AudioSource>().Play();
+                    played = true;
+                    if(!WsClient.Instance.demo){
+                    endTime = 27f;
+                    }
+                }
+               }
         }
     }
 

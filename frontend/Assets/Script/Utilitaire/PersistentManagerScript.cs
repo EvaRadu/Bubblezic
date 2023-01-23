@@ -12,13 +12,14 @@ public class PersistentManagerScript : MonoBehaviour
     public float freezeDuration = 0;
     public int counter = 0;
     public bool FREEZE = false;
-    public int scoreTeam = -1;
-    public int scoreOpponent = -1;
+    public int scoreTeam = -100000;
+    public int scoreOpponent = -100000;
     float screenWidth;
     float screenHeight;
     [SerializeField] private Bubble _bubblePrefab;
     public int idMalusMultiple;
     public Color bckColor = Color.white;
+    public string music = "";
 
 
     // Taille des deux écrans : 
